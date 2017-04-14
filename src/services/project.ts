@@ -1,0 +1,36 @@
+// Imports
+import * as co from 'co';
+import * as uuid from 'uuid';
+
+// Imports interfaces
+import { IProjectRepository } from './../repositories/project';
+
+// Imports models
+import { Project } from './../models/project';
+
+export class ProjectService {
+
+    constructor(private projectRepository: IProjectRepository) {
+
+    }
+
+    public create(name: string, key: string): Promise<Project> {
+        const self = this;
+        const id = uuid.v4();
+
+        return co(function*() {
+            const findByKeyResult: Project = yield self.projectRepository.findByKey(key);
+
+            if (findByKeyResult !== null) {
+                return null;
+            }
+
+            const createResult: boolean = yield self.projectRepository.create(id, name, key);
+            return new Project(id, name, key);
+        });
+    }
+
+    public list(): Promise<Project[]> {
+        return this.projectRepository.list();
+    }
+}

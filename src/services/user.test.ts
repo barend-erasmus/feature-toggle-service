@@ -25,7 +25,7 @@ describe('UserService', () => {
             sinon.stub(userRepository, 'listByProjectId').callsFake((projectId: string) => {
                 if (projectId === '1') {
                     return Promise.resolve([
-                        new User('1', 'User1')
+                        new User('1', 'User1'),
                     ]);
                 }
             });
@@ -33,7 +33,7 @@ describe('UserService', () => {
             userService = new UserService(userRepository);
         });
 
-        it('should return list of feedstuffs where elements are populated', () => {
+        it('should return list of users', () => {
 
             return co(function*() {
                 const listResult: User[] = yield userService.list('1');

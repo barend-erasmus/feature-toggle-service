@@ -9,11 +9,15 @@ export class MockProjectRepository implements IProjectRepository {
         return null;
     }
 
-    public create(id: string, name: string, key:string): Promise<Project> {
+    public create(id: string, name: string, key: string): Promise<boolean> {
+        return Promise.resolve(true);
+    }
+
+    public update(id: string, name: string, key: string): Promise<boolean> {
         return null;
     }
 
-    public update(name: string, key:string): Promise<Project> {
+    public findByKey(key: string): Promise<Project> {
         return null;
     }
 }
