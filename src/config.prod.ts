@@ -1,24 +1,10 @@
 export let config = {
-    baseUri: 'https://worldofrations.com',
+    baseUri: 'https://yourdomain.com',
     web: {
-        uri: 'https://worldofrations.com',
-    },
-    db: {
-        server: 'mysql',
-        user: 'worldofrations_user',
-        password: 'worldofrations_password',
-        database: 'worldofrations',
+        uri: 'https://yourdomain.com',
     },
     logging: {
         enabled: false,
         path: '/logs/',
-    },
-    oauth: {
-        jwtSecret: 'worldofrationskey',
-        jwtIssuer: 'worldofrations.com',
-        google: {
-            clientId: '749471567348-o8fvlu40jadtumao8cgmjotvr0nibuso.apps.googleusercontent.com',
-            clientSecret: 'zehw7T5OujXvzcgtTgbDzGI9',
-        },
-    },
+    }
 };
