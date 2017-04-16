@@ -26,8 +26,8 @@ describe('ProjectService', () => {
             createSpy = sinon.spy(projectRepository, 'create');
 
             sinon.stub(projectRepository, 'findByKey').callsFake((key: string) => {
-                if (key === 'feature-2') {
-                    return Promise.resolve(new Project('2', 'feature2', 'feature-2'));
+                if (key === 'project-2') {
+                    return Promise.resolve(new Project('2', 'project2', 'project-2'));
                 }else {
                     return Promise.resolve(null);
                 }
@@ -39,7 +39,7 @@ describe('ProjectService', () => {
         it('should return project given project key does not exist', () => {
 
             return co(function*() {
-                const createResult: Project = yield projectService.create('feature1', 'feature-1');
+                const createResult: Project = yield projectService.create('project2', 'project-1');
 
                 expect(createResult).to.be.not.null;
                 sinon.assert.calledOnce(createSpy);
@@ -49,7 +49,7 @@ describe('ProjectService', () => {
         it('should return null given project key does exist', () => {
 
             return co(function*() {
-                const createResult: Project = yield projectService.create('feature2', 'feature-2');
+                const createResult: Project = yield projectService.create('project2', 'project-2');
 
                 expect(createResult).to.be.null;
                 sinon.assert.notCalled(createSpy);
@@ -66,7 +66,7 @@ describe('ProjectService', () => {
 
             sinon.stub(projectRepository, 'list').callsFake(() => {
                 return Promise.resolve([
-                    new Project('1', 'feature1', 'feature-1'),
+                    new Project('1', 'project1', 'project-1'),
                 ]);
             });
 

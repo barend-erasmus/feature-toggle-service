@@ -52,12 +52,12 @@ export class FeatureToggleApi {
         app.use(cors());
 
         // Configure express-jwt
-        app.use(jwt({
-            audience: 'worldofrations.com',
-            credentialsRequired: false,
-            issuer: config.oauth.jwtIssuer,
-            secret: config.oauth.jwtSecret,
-        }));
+        // app.use(jwt({
+        //     audience: 'worldofrations.com',
+        //     credentialsRequired: false,
+        //     issuer: config.oauth.jwtIssuer,
+        //     secret: config.oauth.jwtSecret,
+        // }));
 
         // Configure express-winston
         app.use(expressWinston.logger({
