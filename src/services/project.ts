@@ -16,9 +16,10 @@ export class ProjectService {
 
     public create(name: string, key: string): Promise<Project> {
         const self = this;
-        const id = uuid.v4();
-
+    
         return co(function*() {
+            const id = uuid.v4();
+            
             const findByKeyResult: Project = yield self.projectRepository.findByKey(key);
 
             if (findByKeyResult !== null) {

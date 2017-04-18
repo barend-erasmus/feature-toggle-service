@@ -22,9 +22,10 @@ export class UserService {
     public createUserGroup(name: string, key: string): Promise<UserGroup> {
 
         const self = this;
-        const id = uuid.v4();
-
+        
         return co(function*() {
+            const id = uuid.v4();
+            
             const findByKeyResult: UserGroup = yield self.userRepository.findUserGroupByKey(key);
 
             if (findByKeyResult !== null) {

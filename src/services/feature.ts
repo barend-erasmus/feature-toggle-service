@@ -20,9 +20,10 @@ export class FeatureService {
 
     public create(name: string, key: string): Promise<Feature> {
         const self = this;
-        const id = uuid.v4();
-
+        
         return co(function*() {
+            const id = uuid.v4();
+            
             const findByKeyResult: Feature = yield self.featureRepository.findByKey(key);
 
             if (findByKeyResult !== null) {
