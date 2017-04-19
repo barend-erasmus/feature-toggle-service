@@ -1,7 +1,7 @@
 // Imports
+import * as co from 'co';
 import { Express, Request, Response } from "express";
 import * as express from 'express';
-import * as co from 'co';
 
 // Imports app
 import { FeatureToggleApi } from './../app';
@@ -32,22 +32,22 @@ export class ProjectRouter {
     }
 
     private list(req: Request, res: Response, next: () => void) {
-        co(function* () {
+        co(function*() {
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const projectService = new ProjectService(projectRepository);
 
-            let result: Project[] = yield projectService.list();
+            const result: Project[] = yield projectService.list();
 
             res.send(result);
         });
     }
 
     private create(req: Request, res: Response, next: () => void) {
-        co(function* () {
+         co(function*() {
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const projectService = new ProjectService(projectRepository);
 
-            let result: Project = yield projectService.create(req.body.name, req.body.key);
+            const result: Project = yield projectService.create(req.body.name, req.body.key);
 
             res.send(result);
         });

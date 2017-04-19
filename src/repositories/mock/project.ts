@@ -5,7 +5,7 @@ import { IProjectRepository } from './../project';
 import { Project } from './../../models/project';
 
 export class MockProjectRepository implements IProjectRepository {
-    
+
     public list(): Promise<Project[]> {
         return Promise.resolve([]);
     }

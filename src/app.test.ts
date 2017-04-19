@@ -5,7 +5,7 @@ import * as request from 'supertest';
 import express = require("express");
 
 // Imports app
-import { FeatureToggleApi } from './app'
+import { FeatureToggleApi } from './app';
 
 // Imports factories
 import { RepositoryFactory } from './repositories/mock/repository-factory';
@@ -29,7 +29,6 @@ describe('/api/project', () => {
         });
     });
 
-
     describe('POST /create', () => {
 
         let featureToggleApi: FeatureToggleApi = null;
@@ -43,7 +42,7 @@ describe('/api/project', () => {
                 .post('/api/project/create')
                 .send({
                     key: 'project-1',
-                    name: 'Project1'
+                    name: 'Project1',
                 })
                 .expect(200, done);
         });

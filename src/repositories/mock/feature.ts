@@ -5,7 +5,7 @@ import { IFeatureRepository } from './../feature';
 import { Feature } from './../../models/feature';
 
 export class MockFeatureRepository implements IFeatureRepository {
-    
+
     public listByProjectKey(key: string): Promise<Feature[]> {
         return null;
     }

@@ -1,6 +1,6 @@
 // Imports models
-import { FeatureGroup } from './feature-group';
 import { AssociatedProject } from './associated-project';
+import { FeatureGroup } from './feature-group';
 
 export class Feature {
 

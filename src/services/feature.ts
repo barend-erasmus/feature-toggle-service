@@ -20,7 +20,7 @@ export class FeatureService {
 
     public create(name: string, key: string): Promise<Feature> {
         const self = this;
-        
+
         return co(function*() {
 
             const findByKeyResult: Feature = yield self.featureRepository.findByKey(key);
@@ -29,7 +29,7 @@ export class FeatureService {
                 return null;
             }
 
-            let feature: Feature = new Feature(key, name, null, null, null);
+            const feature: Feature = new Feature(key, name, null, null, null);
 
             const createResult: boolean = yield self.featureRepository.create(feature);
             return feature;

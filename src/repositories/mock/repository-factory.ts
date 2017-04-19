@@ -6,7 +6,7 @@ import { MockProjectRepository } from './project';
 
 export class RepositoryFactory {
 
-    getInstanceOfProjectRepository(config: any): IProjectRepository {
+    public getInstanceOfProjectRepository(config: any): IProjectRepository {
         return new MockProjectRepository();
     }
 }

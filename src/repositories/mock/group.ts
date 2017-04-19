@@ -5,7 +5,7 @@ import { IGroupRepository } from './../group';
 import { Group } from './../../models/group';
 
 export class MockGroupRepository implements IGroupRepository {
-    
+
     public list(): Promise<Group[]> {
         return null;
     }
