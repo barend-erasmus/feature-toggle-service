@@ -36,9 +36,9 @@ describe('FeatureService', () => {
         it('should return list of features', () => {
 
             return co(function*() {
-                const listResult: Feature[] = yield featureService.list('project-1');
+                const result: Feature[] = yield featureService.list('project-1');
 
-                expect(listResult.length).to.be.eq(1);
+                expect(result.length).to.be.eq(1);
             });
         });
     });
@@ -67,9 +67,9 @@ describe('FeatureService', () => {
         it('should return feature given feature key does not exist', () => {
 
             return co(function*() {
-                const createResult: Feature = yield featureService.create('feature1', 'feature-1');
+                const result: Feature = yield featureService.create('feature1', 'feature-1');
 
-                expect(createResult).to.be.not.null;
+                expect(result).to.be.not.null;
                 sinon.assert.calledOnce(createSpy);
             });
         });
@@ -77,9 +77,9 @@ describe('FeatureService', () => {
         it('should return null given feature key does exist', () => {
 
             return co(function*() {
-                const createResult: Feature = yield featureService.create('feature2', 'feature-2');
+                const result: Feature = yield featureService.create('feature2', 'feature-2');
 
-                expect(createResult).to.be.null;
+                expect(result).to.be.null;
                 sinon.assert.notCalled(createSpy);
             });
         });

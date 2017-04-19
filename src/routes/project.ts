@@ -36,9 +36,9 @@ export class ProjectRouter {
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const projectService = new ProjectService(projectRepository);
 
-            const result: Project[] = yield projectService.list();
+            const projects: Project[] = yield projectService.list();
 
-            res.send(result);
+            res.send(projects);
         });
     }
 
@@ -47,9 +47,9 @@ export class ProjectRouter {
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const projectService = new ProjectService(projectRepository);
 
-            const result: Project = yield projectService.create(req.body.name, req.body.key);
+            const project: Project = yield projectService.create(req.body.name, req.body.key);
 
-            res.send(result);
+            res.send(project);
         });
     }
 

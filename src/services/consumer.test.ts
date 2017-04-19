@@ -37,9 +37,9 @@ describe('ConsumerService', () => {
         it('should return list of users', () => {
 
             return co(function*() {
-                const listResult: Consumer[] = yield consumerService.list('project-1');
+                const result: Consumer[] = yield consumerService.list('project-1');
 
-                expect(listResult.length).to.be.eq(1);
+                expect(result.length).to.be.eq(1);
             });
         });
     });

@@ -21,16 +21,17 @@ export class GroupService {
         return co(function*() {
             const id = uuid.v4();
 
-            const findByKeyResult: Group = yield self.groupRepository.findByKey(key);
+            const group: Group = yield self.groupRepository.findByKey(key);
 
-            if (findByKeyResult !== null) {
+            if (group !== null) {
                 return null;
             }
 
-            const group: Group = new Group(key, name, null);
+            const newGroup: Group = new Group(key, name, null);
 
-            const createResult: boolean = yield self.groupRepository.create(group);
-            return group;
+            const success: boolean = yield self.groupRepository.create(newGroup);
+
+            return newGroup;
         });
     }
 }

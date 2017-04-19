@@ -20,16 +20,16 @@ export class ProjectService {
         return co(function*() {
             const id = uuid.v4();
 
-            const findByKeyResult: Project = yield self.projectRepository.findByKey(key);
+            const project: Project = yield self.projectRepository.findByKey(key);
 
-            if (findByKeyResult !== null) {
+            if (project !== null) {
                 return null;
             }
 
-            const project: Project = new Project(key, name);
+            const newProject: Project = new Project(key, name);
 
-            const createResult: boolean = yield self.projectRepository.create(project);
-            return project;
+            const success: boolean = yield self.projectRepository.create(newProject);
+            return newProject;
         });
     }
 

@@ -23,16 +23,17 @@ export class FeatureService {
 
         return co(function*() {
 
-            const findByKeyResult: Feature = yield self.featureRepository.findByKey(key);
+            const feature: Feature = yield self.featureRepository.findByKey(key);
 
-            if (findByKeyResult !== null) {
+            if (feature !== null) {
                 return null;
             }
 
-            const feature: Feature = new Feature(key, name, null, null, null);
+            const newFeature: Feature = new Feature(key, name, null, null, null);
 
-            const createResult: boolean = yield self.featureRepository.create(feature);
-            return feature;
+            const success: boolean = yield self.featureRepository.create(newFeature);
+            
+            return newFeature;
         });
     }
 

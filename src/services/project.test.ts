@@ -39,9 +39,9 @@ describe('ProjectService', () => {
         it('should return project given project key does not exist', () => {
 
             return co(function*() {
-                const createResult: Project = yield projectService.create('project2', 'project-1');
+                const result: Project = yield projectService.create('project2', 'project-1');
 
-                expect(createResult).to.be.not.null;
+                expect(result).to.be.not.null;
                 sinon.assert.calledOnce(createSpy);
             });
         });
@@ -49,9 +49,9 @@ describe('ProjectService', () => {
         it('should return null given project key does exist', () => {
 
             return co(function*() {
-                const createResult: Project = yield projectService.create('project2', 'project-2');
+                const result: Project = yield projectService.create('project2', 'project-2');
 
-                expect(createResult).to.be.null;
+                expect(result).to.be.null;
                 sinon.assert.notCalled(createSpy);
             });
         });
@@ -76,9 +76,9 @@ describe('ProjectService', () => {
         it('should return list of projects', () => {
 
             return co(function*() {
-                const listResult: Project[] = yield projectService.list();
+                const result: Project[] = yield projectService.list();
 
-                expect(listResult.length).to.be.eq(1);
+                expect(result.length).to.be.eq(1);
             });
         });
     });
