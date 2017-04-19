@@ -26,8 +26,10 @@ export class ProjectService {
                 return null;
             }
 
-            const createResult: boolean = yield self.projectRepository.create(id, name, key);
-            return new Project(id, name, key);
+            let project: Project = new Project(key, name);
+
+            const createResult: boolean = yield self.projectRepository.create(project);
+            return project;
         });
     }
 

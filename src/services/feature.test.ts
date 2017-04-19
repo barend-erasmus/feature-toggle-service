@@ -22,10 +22,10 @@ describe('FeatureService', () => {
         beforeEach(() => {
             const featureRepository = new MockFeatureRepository();
 
-            sinon.stub(featureRepository, 'listByProjectId').callsFake((projectId: string) => {
-                if (projectId === '1') {
+            sinon.stub(featureRepository, 'listByProjectKey').callsFake((projectKey: string) => {
+                if (projectKey === 'project-1') {
                     return Promise.resolve([
-                        new Feature('1', 'Feature1', 'feature-1'),
+                        new Feature('feature-1', 'Feature1', null, null, null),
                     ]);
                 }
             });
@@ -36,7 +36,7 @@ describe('FeatureService', () => {
         it('should return list of features', () => {
 
             return co(function*() {
-                const listResult: Feature[] = yield featureService.list('1');
+                const listResult: Feature[] = yield featureService.list('project-1');
 
                 expect(listResult.length).to.be.eq(1);
             });
@@ -55,7 +55,7 @@ describe('FeatureService', () => {
 
             sinon.stub(featureRepository, 'findByKey').callsFake((key: string) => {
                 if (key === 'feature-2') {
-                    return Promise.resolve(new Feature('2', 'feature2', 'feature-2'));
+                    return Promise.resolve(new Feature('feature-2', 'feature2', null, null, null));
                 }else {
                     return Promise.resolve(null);
                 }

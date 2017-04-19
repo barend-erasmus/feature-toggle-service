@@ -5,9 +5,9 @@ export interface IProjectRepository {
 
     list(): Promise<Project[]>;
 
-    create(id: string, name: string, key: string): Promise<boolean>;
+    create(project: Project): Promise<boolean>;
 
-    update(id: string, name: string, key: string): Promise<boolean>;
+    update(project: Project): Promise<boolean>;
 
     findByKey(key: string): Promise<Project>;
 }

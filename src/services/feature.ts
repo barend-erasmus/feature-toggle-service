@@ -14,24 +14,25 @@ export class FeatureService {
 
     }
 
-    public list(projectId: string): Promise<Feature[]> {
-        return this.featureRepository.listByProjectId(projectId);
+    public list(projectKey: string): Promise<Feature[]> {
+        return this.featureRepository.listByProjectKey(projectKey);
     }
 
     public create(name: string, key: string): Promise<Feature> {
         const self = this;
         
         return co(function*() {
-            const id = uuid.v4();
-            
+
             const findByKeyResult: Feature = yield self.featureRepository.findByKey(key);
 
             if (findByKeyResult !== null) {
                 return null;
             }
 
-            const createResult: boolean = yield self.featureRepository.create(id, name, key);
-            return new Feature(id, name, key);
+            let feature: Feature = new Feature(key, name, null, null, null);
+
+            const createResult: boolean = yield self.featureRepository.create(feature);
+            return feature;
         });
     }
 

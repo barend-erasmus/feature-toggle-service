@@ -5,15 +5,16 @@ import { IFeatureRepository } from './../feature';
 import { Feature } from './../../models/feature';
 
 export class MockFeatureRepository implements IFeatureRepository {
-    public listByProjectId(projectId: string): Promise<Feature[]> {
+    
+    public listByProjectKey(key: string): Promise<Feature[]> {
         return null;
-    }
-
-    public  create(id: string, name: string, key: string): Promise<boolean> {
-        return Promise.resolve(true);
     }
 
     public findByKey(key: string): Promise<Feature> {
         return null;
+    }
+
+    public create(feature: Feature): Promise<boolean> {
+        return Promise.resolve(true);
     }
 }

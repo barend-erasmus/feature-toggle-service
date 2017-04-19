@@ -5,19 +5,20 @@ import { IProjectRepository } from './../project';
 import { Project } from './../../models/project';
 
 export class MockProjectRepository implements IProjectRepository {
+    
     public list(): Promise<Project[]> {
-        return null;
+        return Promise.resolve([]);
     }
 
-    public create(id: string, name: string, key: string): Promise<boolean> {
+    public create(project: Project): Promise<boolean> {
         return Promise.resolve(true);
     }
 
-    public update(id: string, name: string, key: string): Promise<boolean> {
+    public update(project: Project): Promise<boolean> {
         return null;
     }
 
     public findByKey(key: string): Promise<Project> {
-        return null;
+        return Promise.resolve(null);
     }
 }

@@ -1,7 +1,6 @@
 // Imports
 import express = require("express");
-// import { IRepositoryFactory } from './repositories/factory';
-// import { RepositoryFactory } from './repositories/mysql/factory';
+import { IRepositoryFactory } from './repositories/repository-factory';
 
 // Imports middleware
 import bodyParser = require('body-parser');
@@ -10,11 +9,7 @@ import jwt = require('express-jwt');
 import expressWinston = require('express-winston');
 
 // Imports routes
-// import { AuthRouter } from './routes/auth';
-// import { DatabaseRouter } from './routes/database';
-// import { FeedstuffRouter } from './routes/feedstuff';
-// import { FormulaRouter } from './routes/formula';
-// import { FormulatorRouter } from './routes/formulator';
+import { ProjectRouter } from './routes/project';
 
 // Imports logger
 import { logger } from './logger';
@@ -24,10 +19,9 @@ import { config } from './config';
 
 export class FeatureToggleApi {
 
-    // public static repositoryFactory: IRepositoryFactory;
+    public static repositoryFactory: IRepositoryFactory;
 
-    constructor(/*repositoryFactory: IRepositoryFactory,*/ private app: express.Express, private port: number) {
-        // FeatureToggleApi.repositoryFactory = repositoryFactory;
+    constructor( private app: express.Express, private port: number) {
 
         this.configureMiddleware(app);
         this.configureRoutes(app);
@@ -68,11 +62,7 @@ export class FeatureToggleApi {
     }
 
     private configureRoutes(app: express.Express) {
-        // app.use("/api/feedstuff", new FeedstuffRouter().GetRouter());
-        // app.use("/api/formula", new FormulaRouter().GetRouter());
-        // app.use("/api/formulator", new FormulatorRouter().GetRouter());
-        // app.use("/api/auth", new AuthRouter().GetRouter());
-        // app.use("/api/database", new DatabaseRouter().GetRouter());
+        app.use("/api/project", new ProjectRouter().GetRouter());
     }
 
     private configureErrorHandling(app: express.Express) {
@@ -88,6 +78,6 @@ export class FeatureToggleApi {
 }
 
 const port = 8083;
-const api = new FeatureToggleApi(/*new RepositoryFactory(),*/ express(), port);
+const api = new FeatureToggleApi(express(), port);
 api.run();
 logger.info(`Listening on ${port}`);
