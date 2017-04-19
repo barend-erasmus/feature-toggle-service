@@ -8,7 +8,7 @@ import express = require("express");
 import { FeatureToggleApi } from './app';
 
 // Imports factories
-import { RepositoryFactory } from './repositories/mock/repository-factory';
+import { RepositoryFactory } from './repositories/mongo/repository-factory';
 
 FeatureToggleApi.repositoryFactory = new RepositoryFactory();
 
@@ -42,7 +42,8 @@ describe('/api/project', () => {
                 .post('/api/project/create')
                 .send({
                     key: 'project-1',
-                    name: 'Project1',
+                    name: 'Project1'
+,
                 })
                 .expect(200, done);
         });

@@ -19,7 +19,7 @@ export class ProjectService {
 
         return co(function*() {
             const id = uuid.v4();
-
+            
             const project: Project = yield self.projectRepository.findByKey(key);
 
             if (project !== null) {
@@ -29,6 +29,7 @@ export class ProjectService {
             const newProject: Project = new Project(key, name);
 
             const success: boolean = yield self.projectRepository.create(newProject);
+
             return newProject;
         });
     }
