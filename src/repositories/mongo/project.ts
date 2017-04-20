@@ -22,7 +22,7 @@ export class ProjectRepository implements IProjectRepository {
 
             const collection: mongo.Collection = db.collection('projects');
 
-            const projects: Project[] = yield collection.find({}).toArray();
+            const projects: any[] = yield collection.find({}).toArray();
 
             db.close();
 
@@ -38,7 +38,7 @@ export class ProjectRepository implements IProjectRepository {
 
             const collection: mongo.Collection = db.collection('projects');
 
-            const result = yield collection.insertOne(project);
+            const result: any = yield collection.insertOne(project);
 
             db.close();
 

@@ -14,6 +14,9 @@ import { ProjectRouter } from './routes/project';
 // Imports logger
 import { logger } from './logger';
 
+// Imports factories
+import { RepositoryFactory } from './repositories/mongo/repository-factory';
+
 // Imports configurations
 import { config } from './config';
 
@@ -78,6 +81,8 @@ export class FeatureToggleApi {
 }
 
 const port = 8083;
+
+FeatureToggleApi.repositoryFactory = new RepositoryFactory();
 const api = new FeatureToggleApi(express(), port);
 api.run();
 logger.info(`Listening on ${port}`);

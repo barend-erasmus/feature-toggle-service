@@ -4,7 +4,7 @@ export let config = {
         uri: 'http://localhost:4200',
     },
     logging: {
-        enabled: false,
+        enabled: true,
         path: './',
     },
 };
