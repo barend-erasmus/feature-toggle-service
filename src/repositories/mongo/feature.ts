@@ -19,7 +19,7 @@ export class FeatureRepository implements IFeatureRepository {
     public listByProjectKey(key: string): Promise<Feature[]> {
         const self = this;
 
-        return co(function* () {
+        return co(function*() {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('features');
@@ -46,13 +46,13 @@ export class FeatureRepository implements IFeatureRepository {
     public findByKey(key: string): Promise<Feature> {
         const self = this;
 
-        return co(function* () {
+        return co(function*() {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('features');
 
             const feature: any = yield collection.findOne({
-                key: key,
+                key,
             });
 
             db.close();
@@ -65,7 +65,6 @@ export class FeatureRepository implements IFeatureRepository {
 
             let featureResult: Feature = new Feature(feature.key, feature.name, feature.type, groups, new AssociatedProject(feature.projectKey, null));
 
-
             featureResult = yield self.loadGroupsForFeature(featureResult);
             featureResult = yield self.loadAssociatedProjectForFeature(featureResult);
 
@@ -76,7 +75,7 @@ export class FeatureRepository implements IFeatureRepository {
     public create(feature: Feature): Promise<boolean> {
         const self = this;
 
-        return co(function* () {
+        return co(function*() {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('features');
@@ -98,15 +97,16 @@ export class FeatureRepository implements IFeatureRepository {
 
     private loadGroupsForFeatures(features: Feature[]): Promise<Feature[]> {
         const self = this;
-        return co(function* () {
+        return co(function*() {
             return yield features.map((x) => self.loadGroupsForFeature(x));
         });
+
     }
 
     private loadGroupsForFeature(feature: Feature): Promise<Feature> {
         const self = this;
 
-        return co(function* () {
+        return co(function*() {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('groups');
@@ -125,7 +125,7 @@ export class FeatureRepository implements IFeatureRepository {
 
     private loadAssociatedProjectForFeatures(features: Feature[]): Promise<Feature[]> {
         const self = this;
-        return co(function* () {
+        return co(function*() {
             return yield features.map((x) => self.loadAssociatedProjectForFeature(x));
         });
     }
@@ -133,7 +133,7 @@ export class FeatureRepository implements IFeatureRepository {
     private loadAssociatedProjectForFeature(feature: Feature): Promise<Feature> {
         const self = this;
 
-        return co(function* () {
+        return co(function*() {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('projects');

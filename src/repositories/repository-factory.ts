@@ -1,6 +1,6 @@
 // Imports interfaces
-import { IProjectRepository } from './project';
 import { IFeatureRepository } from './feature';
+import { IProjectRepository } from './project';
 
 export interface IRepositoryFactory {
 

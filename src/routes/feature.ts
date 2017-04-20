@@ -32,7 +32,7 @@ export class FeatureRouter {
     }
 
     private list(req: Request, res: Response, next: () => void) {
-        co(function* () {
+        co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const featureService = new FeatureService(featureRepository);
 
@@ -43,7 +43,7 @@ export class FeatureRouter {
     }
 
     private create(req: Request, res: Response, next: () => void) {
-        co(function* () {
+        co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const featureService = new FeatureService(featureRepository);
 

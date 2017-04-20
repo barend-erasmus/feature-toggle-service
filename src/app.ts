@@ -9,8 +9,8 @@ import jwt = require('express-jwt');
 import expressWinston = require('express-winston');
 
 // Imports routes
-import { ProjectRouter } from './routes/project';
 import { FeatureRouter } from './routes/feature';
+import { ProjectRouter } from './routes/project';
 
 // Imports logger
 import { logger } from './logger';

@@ -1,10 +1,10 @@
 // Imports interfaces
-import { IProjectRepository } from './../project';
 import { IFeatureRepository } from './../feature';
+import { IProjectRepository } from './../project';
 
 // Imports repositories
-import { ProjectRepository } from './project';
 import { FeatureRepository } from './feature';
+import { ProjectRepository } from './project';
 
 export class RepositoryFactory {
 

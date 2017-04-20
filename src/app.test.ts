@@ -49,7 +49,6 @@ describe('/api/project', () => {
     });
 });
 
-
 describe('/api/feature', () => {
 
     describe('GET /list', () => {
@@ -81,9 +80,9 @@ describe('/api/feature', () => {
                 .send({
                     key: 'feature-1',
                     name: 'Feature1',
-                    type: 'normal',
-                    projectKey: 'project-1'
-                })
+                    projectKey: 'project-1',
+                    type: 'normal'
+,                })
                 .expect(200, done);
         });
     });

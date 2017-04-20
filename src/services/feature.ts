@@ -6,8 +6,8 @@ import * as uuid from 'uuid';
 import { IFeatureRepository } from './../repositories/feature';
 
 // Imports models
-import { Feature } from './../models/feature';
 import { AssociatedProject } from './../models/associated-project';
+import { Feature } from './../models/feature';
 
 export class FeatureService {
 
@@ -35,9 +35,7 @@ export class FeatureService {
             const success: boolean = yield self.featureRepository.create(newFeature);
 
             return newFeature;
-        }).catch((err: Error) => {
-            console.log(err.stack);
-        })
+        });
     }
 
     public assignUsers(featureId: string, listOfUserId: string[]): Promise<boolean> {
