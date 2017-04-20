@@ -67,7 +67,7 @@ describe('FeatureService', () => {
         it('should return feature given feature key does not exist', () => {
 
             return co(function*() {
-                const result: Feature = yield featureService.create('feature1', 'feature-1');
+                const result: Feature = yield featureService.create('feature1', 'feature-1', 'normal', 'project-1');
 
                 expect(result).to.be.not.null;
                 sinon.assert.calledOnce(createSpy);
@@ -77,7 +77,7 @@ describe('FeatureService', () => {
         it('should return null given feature key does exist', () => {
 
             return co(function*() {
-                const result: Feature = yield featureService.create('feature2', 'feature-2');
+                const result: Feature = yield featureService.create('feature2', 'feature-2', 'normal', 'project-1');
 
                 expect(result).to.be.null;
                 sinon.assert.notCalled(createSpy);

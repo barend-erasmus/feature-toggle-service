@@ -7,6 +7,7 @@ import { IFeatureRepository } from './../repositories/feature';
 
 // Imports models
 import { Feature } from './../models/feature';
+import { AssociatedProject } from './../models/associated-project';
 
 export class FeatureService {
 
@@ -18,7 +19,7 @@ export class FeatureService {
         return this.featureRepository.listByProjectKey(projectKey);
     }
 
-    public create(name: string, key: string): Promise<Feature> {
+    public create(name: string, key: string, type: string, projectKey: string): Promise<Feature> {
         const self = this;
 
         return co(function*() {
@@ -29,12 +30,14 @@ export class FeatureService {
                 return null;
             }
 
-            const newFeature: Feature = new Feature(key, name, null, null, null);
+            const newFeature: Feature = new Feature(key, name, type, [], new AssociatedProject(projectKey, null));
 
             const success: boolean = yield self.featureRepository.create(newFeature);
 
             return newFeature;
-        });
+        }).catch((err: Error) => {
+            console.log(err.stack);
+        })
     }
 
     public assignUsers(featureId: string, listOfUserId: string[]): Promise<boolean> {

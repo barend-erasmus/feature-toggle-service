@@ -42,8 +42,47 @@ describe('/api/project', () => {
                 .post('/api/project/create')
                 .send({
                     key: 'project-1',
-                    name: 'Project1'
-,
+                    name: 'Project1',
+                })
+                .expect(200, done);
+        });
+    });
+});
+
+
+describe('/api/feature', () => {
+
+    describe('GET /list', () => {
+
+        let featureToggleApi: FeatureToggleApi = null;
+
+        beforeEach(() => {
+            featureToggleApi = new FeatureToggleApi(express(), 3000);
+        });
+
+        it('should return with status code 200', (done: () => void) => {
+            request(featureToggleApi.getApp())
+                .get('/api/feature/list?projectKey=project-1')
+                .expect(200, done);
+        });
+    });
+
+    describe('POST /create', () => {
+
+        let featureToggleApi: FeatureToggleApi = null;
+
+        beforeEach(() => {
+            featureToggleApi = new FeatureToggleApi(express(), 3000);
+        });
+
+        it('should return with status code 200', (done: () => void) => {
+            request(featureToggleApi.getApp())
+                .post('/api/feature/create')
+                .send({
+                    key: 'feature-1',
+                    name: 'Feature1',
+                    type: 'normal',
+                    projectKey: 'project-1'
                 })
                 .expect(200, done);
         });

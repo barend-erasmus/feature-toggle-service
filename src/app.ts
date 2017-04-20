@@ -10,6 +10,7 @@ import expressWinston = require('express-winston');
 
 // Imports routes
 import { ProjectRouter } from './routes/project';
+import { FeatureRouter } from './routes/feature';
 
 // Imports logger
 import { logger } from './logger';
@@ -24,7 +25,7 @@ export class FeatureToggleApi {
 
     public static repositoryFactory: IRepositoryFactory;
 
-    constructor( private app: express.Express, private port: number) {
+    constructor(private app: express.Express, private port: number) {
 
         this.configureMiddleware(app);
         this.configureRoutes(app);
@@ -66,6 +67,7 @@ export class FeatureToggleApi {
 
     private configureRoutes(app: express.Express) {
         app.use("/api/project", new ProjectRouter().GetRouter());
+        app.use("/api/feature", new FeatureRouter().GetRouter());
     }
 
     private configureErrorHandling(app: express.Express) {

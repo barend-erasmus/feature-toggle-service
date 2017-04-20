@@ -11,6 +11,11 @@ export class Feature {
     }
 
     public isValid(): boolean {
+
+        if (this.groups === null) {
+            return false;
+        }
+
         return true;
     }
 }
