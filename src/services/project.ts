@@ -19,7 +19,7 @@ export class ProjectService {
 
         return co(function*() {
             const id = uuid.v4();
-            
+
             const project: Project = yield self.projectRepository.findByKey(key);
 
             if (project !== null) {

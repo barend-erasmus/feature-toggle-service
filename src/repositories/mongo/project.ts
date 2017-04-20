@@ -17,7 +17,7 @@ export class ProjectRepository implements IProjectRepository {
     public list(): Promise<Project[]> {
         const self = this;
 
-        return co(function* () {
+        return co(function*() {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('projects');
@@ -33,7 +33,7 @@ export class ProjectRepository implements IProjectRepository {
     public create(project: Project): Promise<boolean> {
         const self = this;
 
-        return co(function* () {
+        return co(function*() {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('projects');
@@ -53,14 +53,14 @@ export class ProjectRepository implements IProjectRepository {
     public findByKey(key: string): Promise<Project> {
         const self = this;
 
-        return co(function* () {
+        return co(function*() {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('projects');
 
             const project: Project = yield collection.findOne({
-                key: key
-            });
+                key
+      ,      });
 
             db.close();
 

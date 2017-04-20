@@ -32,7 +32,7 @@ export class FeatureService {
             const newFeature: Feature = new Feature(key, name, null, null, null);
 
             const success: boolean = yield self.featureRepository.create(newFeature);
-            
+
             return newFeature;
         });
     }
