@@ -25,6 +25,10 @@ export class FeatureRouter {
     constructor() {
         this.router.get('/list', this.list);
         this.router.post('/create', this.create);
+        this.router.put('/toggle', this.toggle);
+        this.router.get('/find', this.find);
+        this.router.put('/assignGroups', this.assignGroups);
+        this.router.put('/deassignGroups', this.deassignGroups);
     }
 
     public GetRouter() {
@@ -42,6 +46,17 @@ export class FeatureRouter {
         });
     }
 
+    private find(req: Request, res: Response, next: () => void) {
+        co(function*() {
+            const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
+            const featureService = new FeatureService(featureRepository);
+
+            const feature: Feature = yield featureService.find(req.query.key);
+
+            res.send(feature);
+        });
+    }
+
     private create(req: Request, res: Response, next: () => void) {
         co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
@@ -50,6 +65,39 @@ export class FeatureRouter {
             const feature: Feature = yield featureService.create(req.body.name, req.body.key, req.body.type, req.body.projectKey);
 
             res.send(feature);
+        });
+    }
+
+     private toggle(req: Request, res: Response, next: () => void) {
+        co(function*() {
+            const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
+            const featureService = new FeatureService(featureRepository);
+
+            const feature: Feature = yield featureService.toggle(req.body.key);
+
+            res.send(feature);
+        });
+    }
+
+    private assignGroups(req: Request, res: Response, next: () => void) {
+        co(function*() {
+            const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
+            const featureService = new FeatureService(featureRepository);
+
+            const success: boolean = yield featureService.assignGroups(req.body.key, req.body.groupKeys);
+
+            res.send(success);
+        });
+    }
+
+    private deassignGroups(req: Request, res: Response, next: () => void) {
+        co(function*() {
+            const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
+            const featureService = new FeatureService(featureRepository);
+
+            const success: boolean = yield featureService.deassignGroups(req.body.key, req.body.groupKeys);
+
+            res.send(success);
         });
     }
 

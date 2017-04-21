@@ -7,4 +7,6 @@ export interface IFeatureRepository {
     findByKey(key: string): Promise<Feature>;
 
     create(feature: Feature): Promise<boolean>;
+
+    update(feature: Feature): Promise<boolean>;
 }

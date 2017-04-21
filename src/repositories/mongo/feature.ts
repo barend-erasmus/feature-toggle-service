@@ -33,7 +33,11 @@ export class FeatureRepository implements IFeatureRepository {
             let featuresResult: Feature[] = features.map((x) => {
                 const groups: FeatureGroup[] = x.groups.map((y) => new FeatureGroup(y, null));
 
-                return new Feature(x.key, x.name, x.type, groups, new AssociatedProject(x.projectKey, null));
+                const feature: Feature = new Feature(x.key, x.name, x.type, groups, new AssociatedProject(x.projectKey, null));
+
+                feature.status = x.status;
+
+                return feature;
             });
 
             featuresResult = yield self.loadGroupsForFeatures(featuresResult);
@@ -65,6 +69,8 @@ export class FeatureRepository implements IFeatureRepository {
 
             let featureResult: Feature = new Feature(feature.key, feature.name, feature.type, groups, new AssociatedProject(feature.projectKey, null));
 
+            featureResult.status = feature.status;
+
             featureResult = yield self.loadGroupsForFeature(featureResult);
             featureResult = yield self.loadAssociatedProjectForFeature(featureResult);
 
@@ -87,6 +93,28 @@ export class FeatureRepository implements IFeatureRepository {
                 projectKey: feature.associatedProject.key,
                 status: feature.status,
                 type: feature.type,
+            });
+
+            db.close();
+
+            return true;
+        });
+    }
+
+    public update(feature: Feature): Promise<boolean> {
+        const self = this;
+
+        return co(function*() {
+            const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
+
+            const collection: mongo.Collection = db.collection('features');
+
+            const result = yield collection.updateOne({
+                key: feature.key,
+            }, {
+                $set: {
+                    status: feature.status
+                }
             });
 
             db.close();

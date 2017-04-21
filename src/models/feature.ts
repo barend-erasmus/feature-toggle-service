@@ -18,4 +18,29 @@ export class Feature {
 
         return true;
     }
+
+    public toggle(): boolean {
+
+        this.status = !this.status;
+
+        return true;
+    }
+
+    public assignGroup(group: FeatureGroup): boolean {
+
+        this.groups.push(group);
+
+        return true;
+    }
+
+    public deassignGroup(group: FeatureGroup): boolean {
+
+        const index = this.groups.findIndex(x => x.key == group.key);
+
+        if (index > -1) {
+            this.groups.splice(index, 1);
+        }
+
+        return true;
+    }
 }

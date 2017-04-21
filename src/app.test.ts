@@ -66,6 +66,21 @@ describe('/api/feature', () => {
         });
     });
 
+    describe('GET /find', () => {
+
+        let featureToggleApi: FeatureToggleApi = null;
+
+        beforeEach(() => {
+            featureToggleApi = new FeatureToggleApi(express(), 3000);
+        });
+
+        it('should return with status code 200', (done: () => void) => {
+            request(featureToggleApi.getApp())
+                .get('/api/feature/find?key=feature-1')
+                .expect(200, done);
+        });
+    });
+
     describe('POST /create', () => {
 
         let featureToggleApi: FeatureToggleApi = null;
@@ -81,9 +96,69 @@ describe('/api/feature', () => {
                     key: 'feature-1',
                     name: 'Feature1',
                     projectKey: 'project-1',
-                    type: 'normal'
-,                })
+                    type: 'normal',
+                })
+                .expect(200, done);
+        });
+    });
+
+    describe('PUT /toggle', () => {
+
+        let featureToggleApi: FeatureToggleApi = null;
+
+        beforeEach(() => {
+            featureToggleApi = new FeatureToggleApi(express(), 3000);
+        });
+
+        it('should return with status code 200', (done: () => void) => {
+            request(featureToggleApi.getApp())
+                .put('/api/feature/toggle')
+                .send({
+                    key: 'feature-1',
+                })
+                .expect(200, done);
+        });
+    });
+
+    describe('PUT /assignGroups', () => {
+
+        let featureToggleApi: FeatureToggleApi = null;
+
+        beforeEach(() => {
+            featureToggleApi = new FeatureToggleApi(express(), 3000);
+        });
+
+        it('should return with status code 200', (done: () => void) => {
+            request(featureToggleApi.getApp())
+                .put('/api/feature/assignGroups')
+                .send({
+                    key: 'feature-1',
+                    groupKeys: [
+                        'group-1'
+                    ]
+                })
                 .expect(200, done);
         });
     });
 });
+
+describe('PUT /deassignGroups', () => {
+
+        let featureToggleApi: FeatureToggleApi = null;
+
+        beforeEach(() => {
+            featureToggleApi = new FeatureToggleApi(express(), 3000);
+        });
+
+        it('should return with status code 200', (done: () => void) => {
+            request(featureToggleApi.getApp())
+                .put('/api/feature/deassignGroups')
+                .send({
+                    key: 'feature-1',
+                    groupKeys: [
+                        'group-1'
+                    ]
+                })
+                .expect(200, done);
+        });
+    });

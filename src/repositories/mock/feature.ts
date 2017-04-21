@@ -17,4 +17,8 @@ export class MockFeatureRepository implements IFeatureRepository {
     public create(feature: Feature): Promise<boolean> {
         return Promise.resolve(true);
     }
+
+    public update(feature: Feature): Promise<boolean> {
+        return Promise.resolve(true);
+    }
 }
