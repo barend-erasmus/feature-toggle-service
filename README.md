@@ -18,4 +18,9 @@ Start project
 
 `npm start`
 
-Browse `http://localhost:8083/api`
+Browse `http://localhost:3000/api`
+
+
+## Installing for production
+
+`curl -s https://raw.githubusercontent.com/barend-erasmus/feature-toggle-service/master/install.sh | bash -s "yourdomain.com" 8080`

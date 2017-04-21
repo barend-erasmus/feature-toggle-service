@@ -1,7 +1,7 @@
 export let config = {
-    baseUri: 'https://yourdomain.com',
+    baseUri: 'http://yourdomain.com',
     web: {
-        uri: 'https://yourdomain.com',
+        uri: 'http://yourdomain.com',
     },
     logging: {
         enabled: false,

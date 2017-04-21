@@ -82,7 +82,7 @@ export class FeatureToggleApi {
     }
 }
 
-const port = 8083;
+const port = 3000;
 
 FeatureToggleApi.repositoryFactory = new RepositoryFactory();
 const api = new FeatureToggleApi(express(), port);
