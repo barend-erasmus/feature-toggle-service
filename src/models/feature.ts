@@ -35,7 +35,7 @@ export class Feature {
 
     public deassignGroup(group: FeatureGroup): boolean {
 
-        const index = this.groups.findIndex(x => x.key == group.key);
+        const index = this.groups.findIndex((x) => x.key === group.key);
 
         if (index > -1) {
             this.groups.splice(index, 1);

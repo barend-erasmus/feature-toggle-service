@@ -25,7 +25,7 @@ export class FeatureService {
 
     //         if (feature === null) {
     //             return null;
-    //         }   
+    //         }
 
     //         if (feature.status === true) {
     //             return true;
@@ -46,7 +46,7 @@ export class FeatureService {
     public create(name: string, key: string, type: string, projectKey: string): Promise<Feature> {
         const self = this;
 
-        return co(function* () {
+        return co(function*(){
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
@@ -65,7 +65,7 @@ export class FeatureService {
     public toggle(key: string): Promise<boolean> {
         const self = this;
 
-        return co(function* () {
+        return co(function*(){
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
@@ -84,7 +84,7 @@ export class FeatureService {
     public assignGroups(key: string, groupKeys: string[]): Promise<boolean> {
         const self = this;
 
-        return co(function* () {
+        return co(function*(){
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
@@ -105,7 +105,7 @@ export class FeatureService {
     public deassignGroups(key: string, groupKeys: string[]): Promise<boolean> {
         const self = this;
 
-        return co(function* () {
+        return co(function*(){
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 

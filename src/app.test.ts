@@ -132,10 +132,10 @@ describe('/api/feature', () => {
             request(featureToggleApi.getApp())
                 .put('/api/feature/assignGroups')
                 .send({
-                    key: 'feature-1',
                     groupKeys: [
-                        'group-1'
-                    ]
+                        'group-1',
+                    ],
+                    key: 'feature-1',
                 })
                 .expect(200, done);
         });
@@ -154,10 +154,10 @@ describe('PUT /deassignGroups', () => {
             request(featureToggleApi.getApp())
                 .put('/api/feature/deassignGroups')
                 .send({
-                    key: 'feature-1',
                     groupKeys: [
-                        'group-1'
-                    ]
+                        'group-1',
+                    ],
+                    key: 'feature-1',
                 })
                 .expect(200, done);
         });

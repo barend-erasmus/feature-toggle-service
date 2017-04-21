@@ -113,8 +113,8 @@ export class FeatureRepository implements IFeatureRepository {
                 key: feature.key,
             }, {
                 $set: {
-                    status: feature.status
-                }
+                    status: feature.status,
+                },
             });
 
             db.close();

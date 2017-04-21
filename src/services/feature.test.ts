@@ -57,7 +57,7 @@ describe('FeatureService', () => {
             sinon.stub(featureRepository, 'findByKey').callsFake((key: string) => {
                 if (key === 'feature-2') {
                     return Promise.resolve(new Feature('feature-2', 'feature2', null, null, null));
-                }else {
+                } else {
                     return Promise.resolve(null);
                 }
             });
@@ -86,7 +86,6 @@ describe('FeatureService', () => {
         });
     });
 
-
     describe('toggle', () => {
 
         let updateSpy: sinon.SinonSpy = null;
@@ -100,7 +99,7 @@ describe('FeatureService', () => {
             sinon.stub(featureRepository, 'findByKey').callsFake((key: string) => {
                 if (key === 'feature-2') {
                     return Promise.resolve(new Feature('feature-2', 'feature2', null, null, null));
-                }else {
+                } else {
                     return Promise.resolve(null);
                 }
             });
@@ -142,7 +141,7 @@ describe('FeatureService', () => {
             sinon.stub(featureRepository, 'findByKey').callsFake((key: string) => {
                 if (key === 'feature-2') {
                     return Promise.resolve(new Feature('feature-2', 'feature2', null, [], null));
-                }else {
+                } else {
                     return Promise.resolve(null);
                 }
             });
@@ -154,7 +153,7 @@ describe('FeatureService', () => {
 
             return co(function*() {
                 const result: boolean = yield featureService.assignGroups('feature-1', [
-                    'group-1','group-2',
+                    'group-1', 'group-2',
                 ]);
 
                 expect(result).to.be.false;
@@ -166,7 +165,7 @@ describe('FeatureService', () => {
 
             return co(function*() {
                 const result: boolean = yield featureService.assignGroups('feature-2', [
-                    'group-1','group-2',
+                    'group-1', 'group-2',
                 ]);
 
                 expect(result).to.be.true;
@@ -178,7 +177,6 @@ describe('FeatureService', () => {
             });
         });
     });
-
 
     describe('deassignGroups', () => {
 
@@ -193,7 +191,7 @@ describe('FeatureService', () => {
             sinon.stub(featureRepository, 'findByKey').callsFake((key: string) => {
                 if (key === 'feature-2') {
                     return Promise.resolve(new Feature('feature-2', 'feature2', null, [new FeatureGroup('group-1', null), new FeatureGroup('group-2', null)], null));
-                }else {
+                } else {
                     return Promise.resolve(null);
                 }
             });
@@ -205,7 +203,7 @@ describe('FeatureService', () => {
 
             return co(function*() {
                 const result: boolean = yield featureService.deassignGroups('feature-1', [
-                    'group-1'
+                    'group-1',
                 ]);
 
                 expect(result).to.be.false;
@@ -217,7 +215,7 @@ describe('FeatureService', () => {
 
             return co(function*() {
                 const result: boolean = yield featureService.deassignGroups('feature-2', [
-                    'group-1'
+                    'group-1',
                 ]);
 
                 expect(result).to.be.true;
