@@ -4,15 +4,17 @@ import * as uuid from 'uuid';
 
 // Imports interfaces
 import { IFeatureRepository } from './../repositories/feature';
+import { IProjectRepository } from './../repositories/project';
 
 // Imports models
 import { AssociatedProject } from './../models/associated-project';
+import { Project } from './../models/project';
 import { Feature } from './../models/feature';
 import { FeatureGroup } from './../models/feature-group';
 
 export class FeatureService {
 
-    constructor(private featureRepository: IFeatureRepository) {
+    constructor(private featureRepository: IFeatureRepository, private projectRepository: IProjectRepository) {
 
     }
 
@@ -56,6 +58,20 @@ export class FeatureService {
 
             const newFeature: Feature = new Feature(key, name, type, [], new AssociatedProject(projectKey, null));
 
+            if (!newFeature.isValid()) {
+                return null;
+            }
+
+            if (!newFeature.associatedProject.isValid()) {
+                return null;
+            }
+
+            const project: Project = yield self.projectRepository.findByKey(newFeature.associatedProject.key);
+
+            if (project === null) {
+                return null;
+            }
+
             const success: boolean = yield self.featureRepository.create(newFeature);
 
             return newFeature;
@@ -93,7 +109,13 @@ export class FeatureService {
             }
 
             for (const k of groupKeys) {
-                feature.assignGroup(new FeatureGroup(k, null));
+                const featureGroup: FeatureGroup = new FeatureGroup(k, null);
+
+                if (!featureGroup.isValid()) {
+                    return false;
+                }
+
+                feature.assignGroup(featureGroup);
             }
 
             const success: boolean = yield self.featureRepository.update(feature);
@@ -114,7 +136,13 @@ export class FeatureService {
             }
 
             for (const k of groupKeys) {
-                feature.deassignGroup(new FeatureGroup(k, null));
+                 const featureGroup: FeatureGroup = new FeatureGroup(k, null);
+
+                if (!featureGroup.isValid()) {
+                    return false;
+                }
+
+                feature.deassignGroup(featureGroup);
             }
 
             const success: boolean = yield self.featureRepository.update(feature);

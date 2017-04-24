@@ -4,6 +4,15 @@ export class Project {
     }
 
     public isValid(): boolean {
+
+        if (this.key === null) {
+            return false;
+        }
+
+        if (this.name === null) {
+            return false;
+        }
+
         return true;
     }
 }

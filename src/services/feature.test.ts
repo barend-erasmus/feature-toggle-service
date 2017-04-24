@@ -9,9 +9,11 @@ import { FeatureService } from './feature';
 
 // Imports repositories
 import { MockFeatureRepository } from './../repositories/mock/feature';
+import { MockProjectRepository } from './../repositories/mock/project';
 
 // Imports domain models
 import { Feature } from './../models/feature';
+import { Project } from './../models/project';
 import { FeatureGroup } from './../models/feature-group';
 
 describe('FeatureService', () => {
@@ -22,6 +24,7 @@ describe('FeatureService', () => {
 
         beforeEach(() => {
             const featureRepository = new MockFeatureRepository();
+            const projectRepository = new MockProjectRepository();
 
             sinon.stub(featureRepository, 'listByProjectKey').callsFake((projectKey: string) => {
                 if (projectKey === 'project-1') {
@@ -31,7 +34,7 @@ describe('FeatureService', () => {
                 }
             });
 
-            featureService = new FeatureService(featureRepository);
+            featureService = new FeatureService(featureRepository, projectRepository);
         });
 
         it('should return list of features', () => {
@@ -51,6 +54,7 @@ describe('FeatureService', () => {
 
         beforeEach(() => {
             const featureRepository = new MockFeatureRepository();
+            const projectRepository = new MockProjectRepository();
 
             createSpy = sinon.spy(featureRepository, 'create');
 
@@ -62,7 +66,15 @@ describe('FeatureService', () => {
                 }
             });
 
-            featureService = new FeatureService(featureRepository);
+             sinon.stub(projectRepository, 'findByKey').callsFake((key: string) => {
+                if (key === 'project-1') {
+                    return Promise.resolve(new Project('prject-1', 'project1'));
+                } else {
+                    return Promise.resolve(null);
+                }
+            });
+
+            featureService = new FeatureService(featureRepository, projectRepository);
         });
 
         it('should return feature given feature key does not exist', () => {
@@ -84,6 +96,56 @@ describe('FeatureService', () => {
                 sinon.assert.notCalled(createSpy);
             });
         });
+
+        it('should return null given null name', () => {
+
+            return co(function*() {
+                const result: Feature = yield featureService.create(null, 'feature-1', 'normal', 'project-1');
+
+                expect(result).to.be.null;
+                sinon.assert.notCalled(createSpy);
+            });
+        });
+
+        it('should return null given null key', () => {
+
+            return co(function*() {
+                const result: Feature = yield featureService.create('feature1', null, 'normal', 'project-1');
+
+                expect(result).to.be.null;
+                sinon.assert.notCalled(createSpy);
+            });
+        });
+
+        it('should return null given null type', () => {
+
+            return co(function*() {
+                const result: Feature = yield featureService.create('feature1', 'feature-1', null, 'project-1');
+
+                expect(result).to.be.null;
+                sinon.assert.notCalled(createSpy);
+            });
+        });
+
+        it('should return null given null project key', () => {
+
+            return co(function*() {
+                const result: Feature = yield featureService.create('feature1', 'feature-1', 'normal', null);
+
+                expect(result).to.be.null;
+                sinon.assert.notCalled(createSpy);
+            });
+        });
+
+        it('should return null given project key does not exist', () => {
+
+            return co(function*() {
+                const result: Feature = yield featureService.create('feature1', 'feature-1', 'nromal', 'project-2');
+
+                expect(result).to.be.null;
+                sinon.assert.notCalled(createSpy);
+            });
+        });
     });
 
     describe('toggle', () => {
@@ -93,6 +155,7 @@ describe('FeatureService', () => {
 
         beforeEach(() => {
             const featureRepository = new MockFeatureRepository();
+            const projectRepository = new MockProjectRepository();
 
             updateSpy = sinon.spy(featureRepository, 'update');
 
@@ -104,7 +167,7 @@ describe('FeatureService', () => {
                 }
             });
 
-            featureService = new FeatureService(featureRepository);
+            featureService = new FeatureService(featureRepository, projectRepository);
         });
 
         it('should return false given feature key does not exist', () => {
@@ -135,6 +198,7 @@ describe('FeatureService', () => {
 
         beforeEach(() => {
             const featureRepository = new MockFeatureRepository();
+            const projectRepository = new MockProjectRepository();
 
             updateSpy = sinon.spy(featureRepository, 'update');
 
@@ -146,7 +210,7 @@ describe('FeatureService', () => {
                 }
             });
 
-            featureService = new FeatureService(featureRepository);
+            featureService = new FeatureService(featureRepository, projectRepository);
         });
 
         it('should return false given feature key does not exist', () => {
@@ -154,6 +218,18 @@ describe('FeatureService', () => {
             return co(function*() {
                 const result: boolean = yield featureService.assignGroups('feature-1', [
                     'group-1', 'group-2',
+                ]);
+
+                expect(result).to.be.false;
+                sinon.assert.notCalled(updateSpy);
+            });
+        });
+
+        it('should return false given null group key', () => {
+
+            return co(function*() {
+                const result: boolean = yield featureService.assignGroups('feature-2', [
+                    null,
                 ]);
 
                 expect(result).to.be.false;
@@ -185,6 +261,7 @@ describe('FeatureService', () => {
 
         beforeEach(() => {
             const featureRepository = new MockFeatureRepository();
+            const projectRepository = new MockProjectRepository();
 
             updateSpy = sinon.spy(featureRepository, 'update');
 
@@ -196,7 +273,7 @@ describe('FeatureService', () => {
                 }
             });
 
-            featureService = new FeatureService(featureRepository);
+            featureService = new FeatureService(featureRepository, projectRepository);
         });
 
         it('should return false given feature key does not exist', () => {
@@ -204,6 +281,18 @@ describe('FeatureService', () => {
             return co(function*() {
                 const result: boolean = yield featureService.deassignGroups('feature-1', [
                     'group-1',
+                ]);
+
+                expect(result).to.be.false;
+                sinon.assert.notCalled(updateSpy);
+            });
+        });
+
+        it('should return false given null group key', () => {
+
+            return co(function*() {
+                const result: boolean = yield featureService.assignGroups('feature-2', [
+                    null,
                 ]);
 
                 expect(result).to.be.false;

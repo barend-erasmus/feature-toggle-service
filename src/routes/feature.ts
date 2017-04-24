@@ -38,7 +38,8 @@ export class FeatureRouter {
     private list(req: Request, res: Response, next: () => void) {
         co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
-            const featureService = new FeatureService(featureRepository);
+            const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
+            const featureService = new FeatureService(featureRepository, projectRepository);
 
             const features: Feature[] = yield featureService.list(req.query.projectKey);
 
@@ -49,7 +50,8 @@ export class FeatureRouter {
     private find(req: Request, res: Response, next: () => void) {
         co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
-            const featureService = new FeatureService(featureRepository);
+            const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
+            const featureService = new FeatureService(featureRepository, projectRepository);
 
             const feature: Feature = yield featureService.find(req.query.key);
 
@@ -60,7 +62,8 @@ export class FeatureRouter {
     private create(req: Request, res: Response, next: () => void) {
         co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
-            const featureService = new FeatureService(featureRepository);
+            const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
+            const featureService = new FeatureService(featureRepository, projectRepository);
 
             const feature: Feature = yield featureService.create(req.body.name, req.body.key, req.body.type, req.body.projectKey);
 
@@ -71,7 +74,8 @@ export class FeatureRouter {
      private toggle(req: Request, res: Response, next: () => void) {
         co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
-            const featureService = new FeatureService(featureRepository);
+            const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
+            const featureService = new FeatureService(featureRepository, projectRepository);
 
             const feature: Feature = yield featureService.toggle(req.body.key);
 
@@ -82,7 +86,8 @@ export class FeatureRouter {
     private assignGroups(req: Request, res: Response, next: () => void) {
         co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
-            const featureService = new FeatureService(featureRepository);
+            const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
+            const featureService = new FeatureService(featureRepository, projectRepository);
 
             const success: boolean = yield featureService.assignGroups(req.body.key, req.body.groupKeys);
 
@@ -93,7 +98,8 @@ export class FeatureRouter {
     private deassignGroups(req: Request, res: Response, next: () => void) {
         co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
-            const featureService = new FeatureService(featureRepository);
+            const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
+            const featureService = new FeatureService(featureRepository, projectRepository);
 
             const success: boolean = yield featureService.deassignGroups(req.body.key, req.body.groupKeys);
 

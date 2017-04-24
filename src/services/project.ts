@@ -28,6 +28,10 @@ export class ProjectService {
 
             const newProject: Project = new Project(key, name);
 
+            if (!newProject.isValid()) {
+                return null;
+            }
+
             const success: boolean = yield self.projectRepository.create(newProject);
 
             return newProject;

@@ -12,6 +12,22 @@ export class Feature {
 
     public isValid(): boolean {
 
+        if (this.key === null) {
+            return null;
+        }
+
+        if (this.name === null) {
+            return null;
+        }
+
+        if (this.type === null) {
+            return null;
+        }
+
+        if (this.associatedProject === null) {
+            return null;
+        }
+
         if (this.groups === null) {
             return false;
         }

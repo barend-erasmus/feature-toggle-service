@@ -55,6 +55,26 @@ describe('ProjectService', () => {
                 sinon.assert.notCalled(createSpy);
             });
         });
+
+        it('should return null given null key', () => {
+
+            return co(function*() {
+                const result: Project = yield projectService.create('project2', null);
+
+                expect(result).to.be.null;
+                sinon.assert.notCalled(createSpy);
+            });
+        });
+
+        it('should return null given null name', () => {
+
+            return co(function*() {
+                const result: Project = yield projectService.create(null, 'project-2');
+
+                expect(result).to.be.null;
+                sinon.assert.notCalled(createSpy);
+            });
+        });
     });
 
     describe('list', () => {
