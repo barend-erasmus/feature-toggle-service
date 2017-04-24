@@ -8,7 +8,7 @@ export class AssociatedProject {
         if (this.key === null) {
             return false;
         }
-        
+
         return true;
     }
 }

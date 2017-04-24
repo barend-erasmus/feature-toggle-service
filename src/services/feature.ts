@@ -8,9 +8,9 @@ import { IProjectRepository } from './../repositories/project';
 
 // Imports models
 import { AssociatedProject } from './../models/associated-project';
-import { Project } from './../models/project';
 import { Feature } from './../models/feature';
 import { FeatureGroup } from './../models/feature-group';
+import { Project } from './../models/project';
 
 export class FeatureService {
 
@@ -138,11 +138,11 @@ export class FeatureService {
             for (const k of groupKeys) {
                  const featureGroup: FeatureGroup = new FeatureGroup(k, null);
 
-                if (!featureGroup.isValid()) {
+                 if (!featureGroup.isValid()) {
                     return false;
                 }
 
-                feature.deassignGroup(featureGroup);
+                 feature.deassignGroup(featureGroup);
             }
 
             const success: boolean = yield self.featureRepository.update(feature);

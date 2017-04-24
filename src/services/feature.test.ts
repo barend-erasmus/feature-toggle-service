@@ -13,8 +13,8 @@ import { MockProjectRepository } from './../repositories/mock/project';
 
 // Imports domain models
 import { Feature } from './../models/feature';
-import { Project } from './../models/project';
 import { FeatureGroup } from './../models/feature-group';
+import { Project } from './../models/project';
 
 describe('FeatureService', () => {
 
@@ -66,7 +66,7 @@ describe('FeatureService', () => {
                 }
             });
 
-             sinon.stub(projectRepository, 'findByKey').callsFake((key: string) => {
+            sinon.stub(projectRepository, 'findByKey').callsFake((key: string) => {
                 if (key === 'project-1') {
                     return Promise.resolve(new Project('prject-1', 'project1'));
                 } else {
