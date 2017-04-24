@@ -10,8 +10,8 @@ import expressWinston = require('express-winston');
 
 // Imports routes
 import { FeatureRouter } from './routes/feature';
-import { ProjectRouter } from './routes/project';
 import { GroupRouter } from './routes/group';
+import { ProjectRouter } from './routes/project';
 
 // Imports logger
 import { logger } from './logger';
