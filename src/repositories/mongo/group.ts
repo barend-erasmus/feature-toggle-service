@@ -1,3 +1,7 @@
+// Imports
+import * as co from 'co';
+import * as mongo from 'mongodb';
+
 // Imports interfaces
 import { IGroupRepository } from './../group';
 
@@ -10,12 +14,36 @@ export class GroupRepository implements IGroupRepository {
 
     }
 
-    public list(): Promise<Group[]> {
-        throw new Error('Not Implemented Yet!');
+   public list(): Promise<Group[]> {
+        const self = this;
+
+        return co(function*() {
+            const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
+
+            const collection: mongo.Collection = db.collection('groups');
+
+            const projects: any[] = yield collection.find({}).toArray();
+
+            db.close();
+
+            return projects.map((x) => new Group(x.key, x.name, x.consumers));
+        });
     }
 
     public create(group: Group): Promise<boolean> {
-        throw new Error('Not Implemented Yet!');
+        const self = this;
+
+        return co(function*() {
+            const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
+
+            const collection: mongo.Collection = db.collection('groups');
+
+            const result: any = yield collection.insertOne(group);
+
+            db.close();
+
+            return true;
+        });
     }
 
     public update(group: Group): Promise<boolean> {
@@ -23,6 +51,24 @@ export class GroupRepository implements IGroupRepository {
     }
 
     public findByKey(key: string): Promise<Group> {
-        throw new Error('Not Implemented Yet!');
+        const self = this;
+
+        return co(function*() {
+            const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
+
+            const collection: mongo.Collection = db.collection('projects');
+
+            const group: Group = yield collection.findOne({
+                key
+      ,      });
+
+            db.close();
+
+            if (group === null) {
+                return null;
+            }
+
+            return new Group(group.key, group.name, group.consumers);
+        });
     }
 }

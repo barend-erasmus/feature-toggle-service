@@ -49,6 +49,43 @@ describe('/api/project', () => {
     });
 });
 
+describe('/api/group', () => {
+
+    describe('GET /list', () => {
+
+        let featureToggleApi: FeatureToggleApi = null;
+
+        beforeEach(() => {
+            featureToggleApi = new FeatureToggleApi(express(), 3000);
+        });
+
+        it('should return with status code 200', (done: () => void) => {
+            request(featureToggleApi.getApp())
+                .get('/api/group/list')
+                .expect(200, done);
+        });
+    });
+
+    describe('POST /create', () => {
+
+        let featureToggleApi: FeatureToggleApi = null;
+
+        beforeEach(() => {
+            featureToggleApi = new FeatureToggleApi(express(), 3000);
+        });
+
+        it('should return with status code 200', (done: () => void) => {
+            request(featureToggleApi.getApp())
+                .post('/api/group/create')
+                .send({
+                    key: 'group-1',
+                    name: 'Group1',
+                })
+                .expect(200, done);
+        });
+    });
+});
+
 describe('/api/feature', () => {
 
     describe('GET /list', () => {

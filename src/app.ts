@@ -11,6 +11,7 @@ import expressWinston = require('express-winston');
 // Imports routes
 import { FeatureRouter } from './routes/feature';
 import { ProjectRouter } from './routes/project';
+import { GroupRouter } from './routes/group';
 
 // Imports logger
 import { logger } from './logger';
@@ -68,6 +69,7 @@ export class FeatureToggleApi {
     private configureRoutes(app: express.Express) {
         app.use("/api/project", new ProjectRouter().GetRouter());
         app.use("/api/feature", new FeatureRouter().GetRouter());
+        app.use("/api/group", new GroupRouter().GetRouter());
     }
 
     private configureErrorHandling(app: express.Express) {

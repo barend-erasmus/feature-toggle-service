@@ -7,6 +7,19 @@ export class Group {
     }
 
     public isValid(): boolean {
+
+        if (this.key === null) {
+            return false;
+        }
+
+        if (this.name === null) {
+            return false;
+        }
+
+        if (this.consumers === null) {
+            return false;
+        }
+
         return true;
     }
 }

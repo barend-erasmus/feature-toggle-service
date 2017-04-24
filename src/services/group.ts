@@ -27,11 +27,19 @@ export class GroupService {
                 return null;
             }
 
-            const newGroup: Group = new Group(key, name, null);
+            const newGroup: Group = new Group(key, name, []);
+
+            if (!newGroup.isValid()) {
+                return null;
+            }
 
             const success: boolean = yield self.groupRepository.create(newGroup);
 
             return newGroup;
         });
+    }
+
+    public list(): Promise<Group[]> {
+        return this.groupRepository.list();
     }
 }
