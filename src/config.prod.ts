@@ -6,5 +6,8 @@ export let config = {
     logging: {
         enabled: false,
         path: '/logs/',
-    }
+    },
+    db: {
+        uri: 'mongodb://mongo:27017/featuretoggle'
+    },
 };

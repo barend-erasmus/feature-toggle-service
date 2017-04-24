@@ -7,4 +7,7 @@ export let config = {
         enabled: true,
         path: './',
     },
+    db: {
+        uri: 'mongodb://mongo:27017/featuretoggle'
+    },
 };

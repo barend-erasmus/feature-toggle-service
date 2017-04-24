@@ -6,13 +6,16 @@ import { IProjectRepository } from './../project';
 import { FeatureRepository } from './feature';
 import { ProjectRepository } from './project';
 
+// Imports configuration
+import { config as configuration } from './../../config';
+
 export class RepositoryFactory {
 
     public getInstanceOfProjectRepository(config: any): IProjectRepository {
-        return new ProjectRepository('mongodb://localhost:27017/myproject');
+        return new ProjectRepository(configuration.db.uri);
     }
 
     public getInstanceOfFeatureRepository(config: any): IFeatureRepository {
-        return new FeatureRepository('mongodb://localhost:27017/myproject');
+        return new FeatureRepository(configuration.db.uri);
     }
 }
