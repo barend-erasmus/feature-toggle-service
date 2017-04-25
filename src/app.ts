@@ -7,6 +7,9 @@ import bodyParser = require('body-parser');
 import * as cors from 'cors';
 import jwt = require('express-jwt');
 import expressWinston = require('express-winston');
+const swaggerUi = require('swagger-ui-express');
+import { swaggerDocument } from './swagger.json';
+
 
 // Imports routes
 import { FeatureRouter } from './routes/feature';
@@ -64,6 +67,8 @@ export class FeatureToggleApi {
             msg: 'HTTP Request: {{res.statusCode}} {{req.method}} {{res.responseTime}}ms {{req.url}}',
             winstonInstance: logger,
         }));
+
+        app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
     }
 
     private configureRoutes(app: express.Express) {

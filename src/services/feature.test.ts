@@ -10,6 +10,7 @@ import { FeatureService } from './feature';
 // Imports repositories
 import { MockFeatureRepository } from './../repositories/mock/feature';
 import { MockProjectRepository } from './../repositories/mock/project';
+import { MockGroupRepository } from './../repositories/mock/group';
 
 // Imports domain models
 import { Feature } from './../models/feature';
@@ -25,6 +26,7 @@ describe('FeatureService', () => {
         beforeEach(() => {
             const featureRepository = new MockFeatureRepository();
             const projectRepository = new MockProjectRepository();
+            const groupRepository = new MockGroupRepository();
 
             sinon.stub(featureRepository, 'listByProjectKey').callsFake((projectKey: string) => {
                 if (projectKey === 'project-1') {
@@ -34,7 +36,7 @@ describe('FeatureService', () => {
                 }
             });
 
-            featureService = new FeatureService(featureRepository, projectRepository);
+            featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
         });
 
         it('should return list of features', () => {
@@ -55,6 +57,7 @@ describe('FeatureService', () => {
         beforeEach(() => {
             const featureRepository = new MockFeatureRepository();
             const projectRepository = new MockProjectRepository();
+            const groupRepository = new MockGroupRepository();
 
             createSpy = sinon.spy(featureRepository, 'create');
 
@@ -74,7 +77,7 @@ describe('FeatureService', () => {
                 }
             });
 
-            featureService = new FeatureService(featureRepository, projectRepository);
+            featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
         });
 
         it('should return feature given feature key does not exist', () => {
@@ -156,6 +159,7 @@ describe('FeatureService', () => {
         beforeEach(() => {
             const featureRepository = new MockFeatureRepository();
             const projectRepository = new MockProjectRepository();
+            const groupRepository = new MockGroupRepository();
 
             updateSpy = sinon.spy(featureRepository, 'update');
 
@@ -167,7 +171,7 @@ describe('FeatureService', () => {
                 }
             });
 
-            featureService = new FeatureService(featureRepository, projectRepository);
+            featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
         });
 
         it('should return false given feature key does not exist', () => {
@@ -199,6 +203,7 @@ describe('FeatureService', () => {
         beforeEach(() => {
             const featureRepository = new MockFeatureRepository();
             const projectRepository = new MockProjectRepository();
+            const groupRepository = new MockGroupRepository();
 
             updateSpy = sinon.spy(featureRepository, 'update');
 
@@ -210,7 +215,7 @@ describe('FeatureService', () => {
                 }
             });
 
-            featureService = new FeatureService(featureRepository, projectRepository);
+            featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
         });
 
         it('should return false given feature key does not exist', () => {
@@ -262,6 +267,7 @@ describe('FeatureService', () => {
         beforeEach(() => {
             const featureRepository = new MockFeatureRepository();
             const projectRepository = new MockProjectRepository();
+            const groupRepository = new MockGroupRepository();
 
             updateSpy = sinon.spy(featureRepository, 'update');
 
@@ -273,7 +279,7 @@ describe('FeatureService', () => {
                 }
             });
 
-            featureService = new FeatureService(featureRepository, projectRepository);
+            featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
         });
 
         it('should return false given feature key does not exist', () => {
