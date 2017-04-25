@@ -47,4 +47,4 @@ docker build --no-cache -t feature-toggle-service ./
 docker stop feature-toggle-service
 
 # Run docker as deamon
-docker run -d -p $port:3000 --name feature-toggle-service --link feature-toggle-db:mongo -t feature-toggle-service
+docker run -d -p "$port":3000 --name feature-toggle-service --link feature-toggle-db:mongo -t feature-toggle-service

@@ -8,6 +8,6 @@ export let config = {
         path: './',
     },
     db: {
-        uri: 'mongodb://mongo:27017/featuretoggle'
+        uri: 'mongodb://localhost:27017/featuretoggle'
     },
 };
