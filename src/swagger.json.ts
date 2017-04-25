@@ -12,7 +12,7 @@ export let swaggerDocument = {
       "name": "MIT"
     }
   },
-  "host": "192.168.46.208:3000",
+  "host": "localhost:3000",
   "basePath": "/api",
   "schemes": [
     "http"
