@@ -34,6 +34,9 @@ cd ./feature-toggle-service
 # Replace domain
 sed -i -- "s/yourdomain.com/$domain/g" ./src/config.prod.ts
 
+# Replace port
+sed -i -- "s/localhost:3000/$domain:$port/g" ./src/swagger.json.ts
+
 # Install node packages
 npm install
 
