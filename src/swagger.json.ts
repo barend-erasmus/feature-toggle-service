@@ -5,12 +5,6 @@ export let swaggerDocument = {
     "title": "Feature Toggle Service",
     "description": "",
     "termsOfService": "http://swagger.io/terms/",
-    "contact": {
-      "name": ""
-    },
-    "license": {
-      "name": "MIT"
-    }
   },
   "host": "localhost:3000",
   "basePath": "/api",
@@ -159,6 +153,80 @@ export let swaggerDocument = {
         }
       }
     },
+    "/feature/assignGroups": {
+      "put": {
+        "tags": ["feature"],
+        "description": "",
+        "operationId": "featureAssignGroups",
+        "produces": [
+          "application/json",
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "formData",
+            "description": "Feature Key",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "groupKeys",
+            "in": "formData",
+            "description": "List of Group Keys",
+            "required": true,
+            "type": "array",
+            "items": {
+                "$ref": "string"
+              }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "boolean",
+            }
+          }
+        }
+      }
+    },
+    "/feature/deassignGroups": {
+      "put": {
+        "tags": ["feature"],
+        "description": "",
+        "operationId": "featureDeassignGroups",
+        "produces": [
+          "application/json",
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "formData",
+            "description": "Feature Key",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "groupKeys",
+            "in": "formData",
+            "description": "List of Group Keys",
+            "required": true,
+            "type": "array",
+            "items": {
+                "$ref": "string"
+              }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
     "/project/list": {
       "get": {
         "tags": ["project"],
@@ -272,6 +340,80 @@ export let swaggerDocument = {
           },
         }
       }
+    },
+    "/group/assignConsumers": {
+      "put": {
+        "tags": ["group"],
+        "description": "",
+        "operationId": "groupAssignConsumers",
+        "produces": [
+          "application/json",
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "formData",
+            "description": "Group Key",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "consumerIds",
+            "in": "formData",
+            "description": "List of Consumer Ids",
+            "required": true,
+            "type": "array",
+            "items": {
+                "$ref": "string"
+              }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "boolean",
+            }
+          }
+        }
+      }
+    },
+    "/group/deassignConsumers": {
+      "put": {
+        "tags": ["group"],
+        "description": "",
+        "operationId": "groupDeassignConsumers",
+        "produces": [
+          "application/json",
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "formData",
+            "description": "Group Key",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "consumerIds",
+            "in": "formData",
+            "description": "List of Consumer Ids",
+            "required": true,
+            "type": "array",
+            "items": {
+                "$ref": "string"
+              }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -291,6 +433,9 @@ export let swaggerDocument = {
         },
         "type": {
           "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
         },
         "groups": {
           "type": "array",

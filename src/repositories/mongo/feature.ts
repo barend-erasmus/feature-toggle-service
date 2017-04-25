@@ -31,11 +31,11 @@ export class FeatureRepository implements IFeatureRepository {
             db.close();
 
             let featuresResult: Feature[] = features.map((x) => {
-                const groups: FeatureGroup[] = x.groups.map((y) => new FeatureGroup(y, null));
+                const groups: FeatureGroup[] = x.groups.map((y) => new FeatureGroup(y.key, y.name));
 
                 const feature: Feature = new Feature(x.key, x.name, x.type, groups, new AssociatedProject(x.projectKey, null));
 
-                feature.status = x.status;
+                feature.enabled = x.enabled;
 
                 return feature;
             });
@@ -65,11 +65,11 @@ export class FeatureRepository implements IFeatureRepository {
                 return null;
             }
 
-            const groups: FeatureGroup[] = feature.groups.map((y) => new FeatureGroup(y, null));
+            const groups: FeatureGroup[] = feature.groups.map((y) => new FeatureGroup(y.key, y.name));
 
             let featureResult: Feature = new Feature(feature.key, feature.name, feature.type, groups, new AssociatedProject(feature.projectKey, null));
 
-            featureResult.status = feature.status;
+            featureResult.enabled = feature.enabled;
 
             featureResult = yield self.loadGroupsForFeature(featureResult);
             featureResult = yield self.loadAssociatedProjectForFeature(featureResult);
@@ -87,11 +87,11 @@ export class FeatureRepository implements IFeatureRepository {
             const collection: mongo.Collection = db.collection('features');
 
             const result = yield collection.insertOne({
-                groups: feature.groups.map((x) => x.key),
+                groups: feature.groups,
                 key: feature.key,
                 name: feature.name,
                 projectKey: feature.associatedProject.key,
-                status: feature.status,
+                status: feature.enabled,
                 type: feature.type,
             });
 
@@ -102,6 +102,7 @@ export class FeatureRepository implements IFeatureRepository {
     }
 
     public update(feature: Feature): Promise<boolean> {
+
         const self = this;
 
         return co(function*() {
@@ -113,7 +114,8 @@ export class FeatureRepository implements IFeatureRepository {
                 key: feature.key,
             }, {
                 $set: {
-                    status: feature.status,
+                    groups: feature.groups,
+                    status: feature.enabled,
                 },
             });
 
@@ -144,8 +146,8 @@ export class FeatureRepository implements IFeatureRepository {
             }));
 
             db.close();
-
-            feature.groups = groups.map((x) => new FeatureGroup(x.key, x.name));
+            
+            feature.groups = groups.filter(x => x !== null).map((x) => new FeatureGroup(x.key, x.name));
 
             return feature;
         });

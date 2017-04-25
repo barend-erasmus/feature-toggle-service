@@ -177,9 +177,8 @@ describe('/api/feature', () => {
                 .expect(200, done);
         });
     });
-});
 
-describe('PUT /deassignGroups', () => {
+    describe('PUT /deassignGroups', () => {
 
         let featureToggleApi: FeatureToggleApi = null;
 
@@ -199,3 +198,6 @@ describe('PUT /deassignGroups', () => {
                 .expect(200, done);
         });
     });
+});
+
+

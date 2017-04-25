@@ -31,7 +31,7 @@ export class FeatureService {
                 return null;
             }
 
-            if (feature.status === false) {
+            if (feature.enabled === false) {
                 return false;
             }
 
@@ -110,6 +110,7 @@ export class FeatureService {
     }
 
     public assignGroups(key: string, groupKeys: string[]): Promise<boolean> {
+
         const self = this;
 
         return co(function*(){

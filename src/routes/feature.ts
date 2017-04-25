@@ -108,6 +108,10 @@ export class FeatureRouter {
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
             const featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
 
+            if(typeof req.body.groupKeys === 'string') {
+                req.body.groupKeys = [req.body.groupKeys];
+            }
+
             const success: boolean = yield featureService.assignGroups(req.body.key, req.body.groupKeys);
 
             res.send(success);
@@ -121,6 +125,10 @@ export class FeatureRouter {
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
             const featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
 
+            if(typeof req.body.groupKeys === 'string') {
+                req.body.groupKeys = [req.body.groupKeys];
+            }
+            
             const success: boolean = yield featureService.deassignGroups(req.body.key, req.body.groupKeys);
 
             res.send(success);

@@ -25,6 +25,8 @@ export class GroupRouter {
     constructor() {
         this.router.get('/list', this.list);
         this.router.post('/create', this.create);
+        this.router.put('/assignConsumers', this.assignConsumers);
+        this.router.put('/deassignConsumers', this.deassignConsumers);
     }
 
     public GetRouter() {
@@ -32,8 +34,8 @@ export class GroupRouter {
     }
 
     private list(req: Request, res: Response, next: () => void) {
-        co(function*() {
-            const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
+        co(function* () {
+            const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
             const groupService = new GroupService(groupRepository);
 
             const groups: Group[] = yield groupService.list();
@@ -43,13 +45,43 @@ export class GroupRouter {
     }
 
     private create(req: Request, res: Response, next: () => void) {
-         co(function*() {
-            const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
+        co(function* () {
+            const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
             const groupService = new GroupService(groupRepository);
 
             const group: Group = yield groupService.create(req.body.name, req.body.key);
 
             res.send(group);
+        });
+    }
+
+    private assignConsumers(req: Request, res: Response, next: () => void) {
+        co(function* () {
+            const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
+            const groupService = new GroupService(groupRepository);
+
+            if (typeof req.body.consumerIds === 'string') {
+                req.body.consumerIds = [req.body.consumerIds];
+            }
+
+            const success: boolean = yield groupService.assignConsumers(req.body.key, req.body.consumerIds);
+
+            res.send(success);
+        });
+    }
+
+    private deassignConsumers(req: Request, res: Response, next: () => void) {
+        co(function* () {
+            const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
+            const groupService = new GroupService(groupRepository);
+
+            if (typeof req.body.consumerIds === 'string') {
+                req.body.consumerIds = [req.body.consumerIds];
+            }
+
+            const success: boolean = yield groupService.deassignConsumers(req.body.key, req.body.consumerIds);
+
+            res.send(success);
         });
     }
 

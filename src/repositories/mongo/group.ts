@@ -14,10 +14,10 @@ export class GroupRepository implements IGroupRepository {
 
     }
 
-   public list(): Promise<Group[]> {
+    public list(): Promise<Group[]> {
         const self = this;
 
-        return co(function*() {
+        return co(function* () {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('groups');
@@ -33,12 +33,16 @@ export class GroupRepository implements IGroupRepository {
     public create(group: Group): Promise<boolean> {
         const self = this;
 
-        return co(function*() {
+        return co(function* () {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('groups');
 
-            const result: any = yield collection.insertOne(group);
+            const result: any = yield collection.insertOne({
+                key: group.key,
+                name: group.name,
+                consumers: group.consumers
+            });
 
             db.close();
 
@@ -47,20 +51,39 @@ export class GroupRepository implements IGroupRepository {
     }
 
     public update(group: Group): Promise<boolean> {
-        throw new Error('Not Implemented Yet!');
+
+        const self = this;
+
+        return co(function* () {
+            const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
+
+            const collection: mongo.Collection = db.collection('groups');
+
+            const result = yield collection.updateOne({
+                key: group.key,
+            }, {
+                    $set: {
+                        consumers: group.consumers
+                    },
+                });
+
+            db.close();
+
+            return true;
+        });
     }
 
     public findByKey(key: string): Promise<Group> {
         const self = this;
 
-        return co(function*() {
+        return co(function* () {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
-            const collection: mongo.Collection = db.collection('projects');
+            const collection: mongo.Collection = db.collection('groups');
 
             const group: Group = yield collection.findOne({
-                key
-      ,      });
+                key,
+            });
 
             db.close();
 

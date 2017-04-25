@@ -11,7 +11,7 @@ import { Project } from './../../models/project';
 export class ProjectRepository implements IProjectRepository {
 
     constructor(private uri: string) {
-
+        
     }
 
     public list(): Promise<Project[]> {
@@ -38,7 +38,10 @@ export class ProjectRepository implements IProjectRepository {
 
             const collection: mongo.Collection = db.collection('projects');
 
-            const result: any = yield collection.insertOne(project);
+            const result: any = yield collection.insertOne({
+                key: project.key,
+                name: project.name
+            });
 
             db.close();
 
@@ -59,8 +62,8 @@ export class ProjectRepository implements IProjectRepository {
             const collection: mongo.Collection = db.collection('projects');
 
             const project: Project = yield collection.findOne({
-                key
-      ,      });
+                key,
+            });
 
             db.close();
 

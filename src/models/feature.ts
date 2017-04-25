@@ -4,7 +4,7 @@ import { FeatureGroup } from './feature-group';
 
 export class Feature {
 
-    public status: boolean = false;
+    public enabled: boolean = false;
 
     constructor(public key: string, public name: string, public type: string, public groups: FeatureGroup[], public associatedProject: AssociatedProject) {
 
@@ -37,7 +37,7 @@ export class Feature {
 
     public toggle(): boolean {
 
-        this.status = !this.status;
+        this.enabled = !this.enabled;
 
         return true;
     }
