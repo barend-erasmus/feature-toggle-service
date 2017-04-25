@@ -153,8 +153,8 @@ export let swaggerDocument = {
         }
       }
     },
-    "/feature/assignGroups": {
-      "put": {
+    "/feature/groups": {
+      "post": {
         "tags": ["feature"],
         "description": "",
         "operationId": "featureAssignGroups",
@@ -188,10 +188,8 @@ export let swaggerDocument = {
             }
           }
         }
-      }
-    },
-    "/feature/deassignGroups": {
-      "put": {
+      },
+      "delete": {
         "tags": ["feature"],
         "description": "",
         "operationId": "featureDeassignGroups",
@@ -341,8 +339,8 @@ export let swaggerDocument = {
         }
       }
     },
-    "/group/assignConsumers": {
-      "put": {
+    "/group/consumers": {
+      "post": {
         "tags": ["group"],
         "description": "",
         "operationId": "groupAssignConsumers",
@@ -376,10 +374,8 @@ export let swaggerDocument = {
             }
           }
         }
-      }
-    },
-    "/group/deassignConsumers": {
-      "put": {
+      },
+      "delete": {
         "tags": ["group"],
         "description": "",
         "operationId": "groupDeassignConsumers",

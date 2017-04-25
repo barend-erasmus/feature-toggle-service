@@ -25,8 +25,8 @@ export class GroupRouter {
     constructor() {
         this.router.get('/list', this.list);
         this.router.post('/create', this.create);
-        this.router.put('/assignConsumers', this.assignConsumers);
-        this.router.put('/deassignConsumers', this.deassignConsumers);
+        this.router.post('/consumers', this.assignConsumers);
+        this.router.delete('/consumers', this.deassignConsumers);
     }
 
     public GetRouter() {

@@ -27,9 +27,9 @@ export class FeatureRouter {
         this.router.post('/create', this.create);
         this.router.put('/toggle', this.toggle);
         this.router.get('/find', this.find);
-        this.router.put('/assignGroups', this.assignGroups);
-        this.router.put('/deassignGroups', this.deassignGroups);
-        this.router.put('/status', this.status);
+        this.router.post('/groups', this.assignGroups);
+        this.router.delete('/groups', this.deassignGroups);
+        this.router.get('/status', this.status);
     }
 
     public GetRouter() {
