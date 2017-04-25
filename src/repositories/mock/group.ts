@@ -15,7 +15,7 @@ export class MockGroupRepository implements IGroupRepository {
     }
 
     public update(group: Group): Promise<boolean> {
-        return null;
+        return Promise.resolve(true);
     }
 
     public findByKey(key: string): Promise<Group> {

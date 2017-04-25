@@ -5,37 +5,49 @@ import * as uuid from 'uuid';
 // Imports interfaces
 import { IFeatureRepository } from './../repositories/feature';
 import { IProjectRepository } from './../repositories/project';
+import { IGroupRepository } from './../repositories/group';
 
 // Imports models
 import { AssociatedProject } from './../models/associated-project';
 import { Feature } from './../models/feature';
 import { FeatureGroup } from './../models/feature-group';
 import { Project } from './../models/project';
+import { Group } from './../models/group';
 
 export class FeatureService {
 
-    constructor(private featureRepository: IFeatureRepository, private projectRepository: IProjectRepository) {
+    constructor(private featureRepository: IFeatureRepository, private projectRepository: IProjectRepository, private groupRepository: IGroupRepository) {
 
     }
 
-    // public status(key: string, consumerId: string): Promise<boolean> {
-    //     const self = this;
+    public status(key: string, consumerId: string): Promise<boolean> {
+        const self = this;
 
-    //     return co(function* () {
+        return co(function* () {
 
-    //         const feature: Feature = yield self.featureRepository.findByKey(key);
+            const feature: Feature = yield self.featureRepository.findByKey(key);
 
-    //         if (feature === null) {
-    //             return null;
-    //         }
+            if (feature === null) {
+                return null;
+            }
 
-    //         if (feature.status === true) {
-    //             return true;
-    //         }
+            if (feature.status === false) {
+                return false;
+            }
 
-    //         return false;
-    //     });
-    // }
+            for (const featureGroup of feature.groups) {
+                const group: Group = yield self.groupRepository.findByKey(featureGroup.key);
+
+                const index = this.consumers.findIndex((x) => x.id === consumerId);
+
+                if (index > -1) {
+                    return true;
+                }
+            }
+
+            return false;
+        });
+    }
 
     public find(key: string): Promise<Feature> {
         return this.featureRepository.findByKey(key);
@@ -101,7 +113,7 @@ export class FeatureService {
         const self = this;
 
         return co(function*(){
-
+            
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
             if (feature === null) {

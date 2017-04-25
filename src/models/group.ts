@@ -6,6 +6,24 @@ export class Group {
 
     }
 
+    public assignConsumer(consumer: Consumer): boolean {
+
+        this.consumers.push(consumer);
+
+        return true;
+    }
+
+     public deassignConsumer(consumer: Consumer): boolean {
+
+        const index = this.consumers.findIndex((x) => x.id === consumer.id);
+
+        if (index > -1) {
+            this.consumers.splice(index, 1);
+        }
+
+        return true;
+    }
+
     public isValid(): boolean {
 
         if (this.key === null) {

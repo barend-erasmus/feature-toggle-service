@@ -7,6 +7,7 @@ import { IGroupRepository } from './../repositories/group';
 
 // Imports models
 import { Group } from './../models/group';
+import { Consumer } from './../models/consumer';
 
 export class GroupService {
 
@@ -41,5 +42,60 @@ export class GroupService {
 
     public list(): Promise<Group[]> {
         return this.groupRepository.list();
+    }
+
+
+    public assignConsumers(key: string, consumerIds: string[]): Promise<boolean> {
+        const self = this;
+
+        return co(function*(){
+
+            const group: Group = yield self.groupRepository.findByKey(key);
+
+            if (group === null) {
+                return false;
+            }
+
+            for (const i of consumerIds) {
+                const consumer: Consumer = new Consumer(i, null);
+
+                if (!consumer.isValid()) {
+                    return false;
+                }
+
+                group.assignConsumer(consumer);
+            }
+
+            const success: boolean = yield self.groupRepository.update(group);
+
+            return true;
+        });
+    }
+
+    public deassignConsumers(key: string, consumerIds: string[]): Promise<boolean> {
+        const self = this;
+
+        return co(function*(){
+
+            const group: Group = yield self.groupRepository.findByKey(key);
+
+            if (group === null) {
+                return false;
+            }
+
+            for (const i of consumerIds) {
+                const consumer: Consumer = new Consumer(i, null);
+
+                if (!consumer.isValid()) {
+                    return false;
+                }
+
+                group.deassignConsumer(consumer);
+            }
+
+            const success: boolean = yield self.groupRepository.update(group);
+
+            return true;
+        });
     }
 }

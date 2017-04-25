@@ -291,7 +291,7 @@ describe('FeatureService', () => {
         it('should return false given null group key', () => {
 
             return co(function*() {
-                const result: boolean = yield featureService.assignGroups('feature-2', [
+                const result: boolean = yield featureService.deassignGroups('feature-2', [
                     null,
                 ]);
 
