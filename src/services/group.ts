@@ -6,8 +6,8 @@ import * as uuid from 'uuid';
 import { IGroupRepository } from './../repositories/group';
 
 // Imports models
-import { Group } from './../models/group';
 import { Consumer } from './../models/consumer';
+import { Group } from './../models/group';
 
 export class GroupService {
 
@@ -43,7 +43,6 @@ export class GroupService {
     public list(): Promise<Group[]> {
         return this.groupRepository.list();
     }
-
 
     public assignConsumers(key: string, consumerIds: string[]): Promise<boolean> {
         const self = this;

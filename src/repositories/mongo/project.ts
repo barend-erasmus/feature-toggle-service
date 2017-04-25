@@ -11,7 +11,7 @@ import { Project } from './../../models/project';
 export class ProjectRepository implements IProjectRepository {
 
     constructor(private uri: string) {
-        
+
     }
 
     public list(): Promise<Project[]> {
@@ -41,7 +41,7 @@ export class ProjectRepository implements IProjectRepository {
             const result: any = yield collection.insertOne({
                 key: project.key,
                 name: project.name
-            });
+      ,      });
 
             db.close();
 

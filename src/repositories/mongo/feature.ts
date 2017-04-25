@@ -146,8 +146,8 @@ export class FeatureRepository implements IFeatureRepository {
             }));
 
             db.close();
-            
-            feature.groups = groups.filter(x => x !== null).map((x) => new FeatureGroup(x.key, x.name));
+
+            feature.groups = groups.filter((x) => x !== null).map((x) => new FeatureGroup(x.key, x.name));
 
             return feature;
         });

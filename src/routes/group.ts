@@ -34,7 +34,7 @@ export class GroupRouter {
     }
 
     private list(req: Request, res: Response, next: () => void) {
-        co(function* () {
+        co(function*() {
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
             const groupService = new GroupService(groupRepository);
 
@@ -45,7 +45,7 @@ export class GroupRouter {
     }
 
     private create(req: Request, res: Response, next: () => void) {
-        co(function* () {
+        co(function*() {
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
             const groupService = new GroupService(groupRepository);
 
@@ -56,7 +56,7 @@ export class GroupRouter {
     }
 
     private assignConsumers(req: Request, res: Response, next: () => void) {
-        co(function* () {
+        co(function*() {
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
             const groupService = new GroupService(groupRepository);
 
@@ -71,7 +71,7 @@ export class GroupRouter {
     }
 
     private deassignConsumers(req: Request, res: Response, next: () => void) {
-        co(function* () {
+        co(function*() {
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
             const groupService = new GroupService(groupRepository);
 

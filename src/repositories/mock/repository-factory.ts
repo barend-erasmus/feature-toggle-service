@@ -1,12 +1,12 @@
 // Imports interfaces
 import { IFeatureRepository } from './../feature';
-import { IProjectRepository } from './../project';
 import { IGroupRepository } from './../group';
+import { IProjectRepository } from './../project';
 
 // Imports repositories
 import { MockFeatureRepository } from './feature';
-import { MockProjectRepository } from './project';
 import { MockGroupRepository } from './group';
+import { MockProjectRepository } from './project';
 
 export class RepositoryFactory {
 

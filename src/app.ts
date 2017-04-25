@@ -10,7 +10,6 @@ import expressWinston = require('express-winston');
 const swaggerUi = require('swagger-ui-express');
 import { swaggerDocument } from './swagger.json';
 
-
 // Imports routes
 import { FeatureRouter } from './routes/feature';
 import { GroupRouter } from './routes/group';

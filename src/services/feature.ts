@@ -4,15 +4,15 @@ import * as uuid from 'uuid';
 
 // Imports interfaces
 import { IFeatureRepository } from './../repositories/feature';
-import { IProjectRepository } from './../repositories/project';
 import { IGroupRepository } from './../repositories/group';
+import { IProjectRepository } from './../repositories/project';
 
 // Imports models
 import { AssociatedProject } from './../models/associated-project';
 import { Feature } from './../models/feature';
 import { FeatureGroup } from './../models/feature-group';
-import { Project } from './../models/project';
 import { Group } from './../models/group';
+import { Project } from './../models/project';
 
 export class FeatureService {
 
@@ -23,7 +23,7 @@ export class FeatureService {
     public status(key: string, consumerId: string): Promise<boolean> {
         const self = this;
 
-        return co(function* () {
+        return co(function*() {
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
@@ -114,7 +114,7 @@ export class FeatureService {
         const self = this;
 
         return co(function*(){
-            
+
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
             if (feature === null) {

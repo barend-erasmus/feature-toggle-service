@@ -9,8 +9,8 @@ import { FeatureService } from './feature';
 
 // Imports repositories
 import { MockFeatureRepository } from './../repositories/mock/feature';
-import { MockProjectRepository } from './../repositories/mock/project';
 import { MockGroupRepository } from './../repositories/mock/group';
+import { MockProjectRepository } from './../repositories/mock/project';
 
 // Imports domain models
 import { Feature } from './../models/feature';

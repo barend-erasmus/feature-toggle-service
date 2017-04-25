@@ -17,7 +17,7 @@ export class GroupRepository implements IGroupRepository {
     public list(): Promise<Group[]> {
         const self = this;
 
-        return co(function* () {
+        return co(function*() {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('groups');
@@ -33,7 +33,7 @@ export class GroupRepository implements IGroupRepository {
     public create(group: Group): Promise<boolean> {
         const self = this;
 
-        return co(function* () {
+        return co(function*() {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('groups');
@@ -42,7 +42,7 @@ export class GroupRepository implements IGroupRepository {
                 key: group.key,
                 name: group.name,
                 consumers: group.consumers
-            });
+,            });
 
             db.close();
 
@@ -54,7 +54,7 @@ export class GroupRepository implements IGroupRepository {
 
         const self = this;
 
-        return co(function* () {
+        return co(function*() {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('groups');
@@ -64,7 +64,7 @@ export class GroupRepository implements IGroupRepository {
             }, {
                     $set: {
                         consumers: group.consumers
-                    },
+ ,                   },
                 });
 
             db.close();
@@ -76,7 +76,7 @@ export class GroupRepository implements IGroupRepository {
     public findByKey(key: string): Promise<Group> {
         const self = this;
 
-        return co(function* () {
+        return co(function*() {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('groups');

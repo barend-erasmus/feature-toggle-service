@@ -39,7 +39,7 @@ describe('GroupService', () => {
 
         it('should return group given key does not exist', () => {
 
-            return co(function* () {
+            return co(function*() {
                 const result: Group = yield groupService.create('Group1', 'group-1');
 
                 expect(result).to.be.not.null;
@@ -48,7 +48,7 @@ describe('GroupService', () => {
 
         it('should return null given key exist', () => {
 
-            return co(function* () {
+            return co(function*() {
                 const result: Group = yield groupService.create('Group2', 'group-2');
 
                 expect(result).to.be.null;
@@ -57,7 +57,7 @@ describe('GroupService', () => {
 
         it('should return null given null key', () => {
 
-            return co(function* () {
+            return co(function*() {
                 const result: Group = yield groupService.create('Group1', null);
 
                 expect(result).to.be.null;
@@ -66,7 +66,7 @@ describe('GroupService', () => {
 
         it('should return null given null name', () => {
 
-            return co(function* () {
+            return co(function*() {
                 const result: Group = yield groupService.create(null, 'group-1');
 
                 expect(result).to.be.null;
@@ -75,7 +75,7 @@ describe('GroupService', () => {
 
         it('should call create in repository', () => {
 
-            return co(function* () {
+            return co(function*() {
                 const result: Group = yield groupService.create('Group1', 'group-1');
 
                 sinon.assert.calledOnce(createSpy);
@@ -101,7 +101,7 @@ describe('GroupService', () => {
 
         it('should return list of projects', () => {
 
-            return co(function* () {
+            return co(function*() {
                 const result: Group[] = yield groupService.list();
 
                 expect(result.length).to.be.eq(1);
@@ -132,7 +132,7 @@ describe('GroupService', () => {
 
         it('should return false given group key does not exist', () => {
 
-            return co(function* () {
+            return co(function*() {
                 const result: boolean = yield groupService.assignConsumers('group-1', [
                     'consumer-1', 'consumer-2',
                 ]);
@@ -144,7 +144,7 @@ describe('GroupService', () => {
 
         it('should return false given null consumer id', () => {
 
-            return co(function* () {
+            return co(function*() {
                 const result: boolean = yield groupService.assignConsumers('group-2', [
                     null,
                 ]);
@@ -156,7 +156,7 @@ describe('GroupService', () => {
 
         it('should return true given group key does exist', () => {
 
-            return co(function* () {
+            return co(function*() {
                 const result: boolean = yield groupService.assignConsumers('group-2', [
                     'consumer-1', 'consumer-2',
                 ]);
@@ -171,8 +171,7 @@ describe('GroupService', () => {
         });
     });
 
-
-      describe('deassignGroups', () => {
+    describe('deassignGroups', () => {
 
         let updateSpy: sinon.SinonSpy = null;
         let groupService: GroupService = null;
@@ -233,6 +232,4 @@ describe('GroupService', () => {
             });
         });
     });
-
-
 });

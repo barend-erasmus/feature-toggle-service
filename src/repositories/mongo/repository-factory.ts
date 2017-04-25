@@ -1,12 +1,12 @@
 // Imports interfaces
 import { IFeatureRepository } from './../feature';
-import { IProjectRepository } from './../project';
 import { IGroupRepository } from './../group';
+import { IProjectRepository } from './../project';
 
 // Imports repositories
 import { FeatureRepository } from './feature';
-import { ProjectRepository } from './project';
 import { GroupRepository } from './group';
+import { ProjectRepository } from './project';
 
 // Imports configuration
 import { config as configuration } from './../../config';

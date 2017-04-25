@@ -4,7 +4,7 @@ export class Consumer {
     }
 
     public isValid(): boolean {
-        
+
         if (this.id === null) {
             return false;
         }
