@@ -24,10 +24,12 @@ export class FeaturesRouter {
 
     constructor() {
         this.router.get('/', (req, res, next) => {
-            if (req.query.id === undefined) {
+            if (req.query.projectKey !== undefined) {
                 return this.list(req, res, next);
-            } else {
+            } else if (req.query.key !== undefined) {
                 return this.find(req, res, next);
+            }else {
+                res.status(404).end();
             }
         });
 

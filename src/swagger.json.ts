@@ -33,6 +33,13 @@ export let swaggerDocument = {
             "description": "Project Key",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "description": "Feature Key",
+            "required": false,
+            "type": "string"
           }
         ],
         "responses": {
