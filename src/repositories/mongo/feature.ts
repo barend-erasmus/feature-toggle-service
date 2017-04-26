@@ -91,7 +91,7 @@ export class FeatureRepository implements IFeatureRepository {
                 key: feature.key,
                 name: feature.name,
                 projectKey: feature.associatedProject.key,
-                status: feature.enabled,
+                enabled: feature.enabled,
                 type: feature.type,
             });
 
@@ -115,7 +115,7 @@ export class FeatureRepository implements IFeatureRepository {
             }, {
                 $set: {
                     groups: feature.groups,
-                    status: feature.enabled,
+                    enabled: feature.enabled,
                 },
             });
 
