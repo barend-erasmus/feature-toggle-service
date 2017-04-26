@@ -18,13 +18,13 @@ import { GroupService } from './../services/group';
 // Imports models
 import { Group } from './../models/group';
 
-export class GroupRouter {
+export class GroupsRouter {
 
     private router = express.Router();
 
     constructor() {
-        this.router.get('/list', this.list);
-        this.router.post('/create', this.create);
+        this.router.get('/', this.list);
+        this.router.post('/', this.create);
         this.router.post('/consumers', this.assignConsumers);
         this.router.delete('/consumers', this.deassignConsumers);
     }

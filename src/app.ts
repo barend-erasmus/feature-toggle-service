@@ -11,9 +11,9 @@ const swaggerUi = require('swagger-ui-express');
 import { swaggerDocument } from './swagger.json';
 
 // Imports routes
-import { FeatureRouter } from './routes/feature';
-import { GroupRouter } from './routes/group';
-import { ProjectRouter } from './routes/project';
+import { FeaturesRouter } from './routes/features';
+import { GroupsRouter } from './routes/groups';
+import { ProjectsRouter } from './routes/projects';
 
 // Imports logger
 import { logger } from './logger';
@@ -71,9 +71,9 @@ export class FeatureToggleApi {
     }
 
     private configureRoutes(app: express.Express) {
-        app.use("/api/project", new ProjectRouter().GetRouter());
-        app.use("/api/feature", new FeatureRouter().GetRouter());
-        app.use("/api/group", new GroupRouter().GetRouter());
+        app.use("/api/projects", new ProjectsRouter().GetRouter());
+        app.use("/api/features", new FeaturesRouter().GetRouter());
+        app.use("/api/groups", new GroupsRouter().GetRouter());
     }
 
     private configureErrorHandling(app: express.Express) {

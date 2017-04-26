@@ -12,9 +12,9 @@ import { RepositoryFactory } from './repositories/mongo/repository-factory';
 
 FeatureToggleApi.repositoryFactory = new RepositoryFactory();
 
-describe('/api/project', () => {
+describe('/api/projects', () => {
 
-    describe('GET /list', () => {
+    describe('GET /', () => {
 
         let featureToggleApi: FeatureToggleApi = null;
 
@@ -24,12 +24,12 @@ describe('/api/project', () => {
 
         it('should return with status code 200', (done: () => void) => {
             request(featureToggleApi.getApp())
-                .get('/api/project/list')
+                .get('/api/projects')
                 .expect(200, done);
         });
     });
 
-    describe('POST /create', () => {
+    describe('POST /', () => {
 
         let featureToggleApi: FeatureToggleApi = null;
 
@@ -39,7 +39,7 @@ describe('/api/project', () => {
 
         it('should return with status code 200', (done: () => void) => {
             request(featureToggleApi.getApp())
-                .post('/api/project/create')
+                .post('/api/projects')
                 .send({
                     key: 'project-1',
                     name: 'Project1',
@@ -49,9 +49,9 @@ describe('/api/project', () => {
     });
 });
 
-describe('/api/group', () => {
+describe('/api/groups', () => {
 
-    describe('GET /list', () => {
+    describe('GET /', () => {
 
         let featureToggleApi: FeatureToggleApi = null;
 
@@ -61,12 +61,12 @@ describe('/api/group', () => {
 
         it('should return with status code 200', (done: () => void) => {
             request(featureToggleApi.getApp())
-                .get('/api/group/list')
+                .get('/api/groups')
                 .expect(200, done);
         });
     });
 
-    describe('POST /create', () => {
+    describe('POST /', () => {
 
         let featureToggleApi: FeatureToggleApi = null;
 
@@ -76,7 +76,7 @@ describe('/api/group', () => {
 
         it('should return with status code 200', (done: () => void) => {
             request(featureToggleApi.getApp())
-                .post('/api/group/create')
+                .post('/api/groups')
                 .send({
                     key: 'group-1',
                     name: 'Group1',
@@ -86,9 +86,9 @@ describe('/api/group', () => {
     });
 });
 
-describe('/api/feature', () => {
+describe('/api/features', () => {
 
-    describe('GET /list', () => {
+    describe('GET /', () => {
 
         let featureToggleApi: FeatureToggleApi = null;
 
@@ -98,12 +98,12 @@ describe('/api/feature', () => {
 
         it('should return with status code 200', (done: () => void) => {
             request(featureToggleApi.getApp())
-                .get('/api/feature/list?projectKey=project-1')
+                .get('/api/features')
                 .expect(200, done);
         });
     });
 
-    describe('GET /find', () => {
+    describe('GET /', () => {
 
         let featureToggleApi: FeatureToggleApi = null;
 
@@ -113,12 +113,12 @@ describe('/api/feature', () => {
 
         it('should return with status code 200', (done: () => void) => {
             request(featureToggleApi.getApp())
-                .get('/api/feature/find?key=feature-1')
+                .get('/api/features?key=feature-1')
                 .expect(200, done);
         });
     });
 
-    describe('POST /create', () => {
+    describe('POST /', () => {
 
         let featureToggleApi: FeatureToggleApi = null;
 
@@ -128,7 +128,7 @@ describe('/api/feature', () => {
 
         it('should return with status code 200', (done: () => void) => {
             request(featureToggleApi.getApp())
-                .post('/api/feature/create')
+                .post('/api/features')
                 .send({
                     key: 'feature-1',
                     name: 'Feature1',
@@ -149,7 +149,7 @@ describe('/api/feature', () => {
 
         it('should return with status code 200', (done: () => void) => {
             request(featureToggleApi.getApp())
-                .put('/api/feature/toggle')
+                .put('/api/features/toggle')
                 .send({
                     key: 'feature-1',
                 })
@@ -157,7 +157,7 @@ describe('/api/feature', () => {
         });
     });
 
-    describe('PUT /assignGroups', () => {
+    describe('PUT /groups', () => {
 
         let featureToggleApi: FeatureToggleApi = null;
 
@@ -167,7 +167,7 @@ describe('/api/feature', () => {
 
         it('should return with status code 200', (done: () => void) => {
             request(featureToggleApi.getApp())
-                .put('/api/feature/assignGroups')
+                .post('/api/features/groups')
                 .send({
                     groupKeys: [
                         'group-1',
@@ -178,7 +178,7 @@ describe('/api/feature', () => {
         });
     });
 
-    describe('PUT /deassignGroups', () => {
+    describe('DELETE /groups', () => {
 
         let featureToggleApi: FeatureToggleApi = null;
 
@@ -188,7 +188,7 @@ describe('/api/feature', () => {
 
         it('should return with status code 200', (done: () => void) => {
             request(featureToggleApi.getApp())
-                .put('/api/feature/deassignGroups')
+                .delete('/api/features/groups')
                 .send({
                     groupKeys: [
                         'group-1',
@@ -199,4 +199,4 @@ describe('/api/feature', () => {
         });
     });
 });
-
+

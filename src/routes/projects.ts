@@ -18,13 +18,13 @@ import { ProjectService } from './../services/project';
 // Imports models
 import { Project } from './../models/project';
 
-export class ProjectRouter {
+export class ProjectsRouter {
 
     private router = express.Router();
 
     constructor() {
-        this.router.get('/list', this.list);
-        this.router.post('/create', this.create);
+        this.router.get('/', this.list);
+        this.router.post('/', this.create);
     }
 
     public GetRouter() {

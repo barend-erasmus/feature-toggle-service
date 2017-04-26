@@ -18,15 +18,21 @@ import { FeatureService } from './../services/feature';
 // Imports models
 import { Feature } from './../models/feature';
 
-export class FeatureRouter {
+export class FeaturesRouter {
 
     private router = express.Router();
 
     constructor() {
-        this.router.get('/list', this.list);
-        this.router.post('/create', this.create);
+        this.router.get('/', (req, res, next) => {
+            if (req.query.id === undefined) {
+                return this.list(req, res, next);
+            } else {
+                return this.find(req, res, next);
+            }
+        });
+
+        this.router.post('/', this.create);
         this.router.put('/toggle', this.toggle);
-        this.router.get('/find', this.find);
         this.router.post('/groups', this.assignGroups);
         this.router.delete('/groups', this.deassignGroups);
         this.router.get('/status', this.status);
@@ -37,7 +43,7 @@ export class FeatureRouter {
     }
 
     private status(req: Request, res: Response, next: () => void) {
-        co(function*() {
+        co(function* () {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
@@ -50,7 +56,7 @@ export class FeatureRouter {
     }
 
     private list(req: Request, res: Response, next: () => void) {
-        co(function*() {
+        co(function* () {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
@@ -63,7 +69,7 @@ export class FeatureRouter {
     }
 
     private find(req: Request, res: Response, next: () => void) {
-        co(function*() {
+        co(function* () {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
@@ -76,7 +82,7 @@ export class FeatureRouter {
     }
 
     private create(req: Request, res: Response, next: () => void) {
-        co(function*() {
+        co(function* () {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
@@ -88,8 +94,8 @@ export class FeatureRouter {
         });
     }
 
-     private toggle(req: Request, res: Response, next: () => void) {
-        co(function*() {
+    private toggle(req: Request, res: Response, next: () => void) {
+        co(function* () {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
@@ -102,13 +108,13 @@ export class FeatureRouter {
     }
 
     private assignGroups(req: Request, res: Response, next: () => void) {
-        co(function*() {
+        co(function* () {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
             const featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
 
-            if(typeof req.body.groupKeys === 'string') {
+            if (typeof req.body.groupKeys === 'string') {
                 req.body.groupKeys = [req.body.groupKeys];
             }
 
@@ -119,13 +125,13 @@ export class FeatureRouter {
     }
 
     private deassignGroups(req: Request, res: Response, next: () => void) {
-        co(function*() {
+        co(function* () {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
             const featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
 
-            if(typeof req.body.groupKeys === 'string') {
+            if (typeof req.body.groupKeys === 'string') {
                 req.body.groupKeys = [req.body.groupKeys];
             }
 

@@ -18,11 +18,11 @@ export let swaggerDocument = {
     "application/json"
   ],
   "paths": {
-    "/feature/list": {
+    "/features": {
       "get": {
-        "tags": ["feature"],
-        "description": "",
-        "operationId": "featureList",
+        "tags": ["features"],
+        "description": "List Features or Find Feature",
+        "operationId": "featuresListFind",
         "produces": [
           "application/json",
         ],
@@ -31,7 +31,7 @@ export let swaggerDocument = {
             "name": "projectKey",
             "in": "query",
             "description": "Project Key",
-            "required": true,
+            "required": false,
             "type": "string"
           }
         ],
@@ -46,12 +46,10 @@ export let swaggerDocument = {
             }
           }
         }
-      }
-    },
-    "/feature/create": {
+      },
       "post": {
-        "tags": ["feature"],
-        "description": "",
+        "tags": ["features"],
+        "description": "Create Feature",
         "operationId": "featureCreate",
         "produces": [
           "application/json",
@@ -97,38 +95,10 @@ export let swaggerDocument = {
         }
       }
     },
-    "/feature/find": {
-      "get": {
-        "tags": ["feature"],
-        "description": "",
-        "operationId": "featureFind",
-        "produces": [
-          "application/json",
-        ],
-        "parameters": [
-          {
-            "name": "key",
-            "in": "query",
-            "description": "Feature Key",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object",
-              "$ref": "#/definitions/feature"
-            }
-          }
-        }
-      }
-    },
-    "/feature/toggle": {
+    "/features/toggle": {
       "put": {
-        "tags": ["feature"],
-        "description": "",
+        "tags": ["features"],
+        "description": "Toggle Feature",
         "operationId": "featureToggle",
         "produces": [
           "application/json",
@@ -153,10 +123,10 @@ export let swaggerDocument = {
         }
       }
     },
-    "/feature/groups": {
+    "/features/groups": {
       "post": {
-        "tags": ["feature"],
-        "description": "",
+        "tags": ["features"],
+        "description": "Assign Groups to Feature",
         "operationId": "featureAssignGroups",
         "produces": [
           "application/json",
@@ -190,8 +160,8 @@ export let swaggerDocument = {
         }
       },
       "delete": {
-        "tags": ["feature"],
-        "description": "",
+        "tags": ["features"],
+        "description": "Deassign Groups to Feature",
         "operationId": "featureDeassignGroups",
         "produces": [
           "application/json",
@@ -225,10 +195,10 @@ export let swaggerDocument = {
         }
       }
     },
-    "/project/list": {
+    "/projects": {
       "get": {
-        "tags": ["project"],
-        "description": "",
+        "tags": ["projects"],
+        "description": "List Projects",
         "operationId": "projectList",
         "produces": [
           "application/json",
@@ -245,12 +215,10 @@ export let swaggerDocument = {
             }
           },
         }
-      }
-    },
-    "/project/create": {
+      },
       "post": {
-        "tags": ["project"],
-        "description": "",
+        "tags": ["projects"],
+        "description": "Create Project",
         "operationId": "projectCreate",
         "produces": [
           "application/json",
@@ -282,10 +250,10 @@ export let swaggerDocument = {
         }
       }
     },
-    "/group/list": {
+    "/groups": {
       "get": {
-        "tags": ["group"],
-        "description": "",
+        "tags": ["groups"],
+        "description": "List Groups",
         "operationId": "groupList",
         "produces": [
           "application/json",
@@ -302,12 +270,10 @@ export let swaggerDocument = {
             }
           },
         }
-      }
-    },
-    "/group/create": {
+      },
       "post": {
-        "tags": ["group"],
-        "description": "",
+        "tags": ["groups"],
+        "description": "Create Group",
         "operationId": "groupCreate",
         "produces": [
           "application/json",
@@ -339,10 +305,10 @@ export let swaggerDocument = {
         }
       }
     },
-    "/group/consumers": {
+    "/groups/consumers": {
       "post": {
-        "tags": ["group"],
-        "description": "",
+        "tags": ["groups"],
+        "description": "Assign Consumers to Group",
         "operationId": "groupAssignConsumers",
         "produces": [
           "application/json",
@@ -376,8 +342,8 @@ export let swaggerDocument = {
         }
       },
       "delete": {
-        "tags": ["group"],
-        "description": "",
+        "tags": ["groups"],
+        "description": "Deassign Consumers to Group",
         "operationId": "groupDeassignConsumers",
         "produces": [
           "application/json",
