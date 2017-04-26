@@ -27,7 +27,7 @@ describe('ProjectService', () => {
 
             sinon.stub(projectRepository, 'findByKey').callsFake((key: string) => {
                 if (key === 'project-2') {
-                    return Promise.resolve(new Project('project-2', 'project2'));
+                    return Promise.resolve(new Project('project-2', 'project2', null));
                 }else {
                     return Promise.resolve(null);
                 }
@@ -86,7 +86,7 @@ describe('ProjectService', () => {
 
             sinon.stub(projectRepository, 'list').callsFake(() => {
                 return Promise.resolve([
-                    new Project('project-1', 'project1'),
+                    new Project('project-1', 'project1', null),
                 ]);
             });
 

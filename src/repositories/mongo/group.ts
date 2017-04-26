@@ -26,7 +26,7 @@ export class GroupRepository implements IGroupRepository {
 
             db.close();
 
-            return projects.map((x) => new Group(x.key, x.name, x.consumers));
+            return projects.map((x) => new Group(x.key, x.name, x.consumers, x.createdTimestamp));
         });
     }
 
@@ -41,7 +41,8 @@ export class GroupRepository implements IGroupRepository {
             const result: any = yield collection.insertOne({
                 key: group.key,
                 name: group.name,
-                consumers: group.consumers
+                consumers: group.consumers,
+                createdTimestamp: group.createdTimestamp
 ,            });
 
             db.close();
@@ -91,7 +92,7 @@ export class GroupRepository implements IGroupRepository {
                 return null;
             }
 
-            return new Group(group.key, group.name, group.consumers);
+            return new Group(group.key, group.name, group.consumers, group.createdTimestamp);
         });
     }
 }

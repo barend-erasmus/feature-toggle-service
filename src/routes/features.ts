@@ -37,23 +37,28 @@ export class FeaturesRouter {
         this.router.put('/toggle', this.toggle);
         this.router.post('/groups', this.assignGroups);
         this.router.delete('/groups', this.deassignGroups);
-        this.router.get('/status', this.status);
+        this.router.get('/enabled', this.enabled);
     }
 
     public GetRouter() {
         return this.router;
     }
 
-    private status(req: Request, res: Response, next: () => void) {
+    private enabled(req: Request, res: Response, next: () => void) {
         co(function* () {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
             const featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
 
-            const features: Feature[] = yield featureService.status(req.query.key, req.query.consumerId);
+            const result: boolean = yield featureService.enabled(req.query.key, req.query.consumerId, req.query.type);
 
-            res.send(features);
+            if (result === null) {
+                res.status(400).end();
+                return;
+            }
+
+            res.send(result);
         });
     }
 
@@ -65,6 +70,11 @@ export class FeaturesRouter {
             const featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
 
             const features: Feature[] = yield featureService.list(req.query.projectKey);
+
+            if (features === null) {
+                res.status(400).end();
+                return;
+            }
 
             res.send(features);
         });
@@ -78,6 +88,11 @@ export class FeaturesRouter {
             const featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
 
             const feature: Feature = yield featureService.find(req.query.key);
+
+            if (feature === null) {
+                res.status(400).end();
+                return;
+            }
 
             res.send(feature);
         });
@@ -105,6 +120,11 @@ export class FeaturesRouter {
 
             const feature: Feature = yield featureService.toggle(req.body.key);
 
+            if (feature === null) {
+                res.status(400).end();
+                return;
+            }
+
             res.send(feature);
         });
     }
@@ -122,6 +142,11 @@ export class FeaturesRouter {
 
             const success: boolean = yield featureService.assignGroups(req.body.key, req.body.groupKeys);
 
+            if (success === null) {
+                res.status(400).end();
+                return;
+            }
+
             res.send(success);
         });
     }
@@ -138,6 +163,11 @@ export class FeaturesRouter {
             }
 
             const success: boolean = yield featureService.deassignGroups(req.body.key, req.body.groupKeys);
+
+            if (success === null) {
+                res.status(400).end();
+                return;
+            }
 
             res.send(success);
         });

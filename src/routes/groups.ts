@@ -34,29 +34,39 @@ export class GroupsRouter {
     }
 
     private list(req: Request, res: Response, next: () => void) {
-        co(function*() {
+        co(function* () {
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
             const groupService = new GroupService(groupRepository);
 
             const groups: Group[] = yield groupService.list();
+
+            if (groups === null) {
+                res.status(400).end();
+                return;
+            }
 
             res.send(groups);
         });
     }
 
     private create(req: Request, res: Response, next: () => void) {
-        co(function*() {
+        co(function* () {
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
             const groupService = new GroupService(groupRepository);
 
             const group: Group = yield groupService.create(req.body.name, req.body.key);
+
+            if (group === null) {
+                res.status(400).end();
+                return;
+            }
 
             res.send(group);
         });
     }
 
     private assignConsumers(req: Request, res: Response, next: () => void) {
-        co(function*() {
+        co(function* () {
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
             const groupService = new GroupService(groupRepository);
 
@@ -64,14 +74,19 @@ export class GroupsRouter {
                 req.body.consumerIds = [req.body.consumerIds];
             }
 
-            const success: boolean = yield groupService.assignConsumers(req.body.key, req.body.consumerIds);
+            const success: boolean = yield groupService.assignConsumers(req.body.key, req.body.consumerIds, req.body.type);
+
+            if (success === null) {
+                res.status(400).end();
+                return;
+            }
 
             res.send(success);
         });
     }
 
     private deassignConsumers(req: Request, res: Response, next: () => void) {
-        co(function*() {
+        co(function* () {
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
             const groupService = new GroupService(groupRepository);
 
@@ -79,7 +94,12 @@ export class GroupsRouter {
                 req.body.consumerIds = [req.body.consumerIds];
             }
 
-            const success: boolean = yield groupService.deassignConsumers(req.body.key, req.body.consumerIds);
+            const success: boolean = yield groupService.deassignConsumers(req.body.key, req.body.consumerIds, req.body.type);
+
+            if (success === null) {
+                res.status(400).end();
+                return;
+            }
 
             res.send(success);
         });

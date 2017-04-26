@@ -7,11 +7,11 @@ import { Feature } from './../../models/feature';
 export class MockFeatureRepository implements IFeatureRepository {
 
     public listByProjectKey(key: string): Promise<Feature[]> {
-        return null;
+        return Promise.resolve([]);
     }
 
     public findByKey(key: string): Promise<Feature> {
-        return null;
+        return Promise.resolve(new Feature(null, null, null, [], null, null));
     }
 
     public create(feature: Feature): Promise<boolean> {

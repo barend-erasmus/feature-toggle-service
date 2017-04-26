@@ -26,7 +26,7 @@ export class ProjectRepository implements IProjectRepository {
 
             db.close();
 
-            return projects.map((x) => new Project(x.key, x.name));
+            return projects.map((x) => new Project(x.key, x.name, x.createdTimestamp));
         });
     }
 
@@ -39,9 +39,10 @@ export class ProjectRepository implements IProjectRepository {
             const collection: mongo.Collection = db.collection('projects');
 
             const result: any = yield collection.insertOne({
+                createdTimestamp: project.createdTimestamp,
                 key: project.key,
-                name: project.name
-      ,      });
+                name: project.name,
+            });
 
             db.close();
 
@@ -71,7 +72,7 @@ export class ProjectRepository implements IProjectRepository {
                 return null;
             }
 
-            return new Project(project.key, project.name);
+            return new Project(project.key, project.name, project.createdTimestamp);
         });
     }
 }

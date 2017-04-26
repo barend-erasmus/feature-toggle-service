@@ -7,7 +7,7 @@ import { Group } from './../../models/group';
 export class MockGroupRepository implements IGroupRepository {
 
     public list(): Promise<Group[]> {
-        return null;
+       return Promise.resolve([]);
     }
 
     public create(group: Group): Promise<boolean> {
@@ -19,6 +19,6 @@ export class MockGroupRepository implements IGroupRepository {
     }
 
     public findByKey(key: string): Promise<Group> {
-        return null;
+        return Promise.resolve(new Group(null, null, [], null));
     }
 }

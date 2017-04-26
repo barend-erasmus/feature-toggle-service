@@ -1,5 +1,5 @@
 export class AssociatedProject {
-    constructor(public key: string, public name: string) {
+    constructor(public key: string, public name: string, public createdTimestamp: number) {
 
     }
 

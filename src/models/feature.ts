@@ -6,7 +6,7 @@ export class Feature {
 
     public enabled: boolean = false;
 
-    constructor(public key: string, public name: string, public type: string, public groups: FeatureGroup[], public associatedProject: AssociatedProject) {
+    constructor(public key: string, public name: string, public type: string, public groups: FeatureGroup[], public associatedProject: AssociatedProject, public createdTimestamp: number) {
 
     }
 

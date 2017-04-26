@@ -20,7 +20,7 @@ export class FeatureService {
 
     }
 
-    public status(key: string, consumerId: string): Promise<boolean> {
+    public enabled(key: string, consumerId: string, type: string): Promise<boolean> {
         const self = this;
 
         return co(function*() {
@@ -38,7 +38,7 @@ export class FeatureService {
             for (const featureGroup of feature.groups) {
                 const group: Group = yield self.groupRepository.findByKey(featureGroup.key);
 
-                const index = this.consumers.findIndex((x) => x.id === consumerId);
+                const index = group.consumers.findIndex((x) => x.id === consumerId && x.type === type);
 
                 if (index > -1) {
                     return true;
@@ -68,7 +68,7 @@ export class FeatureService {
                 return null;
             }
 
-            const newFeature: Feature = new Feature(key, name, type, [], new AssociatedProject(projectKey, null));
+            const newFeature: Feature = new Feature(key, name, type, [], new AssociatedProject(projectKey, null, null), new Date().getTime());
 
             if (!newFeature.isValid()) {
                 return null;
@@ -122,7 +122,7 @@ export class FeatureService {
             }
 
             for (const k of groupKeys) {
-                const featureGroup: FeatureGroup = new FeatureGroup(k, null);
+                const featureGroup: FeatureGroup = new FeatureGroup(k, null, null);
 
                 if (!featureGroup.isValid()) {
                     return false;
@@ -149,7 +149,7 @@ export class FeatureService {
             }
 
             for (const k of groupKeys) {
-                 const featureGroup: FeatureGroup = new FeatureGroup(k, null);
+                 const featureGroup: FeatureGroup = new FeatureGroup(k, null, null);
 
                  if (!featureGroup.isValid()) {
                     return false;

@@ -26,7 +26,7 @@ export class ProjectService {
                 return null;
             }
 
-            const newProject: Project = new Project(key, name);
+            const newProject: Project = new Project(key, name, new Date().getTime());
 
             if (!newProject.isValid()) {
                 return null;

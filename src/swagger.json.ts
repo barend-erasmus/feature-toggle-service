@@ -130,6 +130,48 @@ export let swaggerDocument = {
         }
       }
     },
+    "/features/enabled": {
+      "get": {
+        "tags": ["features"],
+        "description": "Feature Enabled",
+        "operationId": "featureEnabled",
+        "produces": [
+          "application/json",
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "query",
+            "description": "Feature Key",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "consumerId",
+            "in": "query",
+            "description": "Consumer Id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Consumer Type",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/feature"
+            }
+          }
+        }
+      }
+    },
     "/features/groups": {
       "post": {
         "tags": ["features"],
@@ -337,6 +379,13 @@ export let swaggerDocument = {
             "items": {
                 "$ref": "string"
               }
+          },
+          {
+            "name": "type",
+            "in": "formData",
+            "description": "Consumers Type",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -372,6 +421,13 @@ export let swaggerDocument = {
             "items": {
                 "$ref": "string"
               }
+          },
+          {
+            "name": "type",
+            "in": "formData",
+            "description": "Consumers Type",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {

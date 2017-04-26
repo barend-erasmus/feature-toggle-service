@@ -28,7 +28,7 @@ export class GroupService {
                 return null;
             }
 
-            const newGroup: Group = new Group(key, name, []);
+            const newGroup: Group = new Group(key, name, [], new Date().getTime());
 
             if (!newGroup.isValid()) {
                 return null;
@@ -44,7 +44,7 @@ export class GroupService {
         return this.groupRepository.list();
     }
 
-    public assignConsumers(key: string, consumerIds: string[]): Promise<boolean> {
+    public assignConsumers(key: string, consumerIds: string[], type: string): Promise<boolean> {
         const self = this;
 
         return co(function*(){
@@ -56,7 +56,7 @@ export class GroupService {
             }
 
             for (const i of consumerIds) {
-                const consumer: Consumer = new Consumer(i, null);
+                const consumer: Consumer = new Consumer(i, null, type);
 
                 if (!consumer.isValid()) {
                     return false;
@@ -71,7 +71,7 @@ export class GroupService {
         });
     }
 
-    public deassignConsumers(key: string, consumerIds: string[]): Promise<boolean> {
+    public deassignConsumers(key: string, consumerIds: string[], type: string): Promise<boolean> {
         const self = this;
 
         return co(function*(){
@@ -83,7 +83,7 @@ export class GroupService {
             }
 
             for (const i of consumerIds) {
-                const consumer: Consumer = new Consumer(i, null);
+                const consumer: Consumer = new Consumer(i, null, type);
 
                 if (!consumer.isValid()) {
                     return false;

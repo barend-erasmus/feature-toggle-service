@@ -2,7 +2,7 @@
 import { Consumer } from './../models/consumer';
 
 export class Group {
-    constructor(public key: string, public name: string, public consumers: Consumer[]) {
+    constructor(public key: string, public name: string, public consumers: Consumer[], public createdTimestamp: number) {
 
     }
 
@@ -15,7 +15,7 @@ export class Group {
 
      public deassignConsumer(consumer: Consumer): boolean {
 
-        const index = this.consumers.findIndex((x) => x.id === consumer.id);
+        const index = this.consumers.findIndex((x) => x.id === consumer.id && x.type === consumer.type);
 
         if (index > -1) {
             this.consumers.splice(index, 1);

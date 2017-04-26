@@ -38,6 +38,11 @@ export class ProjectsRouter {
 
             const projects: Project[] = yield projectService.list();
 
+            if (projects === null) {
+                res.status(400).end();
+                return;
+            }
+
             res.send(projects);
         });
     }
@@ -48,6 +53,11 @@ export class ProjectsRouter {
             const projectService = new ProjectService(projectRepository);
 
             const project: Project = yield projectService.create(req.body.name, req.body.key);
+
+            if (project === null) {
+                res.status(400).end();
+                return;
+            }
 
             res.send(project);
         });

@@ -1,5 +1,5 @@
 export class Project {
-    constructor(public key: string, public name: string) {
+    constructor(public key: string, public name: string, public createdTimestamp: number) {
 
     }
 

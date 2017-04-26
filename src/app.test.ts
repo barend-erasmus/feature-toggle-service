@@ -8,7 +8,7 @@ import express = require("express");
 import { FeatureToggleApi } from './app';
 
 // Imports factories
-import { RepositoryFactory } from './repositories/mongo/repository-factory';
+import { RepositoryFactory } from './repositories/mock/repository-factory';
 
 FeatureToggleApi.repositoryFactory = new RepositoryFactory();
 
@@ -22,10 +22,17 @@ describe('/api/projects', () => {
             featureToggleApi = new FeatureToggleApi(express(), 3000);
         });
 
-        it('should return with status code 200', (done: () => void) => {
+        it('should return', (done: () => void) => {
             request(featureToggleApi.getApp())
                 .get('/api/projects')
-                .expect(200, done);
+                .end((err, res) => {
+                    if (err) throw err;
+
+                    expect(res.status).to.be.not.eq(404);
+                    expect(res.status).to.be.not.eq(500);
+
+                    done();
+                });
         });
     });
 
@@ -44,7 +51,14 @@ describe('/api/projects', () => {
                     key: 'project-1',
                     name: 'Project1',
                 })
-                .expect(200, done);
+                .end((err, res) => {
+                    if (err) throw err;
+
+                    expect(res.status).to.be.not.eq(404);
+                    expect(res.status).to.be.not.eq(500);
+
+                    done();
+                });
         });
     });
 });
@@ -62,7 +76,14 @@ describe('/api/groups', () => {
         it('should return with status code 200', (done: () => void) => {
             request(featureToggleApi.getApp())
                 .get('/api/groups')
-                .expect(200, done);
+                .end((err, res) => {
+                    if (err) throw err;
+
+                    expect(res.status).to.be.not.eq(404);
+                    expect(res.status).to.be.not.eq(500);
+
+                    done();
+                });
         });
     });
 
@@ -81,7 +102,14 @@ describe('/api/groups', () => {
                     key: 'group-1',
                     name: 'Group1',
                 })
-                .expect(200, done);
+                .end((err, res) => {
+                    if (err) throw err;
+
+                    expect(res.status).to.be.not.eq(404);
+                    expect(res.status).to.be.not.eq(500);
+
+                    done();
+                });
         });
     });
 });
@@ -99,7 +127,14 @@ describe('/api/features', () => {
         it('should return with status code 200', (done: () => void) => {
             request(featureToggleApi.getApp())
                 .get('/api/features?projectKey=project-1')
-                .expect(200, done);
+                .end((err, res) => {
+                    if (err) throw err;
+
+                    expect(res.status).to.be.not.eq(404);
+                    expect(res.status).to.be.not.eq(500);
+
+                    done();
+                });
         });
     });
 
@@ -114,7 +149,14 @@ describe('/api/features', () => {
         it('should return with status code 200', (done: () => void) => {
             request(featureToggleApi.getApp())
                 .get('/api/features?key=feature-1')
-                .expect(200, done);
+                .end((err, res) => {
+                    if (err) throw err;
+
+                    expect(res.status).to.be.not.eq(404);
+                    expect(res.status).to.be.not.eq(500);
+
+                    done();
+                });
         });
     });
 
@@ -135,7 +177,14 @@ describe('/api/features', () => {
                     projectKey: 'project-1',
                     type: 'normal',
                 })
-                .expect(200, done);
+                .end((err, res) => {
+                    if (err) throw err;
+
+                    expect(res.status).to.be.not.eq(404);
+                    expect(res.status).to.be.not.eq(500);
+
+                    done();
+                });
         });
     });
 
@@ -153,7 +202,14 @@ describe('/api/features', () => {
                 .send({
                     key: 'feature-1',
                 })
-                .expect(200, done);
+                .end((err, res) => {
+                    if (err) throw err;
+
+                    expect(res.status).to.be.not.eq(404);
+                    expect(res.status).to.be.not.eq(500);
+
+                    done();
+                });
         });
     });
 
@@ -174,7 +230,14 @@ describe('/api/features', () => {
                     ],
                     key: 'feature-1',
                 })
-                .expect(200, done);
+                .end((err, res) => {
+                    if (err) throw err;
+
+                    expect(res.status).to.be.not.eq(404);
+                    expect(res.status).to.be.not.eq(500);
+
+                    done();
+                });
         });
     });
 
@@ -195,7 +258,14 @@ describe('/api/features', () => {
                     ],
                     key: 'feature-1',
                 })
-                .expect(200, done);
+                .end((err, res) => {
+                    if (err) throw err;
+
+                    expect(res.status).to.be.not.eq(404);
+                    expect(res.status).to.be.not.eq(500);
+
+                    done();
+                });
         });
     });
 });

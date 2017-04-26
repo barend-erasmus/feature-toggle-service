@@ -15,10 +15,10 @@ export class MockProjectRepository implements IProjectRepository {
     }
 
     public update(project: Project): Promise<boolean> {
-        return null;
+       return Promise.resolve(true);
     }
 
     public findByKey(key: string): Promise<Project> {
-        return Promise.resolve(null);
+        return Promise.resolve(new Project(null, null, null));
     }
 }

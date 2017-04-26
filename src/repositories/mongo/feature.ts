@@ -31,9 +31,9 @@ export class FeatureRepository implements IFeatureRepository {
             db.close();
 
             let featuresResult: Feature[] = features.map((x) => {
-                const groups: FeatureGroup[] = x.groups.map((y) => new FeatureGroup(y.key, y.name));
+                const groups: FeatureGroup[] = x.groups.map((y) => new FeatureGroup(y.key, null, null));
 
-                const feature: Feature = new Feature(x.key, x.name, x.type, groups, new AssociatedProject(x.projectKey, null));
+                const feature: Feature = new Feature(x.key, x.name, x.type, groups, new AssociatedProject(x.projectKey, null, null), x.createdTimestamp);
 
                 feature.enabled = x.enabled;
 
@@ -65,9 +65,9 @@ export class FeatureRepository implements IFeatureRepository {
                 return null;
             }
 
-            const groups: FeatureGroup[] = feature.groups.map((y) => new FeatureGroup(y.key, y.name));
+            const groups: FeatureGroup[] = feature.groups.map((y) => new FeatureGroup(y.key, null, null));
 
-            let featureResult: Feature = new Feature(feature.key, feature.name, feature.type, groups, new AssociatedProject(feature.projectKey, null));
+            let featureResult: Feature = new Feature(feature.key, feature.name, feature.type, groups, new AssociatedProject(feature.projectKey, null, null), feature.createdTimestamp);
 
             featureResult.enabled = feature.enabled;
 
@@ -93,6 +93,7 @@ export class FeatureRepository implements IFeatureRepository {
                 projectKey: feature.associatedProject.key,
                 enabled: feature.enabled,
                 type: feature.type,
+                createdTimestamp: feature.createdTimestamp,
             });
 
             db.close();
@@ -147,7 +148,7 @@ export class FeatureRepository implements IFeatureRepository {
 
             db.close();
 
-            feature.groups = groups.filter((x) => x !== null).map((x) => new FeatureGroup(x.key, x.name));
+            feature.groups = groups.filter((x) => x !== null).map((x) => new FeatureGroup(x.key, x.name, x.createdTimestamp));
 
             return feature;
         });
@@ -174,7 +175,7 @@ export class FeatureRepository implements IFeatureRepository {
 
             db.close();
 
-            feature.associatedProject = new AssociatedProject(project.key, project.name);
+            feature.associatedProject = new AssociatedProject(project.key, project.name, project.createdTimestamp);
 
             return feature;
         });

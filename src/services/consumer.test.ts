@@ -26,7 +26,7 @@ describe('ConsumerService', () => {
             sinon.stub(consumerRepository, 'listByProjectKey').callsFake((projectKey: string) => {
                 if (projectKey === 'project-1') {
                     return Promise.resolve([
-                        new Consumer('1', 'User1'),
+                        new Consumer('1', 'User1', null),
                     ]);
                 }
             });

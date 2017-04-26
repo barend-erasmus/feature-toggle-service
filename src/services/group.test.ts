@@ -28,7 +28,7 @@ describe('GroupService', () => {
 
             sinon.stub(groupRepository, 'findByKey').callsFake((key: string) => {
                 if (key === 'group-2') {
-                    return Promise.resolve(new Group('group-2', 'Group2', null));
+                    return Promise.resolve(new Group('group-2', 'Group2', null, null));
                 } else {
                     return Promise.resolve(null);
                 }
@@ -92,7 +92,7 @@ describe('GroupService', () => {
 
             sinon.stub(groupRepository, 'list').callsFake(() => {
                 return Promise.resolve([
-                    new Group('group-1', 'group1', []),
+                    new Group('group-1', 'group1', [], null),
                 ]);
             });
 
@@ -121,7 +121,7 @@ describe('GroupService', () => {
 
             sinon.stub(groupRepository, 'findByKey').callsFake((key: string) => {
                 if (key === 'group-2') {
-                    return Promise.resolve(new Group('group-2', 'group2', []));
+                    return Promise.resolve(new Group('group-2', 'group2', [], null));
                 } else {
                     return Promise.resolve(null);
                 }
@@ -135,7 +135,7 @@ describe('GroupService', () => {
             return co(function*() {
                 const result: boolean = yield groupService.assignConsumers('group-1', [
                     'consumer-1', 'consumer-2',
-                ]);
+                ], null);
 
                 expect(result).to.be.false;
                 sinon.assert.notCalled(updateSpy);
@@ -147,7 +147,7 @@ describe('GroupService', () => {
             return co(function*() {
                 const result: boolean = yield groupService.assignConsumers('group-2', [
                     null,
-                ]);
+                ], null);
 
                 expect(result).to.be.false;
                 sinon.assert.notCalled(updateSpy);
@@ -159,7 +159,7 @@ describe('GroupService', () => {
             return co(function*() {
                 const result: boolean = yield groupService.assignConsumers('group-2', [
                     'consumer-1', 'consumer-2',
-                ]);
+                ], null);
 
                 expect(result).to.be.true;
                 sinon.assert.calledOnce(updateSpy);
@@ -183,7 +183,7 @@ describe('GroupService', () => {
 
             sinon.stub(groupRepository, 'findByKey').callsFake((key: string) => {
                 if (key === 'group-2') {
-                    return Promise.resolve(new Group('group-2', 'group2', [new Consumer('consumer-1', 'Consumer1')]));
+                    return Promise.resolve(new Group('group-2', 'group2', [new Consumer('consumer-1', 'Consumer1', null)], null));
                 } else {
                     return Promise.resolve(null);
                 }
@@ -197,7 +197,7 @@ describe('GroupService', () => {
             return co(function*() {
                 const result: boolean = yield groupService.deassignConsumers('group-1', [
                     'consumer-1',
-                ]);
+                ], null);
 
                 expect(result).to.be.false;
                 sinon.assert.notCalled(updateSpy);
@@ -209,7 +209,7 @@ describe('GroupService', () => {
             return co(function*() {
                 const result: boolean = yield groupService.deassignConsumers('group-2', [
                     null,
-                ]);
+                ], null);
 
                 expect(result).to.be.false;
                 sinon.assert.notCalled(updateSpy);
@@ -221,7 +221,7 @@ describe('GroupService', () => {
             return co(function*() {
                 const result: boolean = yield groupService.deassignConsumers('group-2', [
                     'consumer-1',
-                ]);
+                ], null);
 
                 expect(result).to.be.true;
                 sinon.assert.calledOnce(updateSpy);
