@@ -98,7 +98,7 @@ describe('/api/features', () => {
 
         it('should return with status code 200', (done: () => void) => {
             request(featureToggleApi.getApp())
-                .get('/api/features')
+                .get('/api/features?projectKey=project-1')
                 .expect(200, done);
         });
     });
