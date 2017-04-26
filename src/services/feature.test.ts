@@ -31,15 +31,15 @@ describe('FeatureService', () => {
             sinon.stub(featureRepository, 'listByProjectKey').callsFake((projectKey: string) => {
                 if (projectKey === 'project-1') {
                     return Promise.resolve([
-                        new Feature('feature-1', 'Feature1', null, null, null, null),
+                        new Feature('feature-1', 'Feature1', null, null, null, null, null),
                     ]);
                 }
             });
 
             sinon.stub(featureRepository, 'list').callsFake(() => {
                     return Promise.resolve([
-                        new Feature('feature-1', 'Feature1', null, null, null, null),
-                        new Feature('feature-5', 'Feature5', null, null, null, null),
+                        new Feature('feature-1', 'Feature1', null, null, null, null, null),
+                        new Feature('feature-5', 'Feature5', null, null, null, null, null),
                     ]);
             });
 
@@ -79,7 +79,7 @@ describe('FeatureService', () => {
 
             sinon.stub(featureRepository, 'findByKey').callsFake((key: string) => {
                 if (key === 'feature-2') {
-                    return Promise.resolve(new Feature('feature-2', 'feature2', null, null, null, null));
+                    return Promise.resolve(new Feature('feature-2', 'feature2', null, null, null, null, null));
                 } else {
                     return Promise.resolve(null);
                 }
@@ -181,7 +181,7 @@ describe('FeatureService', () => {
 
             sinon.stub(featureRepository, 'findByKey').callsFake((key: string) => {
                 if (key === 'feature-2') {
-                    return Promise.resolve(new Feature('feature-2', 'feature2', null, null, null, null));
+                    return Promise.resolve(new Feature('feature-2', 'feature2', null, null, null, null, null));
                 } else {
                     return Promise.resolve(null);
                 }
@@ -225,7 +225,7 @@ describe('FeatureService', () => {
 
             sinon.stub(featureRepository, 'findByKey').callsFake((key: string) => {
                 if (key === 'feature-2') {
-                    return Promise.resolve(new Feature('feature-2', 'feature2', null, [], null, null));
+                    return Promise.resolve(new Feature('feature-2', 'feature2', null, [], null, null, null));
                 } else {
                     return Promise.resolve(null);
                 }
@@ -289,7 +289,7 @@ describe('FeatureService', () => {
 
             sinon.stub(featureRepository, 'findByKey').callsFake((key: string) => {
                 if (key === 'feature-2') {
-                    return Promise.resolve(new Feature('feature-2', 'feature2', null, [new FeatureGroup('group-1', null, null), new FeatureGroup('group-2', null, null)], null, null));
+                    return Promise.resolve(new Feature('feature-2', 'feature2', null, [new FeatureGroup('group-1', null, null), new FeatureGroup('group-2', null, null)], null, null, null));
                 } else {
                     return Promise.resolve(null);
                 }

@@ -468,6 +468,12 @@ export let swaggerDocument = {
               "$ref": "#/definitions/featureGroup"
            }
         },
+        "options": {
+          "type": "array",
+          "items": {
+              "$ref": "#/definitions/option"
+           }
+        },
         "associatedProject": {
           "type": "object",
           "$ref": "#/definitions/associatedProject"
@@ -551,6 +557,24 @@ export let swaggerDocument = {
           "type": "string"
         },
         "displayName": {
+          "type": "string"
+        }
+      }
+    },
+    "option": {
+      "type": "object",
+      "required": [
+        "key",
+        "name"
+      ],
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "value": {
           "type": "string"
         }
       }

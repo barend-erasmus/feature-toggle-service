@@ -1,12 +1,20 @@
 // Imports models
 import { AssociatedProject } from './associated-project';
 import { FeatureGroup } from './feature-group';
+import { Option } from './option';
 
 export class Feature {
 
     public enabled: boolean = false;
 
-    constructor(public key: string, public name: string, public type: string, public groups: FeatureGroup[], public associatedProject: AssociatedProject, public createdTimestamp: number) {
+    constructor(
+        public key: string,
+        public name: string,
+        public type: string,
+        public groups: FeatureGroup[],
+        public associatedProject: AssociatedProject,
+        public createdTimestamp: number,
+        public options: Option[]) {
 
     }
 
@@ -29,6 +37,10 @@ export class Feature {
         }
 
         if (this.groups === null) {
+            return false;
+        }
+
+        if (this.options === null) {
             return false;
         }
 

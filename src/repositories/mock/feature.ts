@@ -15,7 +15,7 @@ export class MockFeatureRepository implements IFeatureRepository {
     }
 
     public findByKey(key: string): Promise<Feature> {
-        return Promise.resolve(new Feature(null, null, null, [], null, null));
+        return Promise.resolve(new Feature(null, null, null, [], null, null, []));
     }
 
     public create(feature: Feature): Promise<boolean> {

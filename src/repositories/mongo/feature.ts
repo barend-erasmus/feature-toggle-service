@@ -19,7 +19,7 @@ export class FeatureRepository implements IFeatureRepository {
     public listByProjectKey(key: string): Promise<Feature[]> {
         const self = this;
 
-        return co(function*() {
+        return co(function* () {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('features');
@@ -33,7 +33,7 @@ export class FeatureRepository implements IFeatureRepository {
             let featuresResult: Feature[] = features.map((x) => {
                 const groups: FeatureGroup[] = x.groups.map((y) => new FeatureGroup(y.key, null, null));
 
-                const feature: Feature = new Feature(x.key, x.name, x.type, groups, new AssociatedProject(x.projectKey, null, null), x.createdTimestamp);
+                const feature: Feature = new Feature(x.key, x.name, x.type, groups, new AssociatedProject(x.projectKey, null, null), x.createdTimestamp, x.options);
 
                 feature.enabled = x.enabled;
 
@@ -50,7 +50,7 @@ export class FeatureRepository implements IFeatureRepository {
     public list(): Promise<Feature[]> {
         const self = this;
 
-        return co(function*() {
+        return co(function* () {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('features');
@@ -62,7 +62,7 @@ export class FeatureRepository implements IFeatureRepository {
             let featuresResult: Feature[] = features.map((x) => {
                 const groups: FeatureGroup[] = x.groups.map((y) => new FeatureGroup(y.key, null, null));
 
-                const feature: Feature = new Feature(x.key, x.name, x.type, groups, new AssociatedProject(x.projectKey, null, null), x.createdTimestamp);
+                const feature: Feature = new Feature(x.key, x.name, x.type, groups, new AssociatedProject(x.projectKey, null, null), x.createdTimestamp, x.options);
 
                 feature.enabled = x.enabled;
 
@@ -79,7 +79,7 @@ export class FeatureRepository implements IFeatureRepository {
     public findByKey(key: string): Promise<Feature> {
         const self = this;
 
-        return co(function*() {
+        return co(function* () {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('features');
@@ -96,7 +96,7 @@ export class FeatureRepository implements IFeatureRepository {
 
             const groups: FeatureGroup[] = feature.groups.map((y) => new FeatureGroup(y.key, null, null));
 
-            let featureResult: Feature = new Feature(feature.key, feature.name, feature.type, groups, new AssociatedProject(feature.projectKey, null, null), feature.createdTimestamp);
+            let featureResult: Feature = new Feature(feature.key, feature.name, feature.type, groups, new AssociatedProject(feature.projectKey, null, null), feature.createdTimestamp, feature.options);
 
             featureResult.enabled = feature.enabled;
 
@@ -110,7 +110,7 @@ export class FeatureRepository implements IFeatureRepository {
     public create(feature: Feature): Promise<boolean> {
         const self = this;
 
-        return co(function*() {
+        return co(function* () {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('features');
@@ -123,6 +123,7 @@ export class FeatureRepository implements IFeatureRepository {
                 enabled: feature.enabled,
                 type: feature.type,
                 createdTimestamp: feature.createdTimestamp,
+                options: feature.options
             });
 
             db.close();
@@ -135,7 +136,7 @@ export class FeatureRepository implements IFeatureRepository {
 
         const self = this;
 
-        return co(function*() {
+        return co(function* () {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('features');
@@ -143,11 +144,12 @@ export class FeatureRepository implements IFeatureRepository {
             const result = yield collection.updateOne({
                 key: feature.key,
             }, {
-                $set: {
-                    groups: feature.groups,
-                    enabled: feature.enabled,
-                },
-            });
+                    $set: {
+                        groups: feature.groups,
+                        enabled: feature.enabled,
+                        options: feature.options
+                    },
+                });
 
             db.close();
 
@@ -157,7 +159,7 @@ export class FeatureRepository implements IFeatureRepository {
 
     private loadGroupsForFeatures(features: Feature[]): Promise<Feature[]> {
         const self = this;
-        return co(function*() {
+        return co(function* () {
             return yield features.map((x) => self.loadGroupsForFeature(x));
         });
 
@@ -166,7 +168,7 @@ export class FeatureRepository implements IFeatureRepository {
     private loadGroupsForFeature(feature: Feature): Promise<Feature> {
         const self = this;
 
-        return co(function*() {
+        return co(function* () {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('groups');
@@ -185,7 +187,7 @@ export class FeatureRepository implements IFeatureRepository {
 
     private loadAssociatedProjectForFeatures(features: Feature[]): Promise<Feature[]> {
         const self = this;
-        return co(function*() {
+        return co(function* () {
             return yield features.map((x) => self.loadAssociatedProjectForFeature(x));
         });
     }
@@ -193,7 +195,7 @@ export class FeatureRepository implements IFeatureRepository {
     private loadAssociatedProjectForFeature(feature: Feature): Promise<Feature> {
         const self = this;
 
-        return co(function*() {
+        return co(function* () {
             const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
 
             const collection: mongo.Collection = db.collection('projects');

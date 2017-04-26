@@ -72,7 +72,7 @@ export class FeatureService {
                 return null;
             }
 
-            const newFeature: Feature = new Feature(key, name, type, [], new AssociatedProject(projectKey, null, null), new Date().getTime());
+            const newFeature: Feature = new Feature(key, name, type, [], new AssociatedProject(projectKey, null, null), new Date().getTime(), []);
 
             if (!newFeature.isValid()) {
                 return null;
