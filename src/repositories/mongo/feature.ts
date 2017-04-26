@@ -47,6 +47,35 @@ export class FeatureRepository implements IFeatureRepository {
         });
     }
 
+    public list(): Promise<Feature[]> {
+        const self = this;
+
+        return co(function*() {
+            const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
+
+            const collection: mongo.Collection = db.collection('features');
+
+            const features: any[] = yield collection.find({}).toArray();
+
+            db.close();
+
+            let featuresResult: Feature[] = features.map((x) => {
+                const groups: FeatureGroup[] = x.groups.map((y) => new FeatureGroup(y.key, null, null));
+
+                const feature: Feature = new Feature(x.key, x.name, x.type, groups, new AssociatedProject(x.projectKey, null, null), x.createdTimestamp);
+
+                feature.enabled = x.enabled;
+
+                return feature;
+            });
+
+            featuresResult = yield self.loadGroupsForFeatures(featuresResult);
+            featuresResult = yield self.loadAssociatedProjectForFeatures(featuresResult);
+
+            return featuresResult;
+        });
+    }
+
     public findByKey(key: string): Promise<Feature> {
         const self = this;
 

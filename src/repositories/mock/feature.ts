@@ -10,6 +10,10 @@ export class MockFeatureRepository implements IFeatureRepository {
         return Promise.resolve([]);
     }
 
+     public list(): Promise<Feature[]> {
+        return Promise.resolve([]);
+    }
+
     public findByKey(key: string): Promise<Feature> {
         return Promise.resolve(new Feature(null, null, null, [], null, null));
     }

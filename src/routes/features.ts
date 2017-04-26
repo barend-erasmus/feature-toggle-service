@@ -24,12 +24,17 @@ export class FeaturesRouter {
 
     constructor() {
         this.router.get('/', (req, res, next) => {
+
             if (req.query.projectKey !== undefined) {
-                return this.list(req, res, next);
+
+                return this.listByProjectKey(req, res, next);
+
             } else if (req.query.key !== undefined) {
+
                 return this.find(req, res, next);
+
             }else {
-                res.status(404).end();
+                 return this.list(req, res, next);
             }
         });
 
@@ -62,7 +67,7 @@ export class FeaturesRouter {
         });
     }
 
-    private list(req: Request, res: Response, next: () => void) {
+    private listByProjectKey(req: Request, res: Response, next: () => void) {
         co(function* () {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
@@ -70,6 +75,24 @@ export class FeaturesRouter {
             const featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
 
             const features: Feature[] = yield featureService.list(req.query.projectKey);
+
+            if (features === null) {
+                res.status(400).end();
+                return;
+            }
+
+            res.send(features);
+        });
+    }
+
+    private list(req: Request, res: Response, next: () => void) {
+        co(function* () {
+            const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
+            const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
+            const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
+            const featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
+
+            const features: Feature[] = yield featureService.list(null);
 
             if (features === null) {
                 res.status(400).end();

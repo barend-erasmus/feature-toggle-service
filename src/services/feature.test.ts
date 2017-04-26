@@ -36,15 +36,31 @@ describe('FeatureService', () => {
                 }
             });
 
+            sinon.stub(featureRepository, 'list').callsFake(() => {
+                    return Promise.resolve([
+                        new Feature('feature-1', 'Feature1', null, null, null, null),
+                        new Feature('feature-5', 'Feature5', null, null, null, null),
+                    ]);
+            });
+
             featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
         });
 
-        it('should return list of features', () => {
+        it('should return list of features given project key', () => {
 
             return co(function*() {
                 const result: Feature[] = yield featureService.list('project-1');
 
                 expect(result.length).to.be.eq(1);
+            });
+        });
+
+        it('should return list of features given null project key', () => {
+
+            return co(function*() {
+                const result: Feature[] = yield featureService.list(null);
+
+                expect(result.length).to.be.eq(2);
             });
         });
     });

@@ -4,6 +4,8 @@ import { Feature } from './../models/feature';
 export interface IFeatureRepository {
     listByProjectKey(key: string): Promise<Feature[]>;
 
+    list(): Promise<Feature[]>;
+
     findByKey(key: string): Promise<Feature>;
 
     create(feature: Feature): Promise<boolean>;

@@ -54,7 +54,11 @@ export class FeatureService {
     }
 
     public list(projectKey: string): Promise<Feature[]> {
-        return this.featureRepository.listByProjectKey(projectKey);
+        if (projectKey === null) {
+            return this.featureRepository.list();
+        }else {
+            return this.featureRepository.listByProjectKey(projectKey);
+        }
     }
 
     public create(name: string, key: string, type: string, projectKey: string): Promise<Feature> {
