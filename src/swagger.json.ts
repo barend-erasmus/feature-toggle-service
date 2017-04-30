@@ -172,6 +172,79 @@ export let swaggerDocument = {
         }
       }
     },
+    "/features/options": {
+      "post": {
+        "tags": ["features"],
+        "description": "Add Options to Feature",
+        "operationId": "featureAddOptions",
+        "produces": [
+          "application/json",
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "formData",
+            "description": "Feature Key",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "options",
+            "in": "formData",
+            "description": "List of Options",
+            "required": true,
+            "type": "array",
+            "items": {
+                "type": "object",
+				        "$ref": "#/definitions/option"
+              }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "boolean",
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["features"],
+        "description": "Remove Options to Feature",
+        "operationId": "featureDeassignGroups",
+        "produces": [
+          "application/json",
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "formData",
+            "description": "Feature Key",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "optionKeys",
+            "in": "formData",
+            "description": "List of Option Keys",
+            "required": true,
+            "type": "array",
+            "items": {
+                "$ref": "string"
+              }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
     "/features/groups": {
       "post": {
         "tags": ["features"],

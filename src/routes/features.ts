@@ -33,8 +33,8 @@ export class FeaturesRouter {
 
                 return this.find(req, res, next);
 
-            }else {
-                 return this.list(req, res, next);
+            } else {
+                return this.list(req, res, next);
             }
         });
 
@@ -42,6 +42,8 @@ export class FeaturesRouter {
         this.router.put('/toggle', this.toggle);
         this.router.post('/groups', this.assignGroups);
         this.router.delete('/groups', this.deassignGroups);
+        this.router.post('/options', this.addOptions);
+        this.router.delete('/options', this.removeOptions);
         this.router.get('/enabled', this.enabled);
     }
 
@@ -186,6 +188,46 @@ export class FeaturesRouter {
             }
 
             const success: boolean = yield featureService.deassignGroups(req.body.key, req.body.groupKeys);
+
+            if (success === null) {
+                res.status(400).end();
+                return;
+            }
+
+            res.send(success);
+        });
+    }
+
+    private addOptions(req: Request, res: Response, next: () => void) {
+        co(function* () {
+            const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
+            const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
+            const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
+            const featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
+
+            const success: boolean = yield featureService.addOptions(req.body.key, req.body.options);
+
+            if (success === null) {
+                res.status(400).end();
+                return;
+            }
+
+            res.send(success);
+        });
+    }
+
+    private removeOptions(req: Request, res: Response, next: () => void) {
+        co(function* () {
+            const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
+            const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
+            const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
+            const featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
+
+            if (typeof req.body.optionKeys === 'string') {
+                req.body.optionKeys = [req.body.optionKeys];
+            }
+
+            const success: boolean = yield featureService.removeOptions(req.body.key, req.body.optionKeys);
 
             if (success === null) {
                 res.status(400).end();

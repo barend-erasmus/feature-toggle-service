@@ -71,4 +71,22 @@ export class Feature {
 
         return true;
     }
+
+    public addOption(option: Option): boolean {
+
+        this.options.push(option);
+
+        return true;
+    }
+
+    public removeOption(option: Option): boolean {
+
+        const index = this.options.findIndex((x) => x.key === option.key);
+
+        if (index > -1) {
+            this.options.splice(index, 1);
+        }
+
+        return true;
+    }
 }

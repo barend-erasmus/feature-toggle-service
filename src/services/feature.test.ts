@@ -16,6 +16,7 @@ import { MockProjectRepository } from './../repositories/mock/project';
 import { Feature } from './../models/feature';
 import { FeatureGroup } from './../models/feature-group';
 import { Project } from './../models/project';
+import { Option } from './../models/option';
 
 describe('FeatureService', () => {
 
@@ -338,5 +339,136 @@ describe('FeatureService', () => {
             });
         });
     });
+
+
+    describe('addOptions', () => {
+
+        let updateSpy: sinon.SinonSpy = null;
+        let featureService: FeatureService = null;
+
+        beforeEach(() => {
+            const featureRepository = new MockFeatureRepository();
+            const projectRepository = new MockProjectRepository();
+            const groupRepository = new MockGroupRepository();
+
+            updateSpy = sinon.spy(featureRepository, 'update');
+
+            sinon.stub(featureRepository, 'findByKey').callsFake((key: string) => {
+                if (key === 'feature-2') {
+                    return Promise.resolve(new Feature('feature-2', 'feature2', null, null, null, null, []));
+                } else {
+                    return Promise.resolve(null);
+                }
+            });
+
+            featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
+        });
+
+        it('should return false given feature key does not exist', () => {
+
+            return co(function*() {
+                const result: boolean = yield featureService.addOptions('feature-1', [
+                    new Option('option-1', 'option1', 'option1')
+                ]);
+
+                expect(result).to.be.false;
+                sinon.assert.notCalled(updateSpy);
+            });
+        });
+
+        it('should return false given null option', () => {
+
+            return co(function*() {
+               const result: boolean = yield featureService.addOptions('feature-1', [
+                    null
+                ]);
+
+                expect(result).to.be.false;
+                sinon.assert.notCalled(updateSpy);
+            });
+        });
+
+        it('should return true given feature key does exist', () => {
+
+            return co(function*() {
+                const result: boolean = yield featureService.addOptions('feature-2', [
+                    new Option('option-1', 'option1', 'option1')
+                ]);
+
+                expect(result).to.be.true;
+                sinon.assert.calledOnce(updateSpy);
+
+                const feature: Feature = updateSpy.args[0][0];
+
+                expect(feature.options.length).to.be.eq(1);
+            });
+        });
+    });
+
+    describe('removeOptions', () => {
+
+        let updateSpy: sinon.SinonSpy = null;
+        let featureService: FeatureService = null;
+
+        beforeEach(() => {
+            const featureRepository = new MockFeatureRepository();
+            const projectRepository = new MockProjectRepository();
+            const groupRepository = new MockGroupRepository();
+
+            updateSpy = sinon.spy(featureRepository, 'update');
+
+            sinon.stub(featureRepository, 'findByKey').callsFake((key: string) => {
+                if (key === 'feature-2') {
+                    return Promise.resolve(new Feature('feature-2', 'feature2', null, null , null, null, [
+                        new Option('option-1', 'option1', 'option1'),
+                    ]));
+                } else {
+                    return Promise.resolve(null);
+                }
+            });
+
+            featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
+        });
+
+        it('should return false given feature key does not exist', () => {
+
+            return co(function*() {
+                const result: boolean = yield featureService.removeOptions('feature-1', [
+                    'option-1'
+                ]);
+
+                expect(result).to.be.false;
+                sinon.assert.notCalled(updateSpy);
+            });
+        });
+
+        it('should return false given null option', () => {
+
+            return co(function*() {
+                const result: boolean = yield featureService.removeOptions('feature-2', [
+                    null,
+                ]);
+
+                expect(result).to.be.false;
+                sinon.assert.notCalled(updateSpy);
+            });
+        });
+
+        it('should return true given feature key does exist', () => {
+
+            return co(function*() {
+                const result: boolean = yield featureService.removeOptions('feature-2', [
+                    'option-1'
+                ]);
+
+                expect(result).to.be.true;
+                sinon.assert.calledOnce(updateSpy);
+
+                const feature: Feature = updateSpy.args[0][0];
+
+                expect(feature.options.length).to.be.eq(0);
+            });
+        });
+    })
 
 });

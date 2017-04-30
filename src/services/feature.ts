@@ -13,6 +13,7 @@ import { Feature } from './../models/feature';
 import { FeatureGroup } from './../models/feature-group';
 import { Group } from './../models/group';
 import { Project } from './../models/project';
+import { Option } from './../models/option';
 
 export class FeatureService {
 
@@ -23,7 +24,7 @@ export class FeatureService {
     public enabled(key: string, consumerId: string, type: string): Promise<boolean> {
         const self = this;
 
-        return co(function*() {
+        return co(function* () {
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
@@ -56,7 +57,7 @@ export class FeatureService {
     public list(projectKey: string): Promise<Feature[]> {
         if (projectKey === null) {
             return this.featureRepository.list();
-        }else {
+        } else {
             return this.featureRepository.listByProjectKey(projectKey);
         }
     }
@@ -64,7 +65,7 @@ export class FeatureService {
     public create(name: string, key: string, type: string, projectKey: string): Promise<Feature> {
         const self = this;
 
-        return co(function*(){
+        return co(function* () {
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
@@ -97,7 +98,7 @@ export class FeatureService {
     public toggle(key: string): Promise<boolean> {
         const self = this;
 
-        return co(function*(){
+        return co(function* () {
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
@@ -117,7 +118,7 @@ export class FeatureService {
 
         const self = this;
 
-        return co(function*(){
+        return co(function* () {
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
@@ -126,6 +127,11 @@ export class FeatureService {
             }
 
             for (const k of groupKeys) {
+
+                if (k === null) {
+                    return false;
+                }
+
                 const featureGroup: FeatureGroup = new FeatureGroup(k, null, null);
 
                 if (!featureGroup.isValid()) {
@@ -144,7 +150,7 @@ export class FeatureService {
     public deassignGroups(key: string, groupKeys: string[]): Promise<boolean> {
         const self = this;
 
-        return co(function*(){
+        return co(function* () {
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
@@ -153,13 +159,82 @@ export class FeatureService {
             }
 
             for (const k of groupKeys) {
-                 const featureGroup: FeatureGroup = new FeatureGroup(k, null, null);
 
-                 if (!featureGroup.isValid()) {
+                if (k === null) {
                     return false;
                 }
 
-                 feature.deassignGroup(featureGroup);
+                const featureGroup: FeatureGroup = new FeatureGroup(k, null, null);
+
+                if (!featureGroup.isValid()) {
+                    return false;
+                }
+
+                feature.deassignGroup(featureGroup);
+            }
+
+            const success: boolean = yield self.featureRepository.update(feature);
+
+            return true;
+        });
+    }
+
+    public addOptions(key: string, options: Option[]): Promise<boolean> {
+        const self = this;
+
+        return co(function* () {
+
+            const feature: Feature = yield self.featureRepository.findByKey(key);
+
+            if (feature === null) {
+                return false;
+            }
+
+            for (const k of options) {
+
+                if (k === null) {
+                    return false;
+                }
+
+                const option: Option = new Option(k.key, k.name, k.value);
+
+                if (!option.isValid()) {
+                    return false;
+                }
+
+                feature.addOption(option);
+            }
+
+            const success: boolean = yield self.featureRepository.update(feature);
+
+            return true;
+        });
+    }
+
+    public removeOptions(key: string, optionKeys: string[]): Promise<boolean> {
+        const self = this;
+
+        return co(function* () {
+
+            const feature: Feature = yield self.featureRepository.findByKey(key);
+
+            if (feature === null) {
+                return false;
+            }
+
+            for (const k of optionKeys) {
+
+                if (k === null) {
+                    return false;
+                }
+
+                const option: Option = new Option(k, null, null);
+
+                if (!option.isValid()) {
+                    return false;
+                }
+
+                feature.removeOption(option);
             }
 
             const success: boolean = yield self.featureRepository.update(feature);
