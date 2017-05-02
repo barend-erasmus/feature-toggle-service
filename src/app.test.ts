@@ -44,7 +44,7 @@ describe('/api/projects', () => {
             featureToggleApi = new FeatureToggleApi(express(), 3000);
         });
 
-        it('should return with status code 200', (done: () => void) => {
+        it('should return', (done: () => void) => {
             request(featureToggleApi.getApp())
                 .post('/api/projects')
                 .send({
@@ -73,7 +73,7 @@ describe('/api/groups', () => {
             featureToggleApi = new FeatureToggleApi(express(), 3000);
         });
 
-        it('should return with status code 200', (done: () => void) => {
+        it('should return', (done: () => void) => {
             request(featureToggleApi.getApp())
                 .get('/api/groups')
                 .end((err, res) => {
@@ -95,7 +95,7 @@ describe('/api/groups', () => {
             featureToggleApi = new FeatureToggleApi(express(), 3000);
         });
 
-        it('should return with status code 200', (done: () => void) => {
+        it('should return', (done: () => void) => {
             request(featureToggleApi.getApp())
                 .post('/api/groups')
                 .send({
@@ -124,7 +124,7 @@ describe('/api/features', () => {
             featureToggleApi = new FeatureToggleApi(express(), 3000);
         });
 
-        it('should return with status code 200', (done: () => void) => {
+        it('should return', (done: () => void) => {
             request(featureToggleApi.getApp())
                 .get('/api/features?projectKey=project-1')
                 .end((err, res) => {
@@ -146,7 +146,7 @@ describe('/api/features', () => {
             featureToggleApi = new FeatureToggleApi(express(), 3000);
         });
 
-        it('should return with status code 200', (done: () => void) => {
+        it('should return', (done: () => void) => {
             request(featureToggleApi.getApp())
                 .get('/api/features?key=feature-1')
                 .end((err, res) => {
@@ -168,7 +168,7 @@ describe('/api/features', () => {
             featureToggleApi = new FeatureToggleApi(express(), 3000);
         });
 
-        it('should return with status code 200', (done: () => void) => {
+        it('should return', (done: () => void) => {
             request(featureToggleApi.getApp())
                 .post('/api/features')
                 .send({
@@ -196,7 +196,7 @@ describe('/api/features', () => {
             featureToggleApi = new FeatureToggleApi(express(), 3000);
         });
 
-        it('should return with status code 200', (done: () => void) => {
+        it('should return', (done: () => void) => {
             request(featureToggleApi.getApp())
                 .put('/api/features/toggle')
                 .send({
@@ -221,7 +221,7 @@ describe('/api/features', () => {
             featureToggleApi = new FeatureToggleApi(express(), 3000);
         });
 
-        it('should return with status code 200', (done: () => void) => {
+        it('should return', (done: () => void) => {
             request(featureToggleApi.getApp())
                 .post('/api/features/groups')
                 .send({
@@ -249,7 +249,7 @@ describe('/api/features', () => {
             featureToggleApi = new FeatureToggleApi(express(), 3000);
         });
 
-        it('should return with status code 200', (done: () => void) => {
+        it('should return', (done: () => void) => {
             request(featureToggleApi.getApp())
                 .delete('/api/features/groups')
                 .send({
