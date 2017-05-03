@@ -23,7 +23,16 @@ export class GroupsRouter {
     private router = express.Router();
 
     constructor() {
-        this.router.get('/', this.list);
+        this.router.get('/', (req, res, next) => {
+
+            if (req.query.key !== undefined) {
+
+                return this.find(req, res, next);
+
+            } else {
+                return this.list(req, res, next);
+            }
+        });
         this.router.post('/', this.create);
         this.router.post('/consumers', this.assignConsumers);
         this.router.delete('/consumers', this.deassignConsumers);
@@ -31,6 +40,17 @@ export class GroupsRouter {
 
     public GetRouter() {
         return this.router;
+    }
+
+    private find(req: Request, res: Response, next: () => void) {
+        co(function* () {
+            const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
+            const groupService = new GroupService(groupRepository);
+
+            const group: Group = yield groupService.find(req.query.key);
+
+            res.send(group);
+        });
     }
 
     private list(req: Request, res: Response, next: () => void) {

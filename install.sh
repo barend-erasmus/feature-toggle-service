@@ -21,7 +21,7 @@ npm install -g gulp
 
 # -- BUILD 'featue-toggle-db' project --
 
-docker run --name feature-toggle-db -d mongo
+docker run --name feature-toggle-db -v /opt/mongodb:/data/db -d mongo
 
 # -- BUILD 'feature-toggle-service' project --
 

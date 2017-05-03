@@ -195,9 +195,9 @@ export let swaggerDocument = {
             "required": true,
             "type": "array",
             "items": {
-                "type": "object",
-				        "$ref": "#/definitions/option"
-              }
+              "type": "object",
+              "$ref": "#/definitions/option"
+            }
           }
         ],
         "responses": {
@@ -231,8 +231,8 @@ export let swaggerDocument = {
             "required": true,
             "type": "array",
             "items": {
-                "$ref": "string"
-              }
+              "$ref": "string"
+            }
           }
         ],
         "responses": {
@@ -268,8 +268,8 @@ export let swaggerDocument = {
             "required": true,
             "type": "array",
             "items": {
-                "$ref": "string"
-              }
+              "$ref": "string"
+            }
           }
         ],
         "responses": {
@@ -303,8 +303,8 @@ export let swaggerDocument = {
             "required": true,
             "type": "array",
             "items": {
-                "$ref": "string"
-              }
+              "$ref": "string"
+            }
           }
         ],
         "responses": {
@@ -346,7 +346,7 @@ export let swaggerDocument = {
           "application/json",
         ],
         "parameters": [
-            {
+          {
             "name": "name",
             "in": "formData",
             "description": "Project Name",
@@ -375,12 +375,20 @@ export let swaggerDocument = {
     "/groups": {
       "get": {
         "tags": ["groups"],
-        "description": "List Groups",
-        "operationId": "groupList",
+        "description": "List Groups or Find Group",
+        "operationId": "groupListFin",
         "produces": [
           "application/json",
         ],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "query",
+            "description": "Group Key",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -401,7 +409,7 @@ export let swaggerDocument = {
           "application/json",
         ],
         "parameters": [
-            {
+          {
             "name": "name",
             "in": "formData",
             "description": "Group Name",
@@ -450,8 +458,8 @@ export let swaggerDocument = {
             "required": true,
             "type": "array",
             "items": {
-                "$ref": "string"
-              }
+              "$ref": "string"
+            }
           },
           {
             "name": "type",
@@ -492,8 +500,8 @@ export let swaggerDocument = {
             "required": true,
             "type": "array",
             "items": {
-                "$ref": "string"
-              }
+              "$ref": "string"
+            }
           },
           {
             "name": "type",
@@ -538,14 +546,14 @@ export let swaggerDocument = {
         "groups": {
           "type": "array",
           "items": {
-              "$ref": "#/definitions/featureGroup"
-           }
+            "$ref": "#/definitions/featureGroup"
+          }
         },
         "options": {
           "type": "array",
           "items": {
-              "$ref": "#/definitions/option"
-           }
+            "$ref": "#/definitions/option"
+          }
         },
         "associatedProject": {
           "type": "object",
@@ -614,8 +622,8 @@ export let swaggerDocument = {
         "consumers": {
           "type": "array",
           "items": {
-              "$ref": "#/definitions/consumer"
-           }
+            "$ref": "#/definitions/consumer"
+          }
         },
       }
     },

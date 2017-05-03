@@ -15,11 +15,15 @@ export class GroupService {
 
     }
 
+    public find(key: string): Promise<Group> {
+        return this.groupRepository.findByKey(key);
+    }
+
     public create(name: string, key: string): Promise<Group> {
 
         const self = this;
 
-        return co(function*() {
+        return co(function* () {
             const id = uuid.v4();
 
             const group: Group = yield self.groupRepository.findByKey(key);
@@ -47,7 +51,7 @@ export class GroupService {
     public assignConsumers(key: string, consumerIds: string[], type: string): Promise<boolean> {
         const self = this;
 
-        return co(function*(){
+        return co(function* () {
 
             const group: Group = yield self.groupRepository.findByKey(key);
 
@@ -74,7 +78,7 @@ export class GroupService {
     public deassignConsumers(key: string, consumerIds: string[], type: string): Promise<boolean> {
         const self = this;
 
-        return co(function*(){
+        return co(function* () {
 
             const group: Group = yield self.groupRepository.findByKey(key);
 

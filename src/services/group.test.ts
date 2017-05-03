@@ -16,6 +16,49 @@ import { Group } from './../models/group';
 
 describe('GroupService', () => {
 
+
+    describe('find', () => {
+
+        let createSpy: sinon.SinonSpy = null;
+        let groupService: GroupService = null;
+
+        beforeEach(() => {
+            const groupRepository = new MockGroupRepository();
+
+            createSpy = sinon.spy(groupRepository, 'create');
+
+            sinon.stub(groupRepository, 'findByKey').callsFake((key: string) => {
+                if (key === 'group-2') {
+                    return Promise.resolve(new Group('group-2', 'Group2', null, null));
+                } else {
+                    return Promise.resolve(null);
+                }
+            });
+
+            groupService = new GroupService(groupRepository);
+        });
+
+        it('should return null given key does not exist', () => {
+
+            return co(function*() {
+                const result: Group = yield groupService.find('group-1');
+
+                expect(result).to.be.null;
+            });
+        });
+
+        it('should return group given key does exist', () => {
+
+            return co(function*() {
+                const result: Group = yield groupService.find('group-2');
+
+                expect(result).to.be.not.null;
+            });
+        });
+
+
+    });
+
     describe('create', () => {
 
         let createSpy: sinon.SinonSpy = null;
