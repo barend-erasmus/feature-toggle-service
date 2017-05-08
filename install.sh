@@ -56,6 +56,8 @@ docker build --no-cache -t feature-toggle-service ./
 # Run docker as deamon
 docker run -d -p "$apiport":3000 --name feature-toggle-service -v /logs:/logs --link feature-toggle-db:mongo -t feature-toggle-service
 
+cd ~
+
 # -- BUILD 'feature-toggle-ui' project --
 
 # Clone 'feature-toggle-ui' repository
@@ -65,10 +67,10 @@ git clone https://github.com/barend-erasmus/feature-toggle-ui.git
 cd ./feature-toggle-ui
 
 # Replace domain
-sed -i -- "s/yourapidomain.com/$apidomain/g" ./src/environments/environment.prod.config
+sed -i -- "s/yourapidomain.com/$apidomain/g" ./src/environments/environment.prod.ts
 
 # Replace port
-sed -i -- "s/yourapiport.com/$apiport/g" ./src/environments/environment.prod.config
+sed -i -- "s/yourapiport.com/$apiport/g" ./src/environments/environment.prod.ts
 
 # Install node packages
 npm install
