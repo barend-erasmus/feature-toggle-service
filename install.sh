@@ -1,8 +1,10 @@
 # -- BUILD AND INSTALL 'feature-toggle' --
 
 # Declare varibles
-domain=$1
-port=$2
+apidomain=$1
+apiport=$2
+domain=$3
+port=$4
 
 # Update machine package indexes
 sudo apt-get update
@@ -32,10 +34,15 @@ git clone https://github.com/barend-erasmus/feature-toggle-service.git
 cd ./feature-toggle-service
 
 # Replace domain
+sed -i -- "s/yourapidomain.com/$apidomain/g" ./src/config.prod.ts
 sed -i -- "s/yourdomain.com/$domain/g" ./src/config.prod.ts
 
 # Replace port
-sed -i -- "s/localhost:3000/$domain:$port/g" ./src/swagger.json.ts
+sed -i -- "s/yourapiport/$apiport/g" ./src/config.prod.ts
+sed -i -- "s/yourport/$port/g" ./src/config.prod.ts
+
+# Replace port
+sed -i -- "s/localhost:3000/$apidomain:$apiport/g" ./src/swagger.json.ts
 
 # Install node packages
 npm install
@@ -46,8 +53,31 @@ npm run build
 # Build docker image
 docker build --no-cache -t feature-toggle-service ./
 
-# Stop docker container
-docker stop feature-toggle-service
+# Run docker as deamon
+docker run -d -p "$apiport":3000 --name feature-toggle-service -v /logs:/logs --link feature-toggle-db:mongo -t feature-toggle-service
+
+# -- BUILD 'feature-toggle-ui' project --
+
+# Clone 'feature-toggle-ui' repository
+git clone https://github.com/barend-erasmus/feature-toggle-ui.git
+
+# Change to cloned directory
+cd ./feature-toggle-ui
+
+# Replace domain
+sed -i -- "s/yourapidomain.com/$apidomain/g" ./src/environments/environment.prod.config
+
+# Replace port
+sed -i -- "s/yourapiport.com/$apiport/g" ./src/environments/environment.prod.config
+
+# Install node packages
+npm install
+
+# Build project
+npm run build
+
+# Build docker image
+docker build --no-cache -t feature-toggle-ui ./
 
 # Run docker as deamon
-docker run -d -p "$port":3000 --name feature-toggle-service -v /logs:/logs --link feature-toggle-db:mongo -t feature-toggle-service
+docker run -d -p "$port":4200 --name feature-toggle-ui -t feature-toggle-ui

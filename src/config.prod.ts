@@ -1,7 +1,9 @@
 export let config = {
-    baseUri: 'http://yourdomain.com',
+    baseUri: 'http://yourapidomain.com',
+    port: 'yourapiport',
     web: {
         uri: 'http://yourdomain.com',
+        port: 'yourport'
     },
     logging: {
         enabled: false,

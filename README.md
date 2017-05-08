@@ -23,4 +23,4 @@ Browse `http://localhost:3000/api`
 
 ## Installing for production
 
-`curl -s https://raw.githubusercontent.com/barend-erasmus/feature-toggle-service/master/install.sh | bash -s "yourdomain.com" 8080`
+`curl -s https://raw.githubusercontent.com/barend-erasmus/feature-toggle-service/master/install.sh | bash -s "yourapidomain.com" yourapiport "yourdomain.com" yourport`
