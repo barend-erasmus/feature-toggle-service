@@ -70,7 +70,7 @@ cd ./feature-toggle-ui
 sed -i -- "s/yourapidomain.com/$apidomain/g" ./src/environments/environment.prod.ts
 
 # Replace port
-sed -i -- "s/yourapiport.com/$apiport/g" ./src/environments/environment.prod.ts
+sed -i -- "s/yourapiport/$apiport/g" ./src/environments/environment.prod.ts
 
 # Install node packages
 npm install
