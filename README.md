@@ -1,5 +1,7 @@
 # feature-toggle-service
 
+![](http://jenkins.developersworkspace.co.za:8080/job/feature-toggle-service-nightly/badge/icon)
+
 ## Getting Started
 
 Clone the repository
