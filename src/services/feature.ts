@@ -12,8 +12,8 @@ import { AssociatedProject } from './../models/associated-project';
 import { Feature } from './../models/feature';
 import { FeatureGroup } from './../models/feature-group';
 import { Group } from './../models/group';
-import { Project } from './../models/project';
 import { Option } from './../models/option';
+import { Project } from './../models/project';
 
 export class FeatureService {
 

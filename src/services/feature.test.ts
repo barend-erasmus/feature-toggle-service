@@ -109,7 +109,7 @@ describe('FeatureService', () => {
 
         it('should return null given feature key does exist', () => {
 
-            return co(function* () {
+            return co(function*() {
                 const result: Feature = yield featureService.create('feature2', 'feature-2', 'normal', 'project-1');
 
                 expect(result).to.be.null;
