@@ -15,8 +15,8 @@ import { MockProjectRepository } from './../repositories/mock/project';
 // Imports domain models
 import { Feature } from './../models/feature';
 import { FeatureGroup } from './../models/feature-group';
-import { Project } from './../models/project';
 import { Option } from './../models/option';
+import { Project } from './../models/project';
 
 describe('FeatureService', () => {
 
@@ -38,10 +38,10 @@ describe('FeatureService', () => {
             });
 
             sinon.stub(featureRepository, 'list').callsFake(() => {
-                    return Promise.resolve([
-                        new Feature('feature-1', 'Feature1', null, null, null, null, null),
-                        new Feature('feature-5', 'Feature5', null, null, null, null, null),
-                    ]);
+                return Promise.resolve([
+                    new Feature('feature-1', 'Feature1', null, null, null, null, null),
+                    new Feature('feature-5', 'Feature5', null, null, null, null, null),
+                ]);
             });
 
             featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
@@ -109,7 +109,7 @@ describe('FeatureService', () => {
 
         it('should return null given feature key does exist', () => {
 
-            return co(function*() {
+            return co(function* () {
                 const result: Feature = yield featureService.create('feature2', 'feature-2', 'normal', 'project-1');
 
                 expect(result).to.be.null;
@@ -340,7 +340,6 @@ describe('FeatureService', () => {
         });
     });
 
-
     describe('addOptions', () => {
 
         let updateSpy: sinon.SinonSpy = null;
@@ -368,7 +367,7 @@ describe('FeatureService', () => {
 
             return co(function*() {
                 const result: boolean = yield featureService.addOptions('feature-1', [
-                    new Option('option-1', 'option1', 'option1')
+                    new Option('option-1', 'option1', 'option1'),
                 ]);
 
                 expect(result).to.be.false;
@@ -378,8 +377,8 @@ describe('FeatureService', () => {
 
         it('should return false given null option', () => {
 
-            return co(function*() {
-               const result: boolean = yield featureService.addOptions('feature-1', [
+            return co(function*(){
+                const result: boolean = yield featureService.addOptions('feature-1', [
                     null
                 ]);
 
@@ -392,7 +391,7 @@ describe('FeatureService', () => {
 
             return co(function*() {
                 const result: boolean = yield featureService.addOptions('feature-2', [
-                    new Option('option-1', 'option1', 'option1')
+                    new Option('option-1', 'option1', 'option1'),
                 ]);
 
                 expect(result).to.be.true;
@@ -419,7 +418,7 @@ describe('FeatureService', () => {
 
             sinon.stub(featureRepository, 'findByKey').callsFake((key: string) => {
                 if (key === 'feature-2') {
-                    return Promise.resolve(new Feature('feature-2', 'feature2', null, null , null, null, [
+                    return Promise.resolve(new Feature('feature-2', 'feature2', null, null, null, null, [
                         new Option('option-1', 'option1', 'option1'),
                     ]));
                 } else {
