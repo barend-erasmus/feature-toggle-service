@@ -379,7 +379,7 @@ describe('FeatureService', () => {
 
             return co(function*(){
                 const result: boolean = yield featureService.addOptions('feature-1', [
-                    null
+                    null,
                 ]);
 
                 expect(result).to.be.false;
@@ -433,7 +433,7 @@ describe('FeatureService', () => {
 
             return co(function*() {
                 const result: boolean = yield featureService.removeOptions('feature-1', [
-                    'option-1'
+                    'option-1',
                 ]);
 
                 expect(result).to.be.false;
@@ -457,7 +457,7 @@ describe('FeatureService', () => {
 
             return co(function*() {
                 const result: boolean = yield featureService.removeOptions('feature-2', [
-                    'option-1'
+                    'option-1',
                 ]);
 
                 expect(result).to.be.true;
@@ -468,6 +468,6 @@ describe('FeatureService', () => {
                 expect(feature.options.length).to.be.eq(0);
             });
         });
-    })
+    });
 
 });
