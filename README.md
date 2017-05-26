@@ -28,4 +28,4 @@ Browse `http://localhost:3000/api`
 
 `docker build --no-cache -t feature-toggle-service ./`
 
-`docker run -d -p 8080:3000 --name feature-toggle-service -v /logs:/logs --link feature-toggle-db:mongo -t feature-toggle-service`
+`docker run -d -p 8080:3000 --name feature-toggle-service -v /logs:/logs -v /opt/feature-toggle-service:/opt/feature-toggle-service --link feature-toggle-db:mongo -t feature-toggle-service`
