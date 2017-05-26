@@ -12,8 +12,8 @@ import { AssociatedProject } from './../models/associated-project';
 import { Feature } from './../models/feature';
 import { FeatureGroup } from './../models/feature-group';
 import { Group } from './../models/group';
-import { Project } from './../models/project';
 import { Option } from './../models/option';
+import { Project } from './../models/project';
 
 export class FeatureService {
 
@@ -24,7 +24,7 @@ export class FeatureService {
     public enabled(key: string, consumerId: string, type: string): Promise<boolean> {
         const self = this;
 
-        return co(function* () {
+        return co(function*() {
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
@@ -65,7 +65,7 @@ export class FeatureService {
     public create(name: string, key: string, type: string, projectKey: string): Promise<Feature> {
         const self = this;
 
-        return co(function* () {
+        return co(function*() {
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
@@ -98,7 +98,7 @@ export class FeatureService {
     public toggle(key: string): Promise<boolean> {
         const self = this;
 
-        return co(function* () {
+        return co(function*() {
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
@@ -118,7 +118,7 @@ export class FeatureService {
 
         const self = this;
 
-        return co(function* () {
+        return co(function*() {
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
@@ -150,7 +150,7 @@ export class FeatureService {
     public deassignGroups(key: string, groupKeys: string[]): Promise<boolean> {
         const self = this;
 
-        return co(function* () {
+        return co(function*() {
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
@@ -182,7 +182,7 @@ export class FeatureService {
     public addOptions(key: string, options: Option[]): Promise<boolean> {
         const self = this;
 
-        return co(function* () {
+        return co(function*() {
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
@@ -214,7 +214,7 @@ export class FeatureService {
     public removeOptions(key: string, optionKeys: string[]): Promise<boolean> {
         const self = this;
 
-        return co(function* () {
+        return co(function*() {
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 

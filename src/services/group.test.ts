@@ -16,7 +16,6 @@ import { Group } from './../models/group';
 
 describe('GroupService', () => {
 
-
     describe('find', () => {
 
         let createSpy: sinon.SinonSpy = null;
@@ -55,7 +54,6 @@ describe('GroupService', () => {
                 expect(result).to.be.not.null;
             });
         });
-
 
     });
 

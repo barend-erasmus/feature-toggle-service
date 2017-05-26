@@ -52,7 +52,7 @@ export class FeaturesRouter {
     }
 
     private enabled(req: Request, res: Response, next: () => void) {
-        co(function* () {
+        co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
@@ -70,7 +70,7 @@ export class FeaturesRouter {
     }
 
     private listByProjectKey(req: Request, res: Response, next: () => void) {
-        co(function* () {
+        co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
@@ -88,7 +88,7 @@ export class FeaturesRouter {
     }
 
     private list(req: Request, res: Response, next: () => void) {
-        co(function* () {
+        co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
@@ -106,7 +106,7 @@ export class FeaturesRouter {
     }
 
     private find(req: Request, res: Response, next: () => void) {
-        co(function* () {
+        co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
@@ -124,7 +124,7 @@ export class FeaturesRouter {
     }
 
     private create(req: Request, res: Response, next: () => void) {
-        co(function* () {
+        co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
@@ -137,7 +137,7 @@ export class FeaturesRouter {
     }
 
     private toggle(req: Request, res: Response, next: () => void) {
-        co(function* () {
+        co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
@@ -155,7 +155,7 @@ export class FeaturesRouter {
     }
 
     private assignGroups(req: Request, res: Response, next: () => void) {
-        co(function* () {
+        co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
@@ -177,7 +177,7 @@ export class FeaturesRouter {
     }
 
     private deassignGroups(req: Request, res: Response, next: () => void) {
-        co(function* () {
+        co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
@@ -199,7 +199,7 @@ export class FeaturesRouter {
     }
 
     private addOptions(req: Request, res: Response, next: () => void) {
-        co(function* () {
+        co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
@@ -217,7 +217,7 @@ export class FeaturesRouter {
     }
 
     private removeOptions(req: Request, res: Response, next: () => void) {
-        co(function* () {
+        co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);

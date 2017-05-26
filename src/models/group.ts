@@ -2,7 +2,11 @@
 import { Consumer } from './../models/consumer';
 
 export class Group {
-    constructor(public key: string, public name: string, public consumers: Consumer[], public createdTimestamp: number) {
+    constructor(
+        public key: string,
+        public name: string,
+        public consumers: Consumer[],
+        public createdTimestamp: number) {
 
     }
 
@@ -13,7 +17,7 @@ export class Group {
         return true;
     }
 
-     public deassignConsumer(consumer: Consumer): boolean {
+    public deassignConsumer(consumer: Consumer): boolean {
 
         const index = this.consumers.findIndex((x) => x.id === consumer.id && x.type === consumer.type);
 
