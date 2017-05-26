@@ -20,7 +20,10 @@ Start project
 
 Browse `http://localhost:3000/api`
 
+## Docker Setup
 
-## Installing for production
+`docker run --name feature-toggle-db -v /opt/feature-toggle-service/mongodb:/data/db -d mongo`
 
-`curl -s https://raw.githubusercontent.com/barend-erasmus/feature-toggle-service/master/install.sh | bash -s "yourapidomain.com" yourapiport "yourdomain.com" yourport`
+`docker build --no-cache -t feature-toggle-service ./`
+
+`docker run -d -p 8080:3000 --name feature-toggle-service -v /logs:/logs --link feature-toggle-db:mongo -t feature-toggle-service`
