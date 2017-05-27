@@ -107,7 +107,28 @@ gulp.task('publish:dockerfile', function () {
         .pipe(gulpSSH.dest(argv.dest));
 });
 
-gulp.task('deploy:dockerfile', function (done) {
+gulp.task('docker:stop', function (done) {
+    var ssh = new node_ssh();
+
+    ssh.connect({
+        host: argv.host,
+        username: argv.username,
+        password: argv.password
+    }).then(function () {
+        ssh.execCommand('docker stop feature-toggle-service').then(function (result) {
+            return ssh.execCommand('docker rm feature-toggle-service');
+        }).then(function (result) {
+            ssh.dispose();
+            done();
+        }).catch(function (err) {
+            console.log(err);
+        });
+    }).catch(function (err) {
+        console.log(err);
+    });
+});
+
+gulp.task('docker:build', function (done) {
     var ssh = new node_ssh();
 
     ssh.connect({
@@ -122,8 +143,25 @@ gulp.task('deploy:dockerfile', function (done) {
         }).then(function (result) {
             return ssh.execCommand('docker run -d -p 8080:3000 --name feature-toggle-service -v /logs:/logs -v /opt/feature-toggle-service:/opt/feature-toggle-service --link feature-toggle-db:mongo -t feature-toggle-service');
         }).then(function (result) {
-            return ssh.execCommand('docker start feature-toggle-service');
-        }).then(function (result) {
+            ssh.dispose();
+            done();
+        }).catch(function (err) {
+            console.log(err);
+        });
+    }).catch(function (err) {
+        console.log(err);
+    });
+});
+
+gulp.task('docker:start', function (done) {
+    var ssh = new node_ssh();
+
+    ssh.connect({
+        host: argv.host,
+        username: argv.username,
+        password: argv.password
+    }).then(function () {
+        ssh.execCommand('docker start feature-toggle-service').then(function (result) {
             ssh.dispose();
             done();
         }).catch(function (err) {
