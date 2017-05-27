@@ -77,15 +77,14 @@ gulp.task('publish:modules', function (done) {
         username: argv.username,
         password: argv.password
     }).then(function () {
-        ssh.execCommand('npm install', { cwd: '/opt/feature-toggle-service'}).then(function (result) {
+        ssh.execCommand('npm install', { cwd: `/opt/${argv.service}`}).then(function (result) {
             ssh.dispose();
-            console.log(result);
             done();
         }).catch(function (err) {
-            console.log(err);
+            done(err);
         });
     }).catch(function (err) {
-        console.log(err);
+        done(err);
     });
 });
 
@@ -121,10 +120,10 @@ gulp.task('docker:stop', function (done) {
             ssh.dispose();
             done();
         }).catch(function (err) {
-            console.log(err);
+            done(err);
         });
     }).catch(function (err) {
-        console.log(err);
+        done(err);
     });
 });
 
@@ -136,20 +135,20 @@ gulp.task('docker:build', function (done) {
         username: argv.username,
         password: argv.password
     }).then(function () {
-        ssh.execCommand('docker stop feature-toggle-service').then(function (result) {
-            return ssh.execCommand('docker rm feature-toggle-service');
+        ssh.execCommand(`docker stop ${argv.service}`).then(function (result) {
+            return ssh.execCommand(`docker rm ${argv.service}`);
         }).then(function (result) {
-            return ssh.execCommand('docker build --no-cache -t feature-toggle-service /opt/feature-toggle-service');
+            return ssh.execCommand(`docker build --no-cache -t ${argv.service} /opt/${argv.service}`);
         }).then(function (result) {
-            return ssh.execCommand('docker run -d -p 8080:3000 --name feature-toggle-service -v /logs:/logs -v /opt/feature-toggle-service:/opt/feature-toggle-service --link feature-toggle-db:mongo -t feature-toggle-service');
+            return ssh.execCommand(`docker run -d -p 8080:3000 --name ${argv.service} -v /logs:/logs -v /opt/${argv.service}:/opt/${argv.service} --link feature-toggle-db:mongo -t ${argv.service}`);
         }).then(function (result) {
             ssh.dispose();
             done();
         }).catch(function (err) {
-            console.log(err);
+            done(err);
         });
     }).catch(function (err) {
-        console.log(err);
+        done(err);
     });
 });
 
@@ -161,13 +160,13 @@ gulp.task('docker:start', function (done) {
         username: argv.username,
         password: argv.password
     }).then(function () {
-        ssh.execCommand('docker start feature-toggle-service').then(function (result) {
+        ssh.execCommand(`docker start ${argv.service}`).then(function (result) {
             ssh.dispose();
             done();
         }).catch(function (err) {
-            console.log(err);
+            done(err);
         });
     }).catch(function (err) {
-        console.log(err);
+        done(err);
     });
 });
