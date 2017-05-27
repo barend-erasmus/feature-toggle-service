@@ -48,7 +48,7 @@ gulp.task('build:dev', function (done) {
     sequence('clean', 'compile:ts', 'copy:package.json', done);
 });
 
-gulp.task('publish', function () {
+gulp.task('publish:source', function () {
     var config = {
         host: argv.host,
         port: 22,
@@ -64,4 +64,22 @@ gulp.task('publish', function () {
     return gulp
         .src(['./dist/**'])
         .pipe(gulpSSH.dest(argv.dest));
-})
+});
+
+gulp.task('publish:dockerfile', function () {
+    var config = {
+        host: argv.host,
+        port: 22,
+        username: argv.username,
+        password: argv.password
+    };
+
+    var gulpSSH = new GulpSSH({
+        ignoreErrors: false,
+        sshConfig: config
+    });
+
+    return gulp
+        .src(['./Dockerfile'])
+        .pipe(gulpSSH.dest(argv.dest));
+});
