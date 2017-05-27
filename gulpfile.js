@@ -97,7 +97,7 @@ gulp.task('publish:dockerfile', function () {
         sshConfig: config
     });
 
-    return gulp
+    return gulpSSH
         .src(['./Dockerfile'])
         .pipe(gulpSSH.dest(argv.dest));
 });
