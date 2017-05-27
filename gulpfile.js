@@ -82,10 +82,12 @@ gulp.task('publish:modules', function (done) {
         host: argv.host,
         username: argv.username,
         password: argv.password
-    });
-
-    ssh.execCommand('npm --prefix /opt/feature-toggle-service install').then(function (result) {
-        done();
+    }).then(function () {
+        ssh.execCommand('npm --prefix /opt/feature-toggle-service install').then(function (result) {
+            done();
+        }).catch(function (err) {
+            console.log(err);
+        });
     }).catch(function (err) {
         console.log(err);
     });
