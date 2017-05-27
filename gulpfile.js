@@ -63,7 +63,7 @@ gulp.task('publish:source', function () {
     });
 
     return gulp
-        .src(['./dist/**', './node_modules/**'])
+        .src(['./dist/**'])
         .pipe(gulpSSH.dest(argv.dest));
 });
 
