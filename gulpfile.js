@@ -81,8 +81,7 @@ gulp.task('publish:modules', function () {
     });
 
     return gulp
-        .src(['./node_modules/**'])
-        .pipe(gulpSSH.dest(argv.dest));
+        .exe(['npm install /opt/feature-toggle-service']);
 });
 
 gulp.task('publish:dockerfile', function () {
