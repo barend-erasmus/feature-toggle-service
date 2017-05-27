@@ -50,10 +50,10 @@ gulp.task('build:dev', function (done) {
 
 gulp.task('publish', function () {
     var config = {
-        host: '178.62.117.241',
+        host: argv.host,
         port: 22,
-        username: 'root',
-        password: 'MidericK96'
+        username: argv.username,
+        password: argv.password
     };
 
     var gulpSSH = new GulpSSH({
@@ -63,5 +63,5 @@ gulp.task('publish', function () {
 
     return gulp
         .src(['./dist/**'])
-        .pipe(gulpSSH.dest('/opt/feature-toggle-service'));
+        .pipe(gulpSSH.dest(argv.dest));
 })
