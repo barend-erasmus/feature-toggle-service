@@ -77,7 +77,7 @@ gulp.task('publish:modules', function (done) {
         username: argv.username,
         password: argv.password
     }).then(function () {
-        ssh.execCommand('npm --prefix /opt/feature-toggle-service install').then(function (result) {
+        ssh.execCommand('npm install', { cwd: '/opt/feature-toggle-service'}).then(function (result) {
             ssh.dispose();
             console.log(result);
             done();
