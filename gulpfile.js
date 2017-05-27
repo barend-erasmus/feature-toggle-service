@@ -3,7 +3,9 @@ var gulp = require('gulp');
 var clean = require('gulp-clean');
 var ts = require('gulp-typescript');
 var rename = require("gulp-rename");
+var GulpSSH = require('gulp-ssh');
 var sequence = require('run-sequence');
+var argv = require('yargs').argv;
 
 // Compiles typescript files
 gulp.task('compile:ts', function () {
@@ -45,3 +47,21 @@ gulp.task('build', function (done) {
 gulp.task('build:dev', function (done) {
     sequence('clean', 'compile:ts', 'copy:package.json', done);
 });
+
+gulp.task('publish', function () {
+    var config = {
+        host: '178.62.117.241',
+        port: 22,
+        username: 'root',
+        password: 'MidericK96'
+    };
+
+    var gulpSSH = new GulpSSH({
+        ignoreErrors: false,
+        sshConfig: config
+    });
+
+    return gulp
+        .src(['./dist/**'])
+        .pipe(gulpSSH.dest('/opt/feature-toggle-service'));
+})
