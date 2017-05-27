@@ -7,6 +7,7 @@ var GulpSSH = require('gulp-ssh');
 var sequence = require('run-sequence');
 var argv = require('yargs').argv;
 var merge = require('merge-stream');
+var node_ssh = require('node-ssh')
 
 // Compiles typescript files
 gulp.task('compile:ts', function () {
@@ -67,7 +68,7 @@ gulp.task('publish:source', function () {
         .pipe(gulpSSH.dest(argv.dest));
 });
 
-gulp.task('publish:modules', function () {
+gulp.task('publish:modules', function (done) {
     var config = {
         host: argv.host,
         port: 22,
@@ -75,13 +76,17 @@ gulp.task('publish:modules', function () {
         password: argv.password
     };
 
-    var gulpSSH = new GulpSSH({
-        ignoreErrors: false,
-        sshConfig: config
+    var ssh = new node_ssh();
+
+    ssh.connect({
+        host: argv.host,
+        username: argv.username,
+        password: argv.password
     });
 
-    return gulpSSH
-        .exec(['npm --prefix /opt/feature-toggle-service install']);
+    ssh.execCommand('npm --prefix /opt/feature-toggle-service install').then(function (result) {
+        done();
+    });
 });
 
 gulp.task('publish:dockerfile', function () {
