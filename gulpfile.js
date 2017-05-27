@@ -80,7 +80,7 @@ gulp.task('publish:modules', function () {
         sshConfig: config
     });
 
-    return gulp
+    return gulpSSH
         .exec(['npm install /opt/feature-toggle-service']);
 });
 
@@ -97,7 +97,7 @@ gulp.task('publish:dockerfile', function () {
         sshConfig: config
     });
 
-    return gulpSSH
+    return gulp
         .src(['./Dockerfile'])
         .pipe(gulpSSH.dest(argv.dest));
 });
