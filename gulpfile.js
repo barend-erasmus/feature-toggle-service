@@ -115,6 +115,12 @@ gulp.task('deploy:dockerfile', function (done) {
         password: argv.password
     }).then(function () {
         ssh.execCommand('docker stop feature-toggle-service').then(function (result) {
+            return ssh.execCommand('docker rm feature-toggle-service');
+        }).then(function (result) {
+            return ssh.execCommand('docker build --no-cache -t feature-toggle-service /opt/feature-toggle-service');
+        }).then(function (result) {
+            return ssh.execCommand('docker run -d -p 8080:3000 --name feature-toggle-service -v /logs:/logs -v /opt/feature-toggle-service:/opt/feature-toggle-service --link feature-toggle-db:mongo -t feature-toggle-service');
+        }).then(function (result) {
             return ssh.execCommand('docker start feature-toggle-service');
         }).then(function (result) {
             ssh.dispose();
