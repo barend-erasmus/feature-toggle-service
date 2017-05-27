@@ -78,6 +78,7 @@ gulp.task('publish:modules', function (done) {
         password: argv.password
     }).then(function () {
         ssh.execCommand('npm --prefix /opt/feature-toggle-service install').then(function (result) {
+            ssh.dispose();
             done();
         }).catch(function (err) {
             console.log(err);
@@ -116,7 +117,7 @@ gulp.task('deploy:dockerfile', function (done) {
         ssh.execCommand('docker stop feature-toggle-service').then(function (result) {
             return ssh.execCommand('docker start feature-toggle-service');
         }).then(function (result) {
-            console.log(result);
+            ssh.dispose();
             done();
         }).catch(function (err) {
             console.log(err);
