@@ -6,6 +6,7 @@ var rename = require("gulp-rename");
 var GulpSSH = require('gulp-ssh');
 var sequence = require('run-sequence');
 var argv = require('yargs').argv;
+var merge = require('merge-stream');
 
 // Compiles typescript files
 gulp.task('compile:ts', function () {
@@ -82,4 +83,32 @@ gulp.task('publish:dockerfile', function () {
     return gulp
         .src(['./Dockerfile'])
         .pipe(gulpSSH.dest(argv.dest));
+});
+
+gulp.task('deploy:dockerfile', function () {
+    var config = {
+        host: argv.host,
+        port: 22,
+        username: argv.username,
+        password: argv.password
+    };
+
+    var gulpSSH = new GulpSSH({
+        ignoreErrors: false,
+        sshConfig: config
+    });
+
+    var t1 = gulp
+        .exec('docker stop feature-toggle-db');
+
+    var t2 = gulp
+        .exec('docker run --name feature-toggle-db -v /opt/feature-toggle-service/mongodb:/data/db -d mongo');
+
+    var t3 = gulp
+        .exec('docker build --no-cache -t feature-toggle-service /docker-uploads/feature-toggle-service');
+
+    var t4 = gulp
+        .exec('docker run -d -p 8080:3000 --name feature-toggle-service -v /logs:/logs -v /opt/feature-toggle-service:/opt/feature-toggle-service --link feature-toggle-db:mongo -t feature-toggle-service');
+    
+    return merge(t1, t2, t3, t4);
 });
