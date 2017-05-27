@@ -69,12 +69,6 @@ gulp.task('publish:source', function () {
 });
 
 gulp.task('publish:modules', function (done) {
-    var config = {
-        host: argv.host,
-        port: 22,
-        username: argv.username,
-        password: argv.password
-    };
 
     var ssh = new node_ssh();
 
@@ -111,24 +105,23 @@ gulp.task('publish:dockerfile', function () {
         .pipe(gulpSSH.dest(argv.dest));
 });
 
-gulp.task('deploy:dockerfile', function () {
-    var config = {
+gulp.task('deploy:dockerfile', function (done) {
+    var ssh = new node_ssh();
+
+    ssh.connect({
         host: argv.host,
-        port: 22,
         username: argv.username,
         password: argv.password
-    };
-
-    var gulpSSH = new GulpSSH({
-        ignoreErrors: false,
-        sshConfig: config
+    }).then(function () {
+        ssh.execCommand('docker stop feature-toggle-service').then(function (result) {
+            return ssh.execCommand('docker start feature-toggle-service');
+        }).then(function (result) {
+            console.log(result);
+            done();
+        }).catch(function (err) {
+            console.log(err);
+        });
+    }).catch(function (err) {
+        console.log(err);
     });
-
-    var t1 = gulpSSH
-        .exec('docker stop feature-toggle-service');
-
-    var t2 = gulpSSH
-        .exec('docker start feature-toggle-service');
-
-    return merge(t1, t2);
 });
