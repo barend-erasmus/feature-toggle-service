@@ -67,6 +67,24 @@ gulp.task('publish:source', function () {
         .pipe(gulpSSH.dest(argv.dest));
 });
 
+gulp.task('publish:modules', function () {
+    var config = {
+        host: argv.host,
+        port: 22,
+        username: argv.username,
+        password: argv.password
+    };
+
+    var gulpSSH = new GulpSSH({
+        ignoreErrors: false,
+        sshConfig: config
+    });
+
+    return gulp
+        .src(['./node_modules/**'])
+        .pipe(gulpSSH.dest(argv.dest));
+});
+
 gulp.task('publish:dockerfile', function () {
     var config = {
         host: argv.host,
@@ -94,21 +112,15 @@ gulp.task('deploy:dockerfile', function () {
     };
 
     var gulpSSH = new GulpSSH({
-        ignoreErrors: true,
+        ignoreErrors: false,
         sshConfig: config
     });
 
     var t1 = gulpSSH
-        .exec('docker stop feature-toggle-db');
+        .exec('docker stop feature-toggle-service');
 
     var t2 = gulpSSH
-        .exec('docker run --name feature-toggle-db -v /opt/feature-toggle-service/mongodb:/data/db -d mongo');
+        .exec('docker start feature-toggle-service');
 
-    var t3 = gulpSSH
-        .exec('docker build --no-cache -t feature-toggle-service /docker-uploads/feature-toggle-service');
-
-    var t4 = gulpSSH
-        .exec('docker run -d -p 8080:3000 --name feature-toggle-service -v /logs:/logs -v /opt/feature-toggle-service:/opt/feature-toggle-service --link feature-toggle-db:mongo -t feature-toggle-service');
-
-    return merge(t1, t2, t3, t4);
+    return merge(t1, t2);
 });
