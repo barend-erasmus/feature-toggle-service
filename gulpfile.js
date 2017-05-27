@@ -114,8 +114,8 @@ gulp.task('docker:stop', function (done) {
         username: argv.username,
         password: argv.password
     }).then(function () {
-        ssh.execCommand('docker stop feature-toggle-service').then(function (result) {
-            return ssh.execCommand('docker rm feature-toggle-service');
+        ssh.execCommand(`docker stop ${argv.service}`).then(function (result) {
+            return ssh.execCommand(`docker rm ${argv.service}`);
         }).then(function (result) {
             ssh.dispose();
             done();
@@ -135,11 +135,7 @@ gulp.task('docker:build', function (done) {
         username: argv.username,
         password: argv.password
     }).then(function () {
-        ssh.execCommand(`docker stop ${argv.service}`).then(function (result) {
-            return ssh.execCommand(`docker rm ${argv.service}`);
-        }).then(function (result) {
-            return ssh.execCommand(`docker build --no-cache -t ${argv.service} /opt/${argv.service}`);
-        }).then(function (result) {
+        ssh.execCommand(`docker build --no-cache -t ${argv.service} /opt/${argv.service}`).then(function (result) {
             return ssh.execCommand(`docker run -d -p 8080:3000 --name ${argv.service} -v /logs:/logs -v /opt/${argv.service}:/opt/${argv.service} --link feature-toggle-db:mongo -t ${argv.service}`);
         }).then(function (result) {
             ssh.dispose();
