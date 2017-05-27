@@ -63,7 +63,7 @@ gulp.task('publish:source', function () {
     });
 
     return gulp
-        .src(['./dist/**'])
+        .src(['./dist/**', './node_modules/**'])
         .pipe(gulpSSH.dest(argv.dest));
 });
 
@@ -94,7 +94,7 @@ gulp.task('deploy:dockerfile', function () {
     };
 
     var gulpSSH = new GulpSSH({
-        ignoreErrors: false,
+        ignoreErrors: true,
         sshConfig: config
     });
 
@@ -109,6 +109,6 @@ gulp.task('deploy:dockerfile', function () {
 
     var t4 = gulpSSH
         .exec('docker run -d -p 8080:3000 --name feature-toggle-service -v /logs:/logs -v /opt/feature-toggle-service:/opt/feature-toggle-service --link feature-toggle-db:mongo -t feature-toggle-service');
-    
+
     return merge(t1, t2, t3, t4);
 });
