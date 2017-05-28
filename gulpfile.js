@@ -136,8 +136,10 @@ gulp.task('docker:build', function (done) {
         password: argv.password
     }).then(function () {
         ssh.execCommand(`docker build --no-cache -t ${argv.service} /docker-uploads/${argv.service}`).then(function (result) {
-            return ssh.execCommand(`docker run -d -p 8080:3000 --name ${argv.service} --link feature-toggle-db:mongo -t ${argv.service}`);
+            console.log(result);
+            return ssh.execCommand(`docker run -d -p 8080:3000 --name ${argv.service} -v /logs:/logs -v /opt/${argv.service}:/opt/${argv.service}  --link feature-toggle-db:mongo -t ${argv.service}`);
         }).then(function (result) {
+            console.log(result);
             ssh.dispose();
             done();
         }).catch(function (err) {
