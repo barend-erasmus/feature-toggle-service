@@ -15,7 +15,6 @@ transportsArr = [
   }),
 ];
 
-
 const logger = new (winston.Logger)({
   transports: transportsArr,
 });
