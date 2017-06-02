@@ -26,7 +26,7 @@ describe('/api/projects', () => {
             request(featureToggleApi.getApp())
                 .get('/api/projects')
                 .end((err, res) => {
-                    if (err) { throw err };
+                    if (err) { throw err; }
 
                     expect(res.status).to.be.not.eq(404);
                     expect(res.status).to.be.not.eq(500);
@@ -52,7 +52,7 @@ describe('/api/projects', () => {
                     name: 'Project1',
                 })
                 .end((err, res) => {
-                    if (err) { throw err };
+                    if (err) { throw err; }
 
                     expect(res.status).to.be.not.eq(404);
                     expect(res.status).to.be.not.eq(500);
@@ -77,7 +77,7 @@ describe('/api/groups', () => {
             request(featureToggleApi.getApp())
                 .get('/api/groups')
                 .end((err, res) => {
-                    if (err) { throw err };
+                    if (err) { throw err; }
 
                     expect(res.status).to.be.not.eq(404);
                     expect(res.status).to.be.not.eq(500);
@@ -103,7 +103,7 @@ describe('/api/groups', () => {
                     name: 'Group1',
                 })
                 .end((err, res) => {
-                    if (err) { throw err };
+                    if (err) { throw err; }
 
                     expect(res.status).to.be.not.eq(404);
                     expect(res.status).to.be.not.eq(500);
@@ -128,7 +128,7 @@ describe('/api/features', () => {
             request(featureToggleApi.getApp())
                 .get('/api/features?projectKey=project-1')
                 .end((err, res) => {
-                    if (err) { throw err };
+                    if (err) { throw err; }
 
                     expect(res.status).to.be.not.eq(404);
                     expect(res.status).to.be.not.eq(500);
@@ -150,7 +150,7 @@ describe('/api/features', () => {
             request(featureToggleApi.getApp())
                 .get('/api/features?key=feature-1')
                 .end((err, res) => {
-                    if (err) { throw err };
+                    if (err) { throw err; }
 
                     expect(res.status).to.be.not.eq(404);
                     expect(res.status).to.be.not.eq(500);
@@ -178,7 +178,7 @@ describe('/api/features', () => {
                     type: 'normal',
                 })
                 .end((err, res) => {
-                    if (err) { throw err };
+                    if (err) { throw err; }
 
                     expect(res.status).to.be.not.eq(404);
                     expect(res.status).to.be.not.eq(500);
@@ -203,7 +203,7 @@ describe('/api/features', () => {
                     key: 'feature-1',
                 })
                 .end((err, res) => {
-                    if (err) { throw err };
+                    if (err) { throw err; }
 
                     expect(res.status).to.be.not.eq(404);
                     expect(res.status).to.be.not.eq(500);
@@ -231,7 +231,7 @@ describe('/api/features', () => {
                     key: 'feature-1',
                 })
                 .end((err, res) => {
-                    if (err) { throw err };
+                    if (err) { throw err; }
 
                     expect(res.status).to.be.not.eq(404);
                     expect(res.status).to.be.not.eq(500);
@@ -259,7 +259,7 @@ describe('/api/features', () => {
                     key: 'feature-1',
                 })
                 .end((err, res) => {
-                    if (err) { throw err };
+                    if (err) { throw err; }
 
                     expect(res.status).to.be.not.eq(404);
                     expect(res.status).to.be.not.eq(500);
@@ -269,4 +269,3 @@ describe('/api/features', () => {
         });
     });
 });
-

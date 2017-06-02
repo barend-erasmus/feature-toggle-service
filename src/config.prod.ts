@@ -1,8 +1,8 @@
 export let config = {
-    logging: {
-        path: '/logs/'
-    },
     db: {
-        uri: 'mongodb://mongo:27017/featuretoggle'
+        uri: 'mongodb://mongo:27017/featuretoggle',
+    },
+    logging: {
+        path: '/logs/',
     },
 };
