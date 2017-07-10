@@ -67,7 +67,7 @@ export class FeatureToggleApi {
             winstonInstance: logger,
         }));
 
-        app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+        app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
     }
 
     private configureRoutes(app: express.Express) {

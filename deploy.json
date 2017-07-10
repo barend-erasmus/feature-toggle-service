@@ -16,7 +16,7 @@
         "docker rm feature-toggle-db",
         "docker build --no-cache -t feature-toggle-service /docker-uploads/feature-toggle-service",
         "docker run --name feature-toggle-db -v /opt/feature-toggle-service/mongodb:/data/db -d mongo",
-        "docker run -d -p 8080:3000 --name feature-toggle-service -v /logs:/logs -v /opt/feature-toggle-service:/opt/feature-toggle-service --link feature-toggle-db:mongo -t feature-toggle-service"
+        "docker run -d -p 8085:3000 --name feature-toggle-service -v /logs:/logs -v /opt/feature-toggle-service:/opt/feature-toggle-service --link feature-toggle-db:mongo -t feature-toggle-service"
     ],
     "directories": [
         {
