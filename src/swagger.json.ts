@@ -6,8 +6,8 @@ export let swaggerDocument = {
     "description": "",
     "termsOfService": "http://swagger.io/terms/",
   },
-  "host": "localhost:3000",
-  "basePath": "/api",
+  "host": "cpt.innovation.euromonitor.local",
+  "basePath": "/featuretoggleservice/api",
   "schemes": [
     "http"
   ],
