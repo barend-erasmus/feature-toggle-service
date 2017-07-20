@@ -1,6 +1,6 @@
 export let config = {
     db: {
-        uri: 'mongodb://mongo:27017/featuretoggle',
+        uri: 'mongodb://localhost:27017/feature-toggle-service',
     },
     logging: {
         path: '/logs/',

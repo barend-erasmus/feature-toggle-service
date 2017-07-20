@@ -21,8 +21,14 @@ import { logger } from './logger';
 // Imports factories
 import { RepositoryFactory } from './repositories/mongo/repository-factory';
 
-// Imports configurations
-import { config } from './config';
+// Import configurations
+let config = require('./config').config;
+
+const argv = require('yargs').argv;
+
+if (argv.prod) {
+    config = require('./config.prod').config;
+}
 
 export class FeatureToggleApi {
 
@@ -88,7 +94,7 @@ export class FeatureToggleApi {
     }
 }
 
-const port = process.env.PORT | 3000;
+const port = argv.port || 3000;
 
 FeatureToggleApi.repositoryFactory = new RepositoryFactory();
 const api = new FeatureToggleApi(express(), port);

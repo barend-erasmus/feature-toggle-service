@@ -9,25 +9,23 @@
         "curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -",
         "sudo apt-get install -y nodejs",
 
+        "npm install pm2 -g",
+
+        "mkdir /logs",
         "npm --prefix /opt/feature-toggle-service install",
-        "docker stop feature-toggle-service",
-        "docker rm feature-toggle-service",
-        "docker stop feature-toggle-db",
-        "docker rm feature-toggle-db",
-        "docker build --no-cache -t feature-toggle-service /docker-uploads/feature-toggle-service",
-        "docker run --name feature-toggle-db -v /opt/feature-toggle-service/mongodb:/data/db -d mongo",
-        "docker run -d -p 8085:3000 --name feature-toggle-service -v /logs:/logs -v /opt/feature-toggle-service:/opt/feature-toggle-service --link feature-toggle-db:mongo -t feature-toggle-service"
+        "pm2 stop feature-toggle-service",
+        "pm2 start /opt/feature-toggle-service/src/app.js --name feature-toggle-service -- --prod --port 8085"
     ],
     "directories": [
         {
-            "source": "$workspace/dist",
-            "destination": "/opt/feature-toggle-service"
+            "source": "$workspace/src",
+            "destination": "/opt/feature-toggle-service/src"
         }
     ],
     "files": [
         {
-            "source": "$workspace/Dockerfile",
-            "destination": "/docker-uploads/feature-toggle-service/Dockerfile"
+            "source": "$workspace/package.json",
+            "destination": "/opt/feature-toggle-service/package.json"
         }
     ]
 }
