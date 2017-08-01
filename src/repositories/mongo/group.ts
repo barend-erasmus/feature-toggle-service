@@ -39,11 +39,11 @@ export class GroupRepository implements IGroupRepository {
             const collection: mongo.Collection = db.collection('groups');
 
             const result: any = yield collection.insertOne({
+                consumers: group.consumers,
+                createdTimestamp: group.createdTimestamp,
                 key: group.key,
                 name: group.name,
-                consumers: group.consumers,
-                createdTimestamp: group.createdTimestamp
-,            });
+            });
 
             db.close();
 

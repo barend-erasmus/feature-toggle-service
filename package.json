@@ -5,7 +5,8 @@
   "scripts": {
     "start": "tsc & node ./src/app.js",
     "test": "tsc & mocha --timeout=5000 ./src/**/*.test.js",
-    "cover": "tsc & istanbul cover node_modules/mocha/bin/_mocha --root ./src ./src/**/*.test.js"
+    "coverage": "tsc & istanbul cover node_modules/mocha/bin/_mocha --root ./src ./src/**/*.test.js",
+    "tslint": "tslint --exclude ./src/*.json.ts ./src/**/*.ts"
   },
   "repository": {
     "type": "git",

@@ -1,5 +1,6 @@
 // Imports
 import express = require("express");
+import * as yargs from 'yargs';
 import { IRepositoryFactory } from './repositories/repository-factory';
 
 // Imports middleware
@@ -7,7 +8,7 @@ import bodyParser = require('body-parser');
 import * as cors from 'cors';
 import jwt = require('express-jwt');
 import expressWinston = require('express-winston');
-const swaggerUi = require('swagger-ui-express');
+import * as swaggerUi from 'swagger-ui-express';
 import { swaggerDocument } from './swagger.json';
 
 // Imports routes
@@ -21,14 +22,7 @@ import { logger } from './logger';
 // Imports factories
 import { RepositoryFactory } from './repositories/mongo/repository-factory';
 
-// Import configurations
-let config = require('./config').config;
-
-const argv = require('yargs').argv;
-
-if (argv.prod) {
-    config = require('./config.prod').config;
-}
+const argv = yargs.argv;
 
 export class FeatureToggleApi {
 
@@ -77,9 +71,46 @@ export class FeatureToggleApi {
     }
 
     private configureRoutes(app: express.Express) {
-        app.use("/api/projects", new ProjectsRouter().GetRouter());
-        app.use("/api/features", new FeaturesRouter().GetRouter());
-        app.use("/api/groups", new GroupsRouter().GetRouter());
+
+        app.get('/api/features', (req, res, next) => {
+
+            if (req.query.projectKey !== undefined) {
+
+                return FeaturesRouter.listByProjectKey(req, res, next);
+
+            } else if (req.query.key !== undefined) {
+
+                return FeaturesRouter.find(req, res, next);
+
+            } else {
+                return FeaturesRouter.list(req, res, next);
+            }
+        });
+
+        app.post('/api/features', FeaturesRouter.create);
+        app.put('/api/features/toggle', FeaturesRouter.toggle);
+        app.post('/api/features/groups', FeaturesRouter.assignGroups);
+        app.delete('/api/features/groups', FeaturesRouter.deassignGroups);
+        app.post('/api/features/options', FeaturesRouter.addOptions);
+        app.delete('/api/features/options', FeaturesRouter.removeOptions);
+        app.get('/api/features/enabled', FeaturesRouter.enabled);
+
+        app.get('/api/groups', (req, res, next) => {
+
+            if (req.query.key !== undefined) {
+
+                return GroupsRouter.find(req, res, next);
+
+            } else {
+                return GroupsRouter.list(req, res, next);
+            }
+        });
+        app.post('/api/groups', GroupsRouter.create);
+        app.post('/api/groups/consumers', GroupsRouter.assignConsumers);
+        app.delete('/api/groups/consumers', GroupsRouter.deassignConsumers);
+
+        app.get('/api/projects', ProjectsRouter.list);
+        app.post('/api/projects', ProjectsRouter.create);
     }
 
     private configureErrorHandling(app: express.Express) {
@@ -94,9 +125,7 @@ export class FeatureToggleApi {
     }
 }
 
-const port = argv.port || 3000;
-
 FeatureToggleApi.repositoryFactory = new RepositoryFactory();
-const api = new FeatureToggleApi(express(), port);
+const api = new FeatureToggleApi(express(), argv.port || 3000);
 api.run();
-logger.info(`Listening on ${port}`);
+logger.info(`listening on ${argv.port || 3000}`);

@@ -116,14 +116,14 @@ export class FeatureRepository implements IFeatureRepository {
             const collection: mongo.Collection = db.collection('features');
 
             const result = yield collection.insertOne({
+                createdTimestamp: feature.createdTimestamp,
+                enabled: feature.enabled,
                 groups: feature.groups,
                 key: feature.key,
                 name: feature.name,
+                options: feature.options,
                 projectKey: feature.associatedProject.key,
-                enabled: feature.enabled,
                 type: feature.type,
-                createdTimestamp: feature.createdTimestamp,
-                options: feature.options
             });
 
             db.close();
@@ -145,9 +145,9 @@ export class FeatureRepository implements IFeatureRepository {
                 key: feature.key,
             }, {
                     $set: {
-                        groups: feature.groups,
                         enabled: feature.enabled,
-                        options: feature.options
+                        groups: feature.groups,
+                        options: feature.options,
                     },
                 });
 

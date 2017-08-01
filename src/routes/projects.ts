@@ -2,18 +2,15 @@
 import * as co from 'co';
 import { Express, Request, Response } from "express";
 import * as express from 'express';
+import * as yargs from 'yargs';
 
 // Imports app
 import { FeatureToggleApi } from './../app';
 
-// Import configurations
-let config = require('./../config').config;
+const argv = yargs.argv;
 
-const argv = require('yargs').argv;
-
-if (argv.prod) {
-    config = require('./../config.prod').config;
-}
+// Imports logger
+import { logger } from './../logger';
 
 // Imports interfaces
 import { IRepositoryFactory } from './../repositories/repository-factory';
@@ -26,18 +23,7 @@ import { Project } from './../models/project';
 
 export class ProjectsRouter {
 
-    private router = express.Router();
-
-    constructor() {
-        this.router.get('/', this.list);
-        this.router.post('/', this.create);
-    }
-
-    public GetRouter() {
-        return this.router;
-    }
-
-    private list(req: Request, res: Response, next: () => void) {
+    public static list(req: Request, res: Response, next: () => void) {
         co(function*() {
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const projectService = new ProjectService(projectRepository);
@@ -50,10 +36,15 @@ export class ProjectsRouter {
             }
 
             res.send(projects);
+        }).catch((err: Error) => {
+            logger.error(err.message);
+            res.status(400).send({
+                message: err.message,
+            });
         });
     }
 
-    private create(req: Request, res: Response, next: () => void) {
+    public static create(req: Request, res: Response, next: () => void) {
          co(function*() {
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
             const projectService = new ProjectService(projectRepository);
@@ -66,6 +57,11 @@ export class ProjectsRouter {
             }
 
             res.send(project);
+        }).catch((err: Error) => {
+            logger.error(err.message);
+            res.status(400).send({
+                message: err.message,
+            });
         });
     }
 

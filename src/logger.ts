@@ -1,46 +1,19 @@
 // Imports
 import * as path from 'path';
 import * as winston from 'winston';
+import * as yargs from 'yargs';
 
-// Import configurations
-let config = require('./config').config;
-
-const argv = require('yargs').argv;
-
-if (argv.prod) {
-    config = require('./config.prod').config;
-}
-
-let transportsArr = [];
-
-transportsArr = [
-  new (winston.transports.Console)({ level: 'debug' }),
-  new (winston.transports.File)({
-    filename: path.join(config.logging.path, 'feature-toggle-service.log'),
-    level: 'debug',
-  }),
-];
+const argv = yargs.argv;
 
 const logger = new (winston.Logger)({
-  transports: transportsArr,
-});
-
-export function getLogger(name: string) {
-
-  let transportsNameArr = [];
-
-  transportsNameArr = [
+  transports: [
     new (winston.transports.Console)({ level: 'debug' }),
     new (winston.transports.File)({
-      filename: path.join(config.logging.path, `feature-toggle-service-${name}.log`),
+      filename: path.join(argv.prod ? '/logs/' : './', 'feature-toggle-service.log'),
       level: 'debug',
     }),
-  ];
-
-  return new (winston.Logger)({
-    transports: transportsNameArr,
-  });
-}
+  ],
+});
 
 // Exports
 export { logger };

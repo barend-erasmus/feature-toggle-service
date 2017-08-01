@@ -2,18 +2,15 @@
 import * as co from 'co';
 import { Express, Request, Response } from "express";
 import * as express from 'express';
+import * as yargs from 'yargs';
+
+// Imports logger
+import { logger } from './../logger';
 
 // Imports app
 import { FeatureToggleApi } from './../app';
 
-// Import configurations
-let config = require('./../config').config;
-
-const argv = require('yargs').argv;
-
-if (argv.prod) {
-    config = require('./../config.prod').config;
-}
+const argv = yargs.argv;
 
 // Imports interfaces
 import { IRepositoryFactory } from './../repositories/repository-factory';
@@ -26,38 +23,7 @@ import { Feature } from './../models/feature';
 
 export class FeaturesRouter {
 
-    private router = express.Router();
-
-    constructor() {
-        this.router.get('/', (req, res, next) => {
-
-            if (req.query.projectKey !== undefined) {
-
-                return this.listByProjectKey(req, res, next);
-
-            } else if (req.query.key !== undefined) {
-
-                return this.find(req, res, next);
-
-            } else {
-                return this.list(req, res, next);
-            }
-        });
-
-        this.router.post('/', this.create);
-        this.router.put('/toggle', this.toggle);
-        this.router.post('/groups', this.assignGroups);
-        this.router.delete('/groups', this.deassignGroups);
-        this.router.post('/options', this.addOptions);
-        this.router.delete('/options', this.removeOptions);
-        this.router.get('/enabled', this.enabled);
-    }
-
-    public GetRouter() {
-        return this.router;
-    }
-
-    private enabled(req: Request, res: Response, next: () => void) {
+    public static enabled(req: Request, res: Response, next: () => void) {
         co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
@@ -72,10 +38,15 @@ export class FeaturesRouter {
             }
 
             res.send(result);
+        }).catch((err: Error) => {
+            logger.error(err.message);
+            res.status(400).send({
+                message: err.message,
+            });
         });
     }
 
-    private listByProjectKey(req: Request, res: Response, next: () => void) {
+    public static listByProjectKey(req: Request, res: Response, next: () => void) {
         co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
@@ -90,10 +61,15 @@ export class FeaturesRouter {
             }
 
             res.send(features);
+        }).catch((err: Error) => {
+            logger.error(err.message);
+            res.status(400).send({
+                message: err.message,
+            });
         });
     }
 
-    private list(req: Request, res: Response, next: () => void) {
+    public static list(req: Request, res: Response, next: () => void) {
         co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
@@ -108,10 +84,15 @@ export class FeaturesRouter {
             }
 
             res.send(features);
+        }).catch((err: Error) => {
+            logger.error(err.message);
+            res.status(400).send({
+                message: err.message,
+            });
         });
     }
 
-    private find(req: Request, res: Response, next: () => void) {
+    public static find(req: Request, res: Response, next: () => void) {
         co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
@@ -126,10 +107,15 @@ export class FeaturesRouter {
             }
 
             res.send(feature);
+        }).catch((err: Error) => {
+            logger.error(err.message);
+            res.status(400).send({
+                message: err.message,
+            });
         });
     }
 
-    private create(req: Request, res: Response, next: () => void) {
+    public static create(req: Request, res: Response, next: () => void) {
         co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
@@ -139,10 +125,15 @@ export class FeaturesRouter {
             const feature: Feature = yield featureService.create(req.body.name, req.body.key, req.body.type, req.body.projectKey);
 
             res.send(feature);
+        }).catch((err: Error) => {
+            logger.error(err.message);
+            res.status(400).send({
+                message: err.message,
+            });
         });
     }
 
-    private toggle(req: Request, res: Response, next: () => void) {
+    public static toggle(req: Request, res: Response, next: () => void) {
         co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
@@ -157,10 +148,15 @@ export class FeaturesRouter {
             }
 
             res.send(feature);
+        }).catch((err: Error) => {
+            logger.error(err.message);
+            res.status(400).send({
+                message: err.message,
+            });
         });
     }
 
-    private assignGroups(req: Request, res: Response, next: () => void) {
+    public static assignGroups(req: Request, res: Response, next: () => void) {
         co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
@@ -179,10 +175,15 @@ export class FeaturesRouter {
             }
 
             res.send(success);
+        }).catch((err: Error) => {
+            logger.error(err.message);
+            res.status(400).send({
+                message: err.message,
+            });
         });
     }
 
-    private deassignGroups(req: Request, res: Response, next: () => void) {
+    public static deassignGroups(req: Request, res: Response, next: () => void) {
         co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
@@ -201,10 +202,15 @@ export class FeaturesRouter {
             }
 
             res.send(success);
+        }).catch((err: Error) => {
+            logger.error(err.message);
+            res.status(400).send({
+                message: err.message,
+            });
         });
     }
 
-    private addOptions(req: Request, res: Response, next: () => void) {
+    public static addOptions(req: Request, res: Response, next: () => void) {
         co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
@@ -219,10 +225,15 @@ export class FeaturesRouter {
             }
 
             res.send(success);
+        }).catch((err: Error) => {
+            logger.error(err.message);
+            res.status(400).send({
+                message: err.message,
+            });
         });
     }
 
-    private removeOptions(req: Request, res: Response, next: () => void) {
+    public static removeOptions(req: Request, res: Response, next: () => void) {
         co(function*() {
             const featureRepository = FeatureToggleApi.repositoryFactory.getInstanceOfFeatureRepository(null);
             const projectRepository = FeatureToggleApi.repositoryFactory.getInstanceOfProjectRepository(null);
@@ -241,6 +252,11 @@ export class FeaturesRouter {
             }
 
             res.send(success);
+        }).catch((err: Error) => {
+            logger.error(err.message);
+            res.status(400).send({
+                message: err.message,
+            });
         });
     }
 

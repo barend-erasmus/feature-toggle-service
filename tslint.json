@@ -4,8 +4,7 @@
   "rules": {
     "quotemark": "single",
     "max-line-length": 150,
-    "no-unused-expression": false,
-    "no-bitwise": false,
-    "no-var-requires": false
+    "space-before-function-paren": false,
+    "no-unused-expression": false
   }
 }
