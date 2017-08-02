@@ -1,6 +1,6 @@
 // Imports
 import * as co from 'co';
-import * as mongo from 'mongodb';
+import { DataStore } from './data-store';
 
 // Imports interfaces
 import { IProjectRepository } from './../project';
@@ -13,7 +13,7 @@ import { ProjectDto } from './../dto/project';
 
 export class ProjectRepository implements IProjectRepository {
 
-    constructor(private uri: string) {
+    constructor() {
 
     }
 
@@ -21,13 +21,7 @@ export class ProjectRepository implements IProjectRepository {
         const self = this;
 
         return co(function*() {
-            const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
-
-            const collection: mongo.Collection = db.collection('projects');
-
-            const projects: ProjectDto[] = yield collection.find({}).toArray();
-
-            db.close();
+            const projects: ProjectDto[] = DataStore.projects;
 
             return projects.map((x) => new Project(x.key, x.name, x.createdTimestamp));
         });
@@ -37,13 +31,7 @@ export class ProjectRepository implements IProjectRepository {
         const self = this;
 
         return co(function*() {
-            const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
-
-            const collection: mongo.Collection = db.collection('projects');
-
-            const result: any = yield collection.insertOne(new ProjectDto(project.key, project.name, project.createdTimestamp));
-
-            db.close();
+            DataStore.projects.push(new ProjectDto(project.key, project.name, project.createdTimestamp));
 
             return true;
         });
@@ -57,15 +45,7 @@ export class ProjectRepository implements IProjectRepository {
         const self = this;
 
         return co(function*() {
-            const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
-
-            const collection: mongo.Collection = db.collection('projects');
-
-            const project: ProjectDto = yield collection.findOne({
-                key,
-            });
-
-            db.close();
+            const project: ProjectDto = DataStore.projects.find((project) => project.key === project.key);
 
             if (!project) {
                 return null;

@@ -159,6 +159,13 @@ export let swaggerDocument = {
             "description": "Consumer Type",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "environmentKey",
+            "in": "formData",
+            "description": "Environment Key",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -270,6 +277,13 @@ export let swaggerDocument = {
             "items": {
               "$ref": "string"
             }
+          },
+          {
+            "name": "environmentKey",
+            "in": "formData",
+            "description": "Environment Key",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -305,6 +319,13 @@ export let swaggerDocument = {
             "items": {
               "$ref": "string"
             }
+          },
+          {
+            "name": "environmentKey",
+            "in": "formData",
+            "description": "Environment Key",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -543,16 +564,10 @@ export let swaggerDocument = {
         "enabled": {
           "type": "boolean"
         },
-        "groups": {
+        "environments": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/featureGroup"
-          }
-        },
-        "options": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/option"
+            "$ref": "#/definitions/environment"
           }
         },
         "associatedProject": {
@@ -625,6 +640,36 @@ export let swaggerDocument = {
             "$ref": "#/definitions/consumer"
           }
         },
+      }
+    },
+    "environment": {
+      "type": "object",
+      "required": [
+        "key",
+        "name"
+      ],
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/featureGroup"
+          }
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/option"
+          }
+        }
       }
     },
     "consumer": {

@@ -8,7 +8,7 @@ import * as sinon from 'sinon';
 import { ConsumerService } from './consumer';
 
 // Imports repositories
-import { MockConsumerRepository } from './../repositories/mock/consumer';
+import { ConsumerRepository } from './../repositories/memory/consumer';
 
 // Imports domain models
 import { Consumer } from './../models/consumer';
@@ -18,25 +18,13 @@ describe('ConsumerService', () => {
 
     describe('list', () => {
 
-        let consumerService: ConsumerService = null;
-
-        beforeEach(() => {
-            const consumerRepository = new MockConsumerRepository();
-
-            sinon.stub(consumerRepository, 'listByProjectKey').callsFake((projectKey: string) => {
-                if (projectKey === 'project-1') {
-                    return Promise.resolve([
-                        new Consumer('1', 'User1', null),
-                    ]);
-                }
-            });
-
-            consumerService = new ConsumerService(consumerRepository);
-        });
-
         it('should return list of users', () => {
 
-            return co(function*() {
+            return co(function* () {
+
+                const consumerRepository = new ConsumerRepository();
+                const consumerService = new ConsumerService(consumerRepository);
+
                 const result: Consumer[] = yield consumerService.list('project-1');
 
                 expect(result.length).to.be.eq(1);

@@ -16,14 +16,14 @@ const argv = yargs.argv;
 export class RepositoryFactory {
 
     public getInstanceOfProjectRepository(config: any): IProjectRepository {
-        return new ProjectRepository('mongodb://localhost:27017/feature-toggle-service');
+        return new ProjectRepository();
     }
 
     public getInstanceOfFeatureRepository(config: any): IFeatureRepository {
-        return new FeatureRepository('mongodb://localhost:27017/feature-toggle-service');
+        return new FeatureRepository();
     }
 
     public getInstanceOfGroupRepository(config: any): IGroupRepository {
-        return new GroupRepository('mongodb://localhost:27017/feature-toggle-service');
+        return new GroupRepository();
     }
 }

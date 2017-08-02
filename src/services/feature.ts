@@ -14,6 +14,7 @@ import { FeatureGroup } from './../models/feature-group';
 import { Group } from './../models/group';
 import { Option } from './../models/option';
 import { Project } from './../models/project';
+import { Environment } from './../models/environment';
 
 export class FeatureService {
 
@@ -21,25 +22,31 @@ export class FeatureService {
 
     }
 
-    public enabled(key: string, consumerId: string, type: string): Promise<boolean> {
+    public enabled(key: string, consumerId: string, environmentKey: string, type: string): Promise<boolean> {
         const self = this;
 
-        return co(function*() {
+        return co(function* () {
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
-            if (feature === null) {
-                return null;
+            if (!feature) {
+                return false;
             }
 
             if (feature.enabled === false) {
                 return false;
             }
 
-            for (const featureGroup of feature.groups) {
+            const environment: Environment = feature.environments.find((environment) => environment.key === environmentKey);
+
+            if (!environment) {
+                return false;
+            }
+
+            for (const featureGroup of environment.groups) {
                 const group: Group = yield self.groupRepository.findByKey(featureGroup.key);
 
-                const index = group.consumers.findIndex((x) => x.id === consumerId && x.type === type);
+                const index = group.consumers.findIndex((x) => x.id === consumerId);
 
                 if (index > -1) {
                     return true;
@@ -55,7 +62,7 @@ export class FeatureService {
     }
 
     public list(projectKey: string): Promise<Feature[]> {
-        if (projectKey === null) {
+        if (!projectKey) {
             return this.featureRepository.list();
         } else {
             return this.featureRepository.listByProjectKey(projectKey);
@@ -65,15 +72,19 @@ export class FeatureService {
     public create(name: string, key: string, type: string, projectKey: string): Promise<Feature> {
         const self = this;
 
-        return co(function*() {
+        return co(function* () {
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
-            if (feature !== null) {
+            if (feature) {
                 return null;
             }
 
-            const newFeature: Feature = new Feature(key, name, type, [], new AssociatedProject(projectKey, null, null), new Date().getTime(), []);
+            const newFeature: Feature = new Feature(key, name, type, new AssociatedProject(projectKey, null, null), [
+                new Environment('development', 'Development', [], [], new Date().getTime()),
+                new Environment('staging', 'Staging', [], [], new Date().getTime()),
+                new Environment('live', 'Live', [], [], new Date().getTime())
+            ], new Date().getTime());
 
             if (!newFeature.isValid()) {
                 return null;
@@ -85,7 +96,7 @@ export class FeatureService {
 
             const project: Project = yield self.projectRepository.findByKey(newFeature.associatedProject.key);
 
-            if (project === null) {
+            if (!project) {
                 return null;
             }
 
@@ -98,11 +109,11 @@ export class FeatureService {
     public toggle(key: string): Promise<boolean> {
         const self = this;
 
-        return co(function*() {
+        return co(function* () {
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
-            if (feature === null) {
+            if (!feature) {
                 return false;
             }
 
@@ -114,23 +125,19 @@ export class FeatureService {
         });
     }
 
-    public assignGroups(key: string, groupKeys: string[]): Promise<boolean> {
+    public assignGroups(key: string, environmentKey: string, groupKeys: string[]): Promise<boolean> {
 
         const self = this;
 
-        return co(function*() {
+        return co(function* () {
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
-            if (feature === null) {
+            if (!feature) {
                 return false;
             }
 
             for (const k of groupKeys) {
-
-                if (k === null) {
-                    return false;
-                }
 
                 const featureGroup: FeatureGroup = new FeatureGroup(k, null, null);
 
@@ -138,7 +145,13 @@ export class FeatureService {
                     return false;
                 }
 
-                feature.assignGroup(featureGroup);
+                const environment: Environment = feature.environments.find((environment) => environment.key === environmentKey);
+
+                if (!environment) {
+                    return false;
+                }
+
+                environment.assignGroup(featureGroup);
             }
 
             const success: boolean = yield self.featureRepository.update(feature);
@@ -147,22 +160,18 @@ export class FeatureService {
         });
     }
 
-    public deassignGroups(key: string, groupKeys: string[]): Promise<boolean> {
+    public deassignGroups(key: string, environmentKey: string, groupKeys: string[]): Promise<boolean> {
         const self = this;
 
-        return co(function*() {
+        return co(function* () {
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
-            if (feature === null) {
+            if (!feature) {
                 return false;
             }
 
             for (const k of groupKeys) {
-
-                if (k === null) {
-                    return false;
-                }
 
                 const featureGroup: FeatureGroup = new FeatureGroup(k, null, null);
 
@@ -170,7 +179,13 @@ export class FeatureService {
                     return false;
                 }
 
-                feature.deassignGroup(featureGroup);
+                const environment: Environment = feature.environments.find((environment) => environment.key === environmentKey);
+
+                if (!environment) {
+                    return false;
+                }
+
+                environment.deassignGroup(featureGroup);
             }
 
             const success: boolean = yield self.featureRepository.update(feature);
@@ -179,30 +194,32 @@ export class FeatureService {
         });
     }
 
-    public addOptions(key: string, options: Option[]): Promise<boolean> {
+    public addOptions(key: string, environmentKey: string, options: Option[]): Promise<boolean> {
         const self = this;
 
-        return co(function*() {
+        return co(function* () {
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
-            if (feature === null) {
+            if (!feature) {
                 return false;
             }
 
             for (const k of options) {
 
-                if (k === null) {
+                if (!k) {
                     return false;
                 }
 
                 const option: Option = new Option(k.key, k.name, k.value);
 
-                if (!option.isValid()) {
+                const environment: Environment = feature.environments.find((environment) => environment.key === environmentKey);
+
+                if (!environment) {
                     return false;
                 }
 
-                feature.addOption(option);
+                environment.addOption(option);
             }
 
             const success: boolean = yield self.featureRepository.update(feature);
@@ -211,22 +228,18 @@ export class FeatureService {
         });
     }
 
-    public removeOptions(key: string, optionKeys: string[]): Promise<boolean> {
+    public removeOptions(key: string, environmentKey: string, optionKeys: string[]): Promise<boolean> {
         const self = this;
 
-        return co(function*() {
+        return co(function* () {
 
             const feature: Feature = yield self.featureRepository.findByKey(key);
 
-            if (feature === null) {
+            if (!feature) {
                 return false;
             }
 
             for (const k of optionKeys) {
-
-                if (k === null) {
-                    return false;
-                }
 
                 const option: Option = new Option(k, null, null);
 
@@ -234,7 +247,13 @@ export class FeatureService {
                     return false;
                 }
 
-                feature.removeOption(option);
+                const environment: Environment = feature.environments.find((environment) => environment.key === environmentKey);
+
+                if (!environment) {
+                    return false;
+                }
+
+                environment.removeOption(option);
             }
 
             const success: boolean = yield self.featureRepository.update(feature);

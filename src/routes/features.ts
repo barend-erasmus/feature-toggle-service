@@ -30,7 +30,7 @@ export class FeaturesRouter {
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
             const featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
 
-            const result: boolean = yield featureService.enabled(req.query.key, req.query.consumerId, req.query.type);
+            const result: boolean = yield featureService.enabled(req.query.key, req.query.consumerId, req.query.environmentKey, req.query.type);
 
             if (result === null) {
                 res.status(400).end();
@@ -167,7 +167,7 @@ export class FeaturesRouter {
                 req.body.groupKeys = [req.body.groupKeys];
             }
 
-            const success: boolean = yield featureService.assignGroups(req.body.key, req.body.groupKeys);
+            const success: boolean = yield featureService.assignGroups(req.body.key, req.body.environmentKey, req.body.groupKeys);
 
             if (success === null) {
                 res.status(400).end();
@@ -194,7 +194,7 @@ export class FeaturesRouter {
                 req.body.groupKeys = [req.body.groupKeys];
             }
 
-            const success: boolean = yield featureService.deassignGroups(req.body.key, req.body.groupKeys);
+            const success: boolean = yield featureService.deassignGroups(req.body.key, req.body.environmentKey, req.body.groupKeys);
 
             if (success === null) {
                 res.status(400).end();
@@ -217,7 +217,7 @@ export class FeaturesRouter {
             const groupRepository = FeatureToggleApi.repositoryFactory.getInstanceOfGroupRepository(null);
             const featureService = new FeatureService(featureRepository, projectRepository, groupRepository);
 
-            const success: boolean = yield featureService.addOptions(req.body.key, req.body.options);
+            const success: boolean = yield featureService.addOptions(req.body.key, req.body.environmentKey, req.body.options);
 
             if (success === null) {
                 res.status(400).end();
@@ -244,7 +244,7 @@ export class FeaturesRouter {
                 req.body.optionKeys = [req.body.optionKeys];
             }
 
-            const success: boolean = yield featureService.removeOptions(req.body.key, req.body.optionKeys);
+            const success: boolean = yield featureService.removeOptions(req.body.key, req.body.environmentKey, req.body.optionKeys);
 
             if (success === null) {
                 res.status(400).end();

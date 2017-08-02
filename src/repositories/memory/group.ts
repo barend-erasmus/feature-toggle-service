@@ -1,6 +1,6 @@
 // Imports
 import * as co from 'co';
-import * as mongo from 'mongodb';
+import { DataStore } from './data-store';
 
 // Imports interfaces
 import { IGroupRepository } from './../group';
@@ -14,7 +14,7 @@ import { GroupDto } from './../dto/group';
 
 export class GroupRepository implements IGroupRepository {
 
-    constructor(private uri: string) {
+    constructor() {
 
     }
 
@@ -22,13 +22,7 @@ export class GroupRepository implements IGroupRepository {
         const self = this;
 
         return co(function* () {
-            const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
-
-            const collection: mongo.Collection = db.collection('groups');
-
-            const groups: GroupDto[] = yield collection.find({}).toArray();
-
-            db.close();
+            const groups: GroupDto[] = DataStore.groups;
 
             return groups.map((x) => new Group(x.key, x.name, x.consumerKeys.map((consumerKey) => new Consumer(consumerKey, null, null)), x.createdTimestamp));
         });
@@ -38,18 +32,12 @@ export class GroupRepository implements IGroupRepository {
         const self = this;
 
         return co(function* () {
-            const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
-
-            const collection: mongo.Collection = db.collection('groups');
-
-            const result: any = yield collection.insertOne(new GroupDto(
+            DataStore.groups.push(new GroupDto(
                 group.key,
                 group.name,
                 group.consumers.map((consumer) => consumer.id),
                 group.createdTimestamp
             ));
-
-            db.close();
 
             return true;
         });
@@ -60,19 +48,9 @@ export class GroupRepository implements IGroupRepository {
         const self = this;
 
         return co(function* () {
-            const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
-
-            const collection: mongo.Collection = db.collection('groups');
-
-            const result = yield collection.updateOne({
-                key: group.key,
-            }, {
-                    $set: {
-                        consumerKeys: group.consumers.map((consumer) => consumer.id),
-                    },
-                });
-
-            db.close();
+            const existingGroup: GroupDto = DataStore.groups.find((group) => group.key === group.key);
+            
+            existingGroup.consumerKeys = group.consumers.map((consumer) => consumer.id);
 
             return true;
         });
@@ -82,15 +60,7 @@ export class GroupRepository implements IGroupRepository {
         const self = this;
 
         return co(function* () {
-            const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
-
-            const collection: mongo.Collection = db.collection('groups');
-
-            const group: GroupDto = yield collection.findOne({
-                key,
-            });
-
-            db.close();
+            const group: GroupDto = DataStore.groups.find((group) => group.key === key);
 
             if (!group) {
                 return null;

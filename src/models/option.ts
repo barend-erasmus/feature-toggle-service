@@ -4,6 +4,11 @@ export class Option {
     }
 
     public isValid(): boolean {
+
+        if (this.key === null) {
+            return false;
+        }
+        
         return true;
     }
 }

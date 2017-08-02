@@ -1,6 +1,6 @@
 // Imports
 import * as co from 'co';
-import * as mongo from 'mongodb';
+import { DataStore } from './data-store';
 
 // Imports interfaces
 import { IFeatureRepository } from './../feature';
@@ -21,7 +21,7 @@ import { GroupDto } from './../dto/group';
 
 export class FeatureRepository implements IFeatureRepository {
 
-    constructor(private uri: string) {
+    constructor() {
 
     }
 
@@ -29,15 +29,7 @@ export class FeatureRepository implements IFeatureRepository {
         const self = this;
 
         return co(function* () {
-            const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
-
-            const collection: mongo.Collection = db.collection('features');
-
-            const features: FeatureDto[] = yield collection.find({
-                associatedProjectKey: key,
-            }).toArray();
-
-            db.close();
+            const features: FeatureDto[] = DataStore.features.filter((feature) => feature.associatedProjectKey === key);
 
             const featuresResult: Feature[] = yield features.map((feature) => self.loadFeature(feature));
 
@@ -49,13 +41,7 @@ export class FeatureRepository implements IFeatureRepository {
         const self = this;
 
         return co(function* () {
-            const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
-
-            const collection: mongo.Collection = db.collection('features');
-
-            const features: FeatureDto[] = yield collection.find({}).toArray();
-
-            db.close();
+            const features: FeatureDto[] = DataStore.features;
 
             const featuresResult: Feature[] = yield features.map((feature) => self.loadFeature(feature));
 
@@ -67,15 +53,7 @@ export class FeatureRepository implements IFeatureRepository {
         const self = this;
 
         return co(function* () {
-            const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
-
-            const collection: mongo.Collection = db.collection('features');
-
-            const feature: FeatureDto = yield collection.findOne({
-                key,
-            });
-
-            db.close();
+            const feature: FeatureDto = DataStore.features.find((feature) => feature.key === key);
 
             if (!feature) {
                 return null;
@@ -91,11 +69,7 @@ export class FeatureRepository implements IFeatureRepository {
         const self = this;
 
         return co(function* () {
-            const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
-
-            const collection: mongo.Collection = db.collection('features');
-
-            const result = yield collection.insertOne(new FeatureDto(
+            DataStore.features.push(new FeatureDto(
                 feature.key,
                 feature.name,
                 feature.type,
@@ -111,8 +85,6 @@ export class FeatureRepository implements IFeatureRepository {
                 feature.createdTimestamp
             ));
 
-            db.close();
-
             return true;
         });
     }
@@ -122,26 +94,16 @@ export class FeatureRepository implements IFeatureRepository {
         const self = this;
 
         return co(function* () {
-            const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
+            const existingFeature: FeatureDto = DataStore.features.find((f) => f.key === feature.key);
 
-            const collection: mongo.Collection = db.collection('features');
-
-            const result = yield collection.updateOne({
-                key: feature.key,
-            }, {
-                    $set: {
-                        enabled: feature.enabled,
-                        environments: feature.environments.map((environment) => new EnvironmentDto(
-                            environment.key,
-                            environment.name,
-                            environment.groups.map((group) => group.key),
-                            environment.options.map((option) => new OptionDto(option.key, option.name, option.value)),
-                            environment.createdTimestamp
-                        ))
-                    },
-                });
-
-            db.close();
+            existingFeature.enabled = feature.enabled;
+            existingFeature.environments = feature.environments.map((environment) => new EnvironmentDto(
+                environment.key,
+                environment.name,
+                environment.groups.map((group) => group.key),
+                environment.options.map((option) => new OptionDto(option.key, option.name, option.value)),
+                environment.createdTimestamp
+            ));
 
             return true;
         });
@@ -155,17 +117,8 @@ export class FeatureRepository implements IFeatureRepository {
             const feature: Feature = new Feature(featureDto.key, featureDto.name, featureDto.type, null, [], featureDto.createdTimestamp);
             feature.enabled = featureDto.enabled;
 
-
-            const db: mongo.Db = yield mongo.MongoClient.connect(self.uri);
-
-            const groupsCollection: mongo.Collection = db.collection('groups');
-            const projectsCollection: mongo.Collection = db.collection('projects');
-
             // Load AssociatedProject
-            const project: ProjectDto = yield projectsCollection.findOne({
-                key: featureDto.associatedProjectKey
-            });
-
+            const project: ProjectDto = DataStore.projects.find((project) => project.key === featureDto.associatedProjectKey);
             feature.associatedProject = new AssociatedProject(project.key, project.name, project.createdTimestamp);
 
             // Load Environments
@@ -176,20 +129,16 @@ export class FeatureRepository implements IFeatureRepository {
                 // Load FeatureGroups
                 for (const groupKey of environmentDto.groupKeys) {
 
-                    const group: GroupDto = yield groupsCollection.findOne({
-                        key: groupKey
-                    });
+                    const group: GroupDto = DataStore.groups.find((group) => group.key === groupKey);
 
                     environment.groups.push(new FeatureGroup(group.key, group.name, group.createdTimestamp));
                 }
 
                 // Load Options
                 environment.options = environmentDto.options.map((option) => new Option(option.key, option.name, option.value));
-                
+
                 feature.environments.push(environment);
             }
-
-            db.close();
 
             return feature;
         });
